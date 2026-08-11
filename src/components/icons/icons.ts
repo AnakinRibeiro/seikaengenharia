@@ -105,6 +105,31 @@ export const icons = {
     defaultSize: 18,
     body: `<g transform="scale(1.3333333)" ${FILL}><path d="M15.0363 8.82141L7.16133 17.2589C7.07787 17.348 6.96772 17.4075 6.84748 17.4284C6.72725 17.4494 6.60345 17.4307 6.49478 17.3751C6.38612 17.3196 6.29847 17.2302 6.24507 17.1204C6.19167 17.0107 6.17541 16.8865 6.19875 16.7667L7.22953 11.6107L3.17742 10.0891C3.0904 10.0566 3.01279 10.003 2.95154 9.93312C2.89028 9.86326 2.84729 9.77931 2.8264 9.68878C2.80551 9.59824 2.80737 9.50394 2.83181 9.4143C2.85626 9.32466 2.90252 9.24247 2.96648 9.17508L10.8415 0.737578C10.9249 0.648517 11.0351 0.589016 11.1553 0.568053C11.2756 0.54709 11.3994 0.565802 11.508 0.621367C11.6167 0.676931 11.7043 0.766333 11.7577 0.876081C11.8111 0.985829 11.8274 1.10997 11.8041 1.22977L10.7705 6.39141L14.8226 7.91086C14.909 7.94363 14.9859 7.99718 15.0467 8.06676C15.1075 8.13635 15.1502 8.21983 15.171 8.30984C15.1919 8.39985 15.1903 8.4936 15.1663 8.58283C15.1423 8.67205 15.0967 8.75399 15.0335 8.82141H15.0363Z"/></g>`,
   },
+  /*
+   * ── Not from the Figma library ──────────────────────────────────────
+   * The lightbox on /portfolio has no Figma counterpart, so its controls
+   * have no exported glyph to use. These are stock Lucide icons — the same
+   * family the library's stroked icons come from (`lucide/*` in Figma) —
+   * authored directly in the 24x24 viewBox, so they need no transform.
+   */
+  x: {
+    defaultSize: 24,
+    body: `<g ${STROKE} stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></g>`,
+  },
+  'chevron-left': {
+    defaultSize: 24,
+    body: `<g ${STROKE} stroke-width="2"><path d="m15 18-6-6 6-6"/></g>`,
+  },
+  'chevron-right': {
+    defaultSize: 24,
+    body: `<g ${STROKE} stroke-width="2"><path d="m9 18 6-6-6-6"/></g>`,
+  },
+  /* Filled rather than Lucide's outline: it sits inside the play badge on a
+     video tile, where an outline reads as a hollow shape at 24px. */
+  play: {
+    defaultSize: 24,
+    body: `<polygon points="7 4 20 12 7 20" ${FILL}/>`,
+  },
 } as const satisfies Record<string, IconDefinition>;
 
 export type IconName = keyof typeof icons;

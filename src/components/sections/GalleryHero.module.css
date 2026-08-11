@@ -1,0 +1,93 @@
+/**
+ * Gallery hero — the homepage Hero treatment without the buttons and the
+ * footnote, so the same 192px top padding clears the transparent header.
+ *
+ * The photo + dark base + scrim below is the same technique as Hero and Cta,
+ * which makes this its third copy. Worth extracting into a shared backdrop
+ * component the next time a section needs it.
+ */
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-block: 192px var(--space-16);
+  overflow: clip;
+  background-color: var(--color-background-highlight-dark);
+  color: var(--color-text-on-color-primary);
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.backdrop img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+}
+
+.backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    90deg,
+    rgba(9, 40, 59, 0.82) 0%,
+    rgba(9, 40, 59, 0.64) 46%,
+    rgba(14, 61, 88, 0) 100%
+  );
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+  width: 100%;
+}
+
+.title {
+  composes: heroTitle from '../../styles/typography.module.css';
+  color: var(--color-text-on-color-primary);
+}
+
+.subtitle {
+  composes: heroText from '../../styles/typography.module.css';
+  color: var(--color-text-on-color-secondary);
+  max-width: 62ch;
+}
+
+/* Figma hard-breaks the heading; mobile flows naturally instead (same pattern
+   as Hero, Services and Cta). */
+.desktopBreak {
+  display: none;
+}
+
+@media (min-width: 1081px) {
+  .desktopBreak {
+    display: inline;
+  }
+}
+
+@media (max-width: 1080px) {
+  .hero {
+    padding-block: calc(var(--header-height-mobile) + var(--space-10))
+      var(--space-10);
+  }
+
+  .subtitle {
+    max-width: none;
+  }
+}

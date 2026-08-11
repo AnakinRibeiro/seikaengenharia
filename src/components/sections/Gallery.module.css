@@ -1,0 +1,232 @@
+.section {
+  background-color: var(--color-background-primary);
+  padding-block: var(--section-padding-block);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.title {
+  composes: sectionHeader from '../../styles/typography.module.css';
+  color: var(--color-text-primary);
+  text-align: center;
+}
+
+/*
+ * Figma draws this as a fixed 700px-tall block of four rows, which works out to
+ * 285x160 cells — 16:9, the aspect the source photos are already framed at.
+ * `aspect-ratio` is the responsive way to say the same thing, and it keeps the
+ * tiles from squashing as the column count drops. The design only specifies the
+ * four-column desktop layout; 3 and 2 are the reflow.
+ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+  width: 100%;
+}
+
+@media (min-width: 721px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1081px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* No radius — unlike the site's cards, the design leaves these square. */
+.tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: clip;
+  /* Shows through for the moment between layout and a lazy image decoding. */
+  background-color: var(--color-background-secondary);
+}
+
+/* Marks a tile as a clip. A video tile is otherwise a still image, which is
+   the whole point — it costs the grid exactly what a photo costs. */
+.badge {
+  composes: cardTextStrong from '../../styles/typography.module.css';
+  position: absolute;
+  bottom: var(--space-2);
+  left: var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-full);
+  color: var(--color-text-on-color-primary);
+  background-color: rgba(9, 40, 59, 0.72);
+  /* The photos behind it are unpredictable; this keeps the pill readable on a
+     bright sky as well as a dark roof. */
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+}
+
+.tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-base) var(--easing-standard);
+}
+
+/* The photos are clickable here in a way the Figma frame never showed, so they
+   need something to say so. */
+.tile:hover img,
+.tile:focus-visible img {
+  transform: scale(1.04);
+}
+
+/* ── Lightbox ──────────────────────────────────────────────────────── */
+
+/*
+ * No `display` on the base rule: the UA stylesheet hides a closed <dialog> with
+ * `display: none`, and an author `display` here would override that and leave
+ * the lightbox on the page permanently.
+ */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  max-width: 100vw;
+  height: 100dvh;
+  max-height: 100dvh;
+  margin: 0;
+  padding: var(--space-6);
+  border: none;
+  background-color: transparent;
+  color: var(--color-text-on-color-primary);
+  animation: lightboxIn var(--duration-base) var(--easing-standard);
+}
+
+.lightbox[open] {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.lightbox::backdrop {
+  background-color: rgba(9, 40, 59, 0.92);
+  animation: lightboxIn var(--duration-base) var(--easing-standard);
+}
+
+@keyframes lightboxIn {
+  from {
+    opacity: 0;
+  }
+}
+
+/* An open modal still lets the page behind it scroll. */
+body:has(.lightbox[open]) {
+  overflow: hidden;
+}
+
+/*
+ * The clips are portrait (464x832, shot on a phone) while the photos are
+ * mostly landscape, so the viewer is sized by `contain` against both axes and
+ * lets each piece keep its own shape rather than forcing one aspect.
+ */
+.image,
+.video {
+  grid-column: 2;
+  justify-self: center;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  /* Clears the close button above and the counter below. */
+  max-height: calc(100dvh - var(--space-16));
+  object-fit: contain;
+}
+
+/* `hidden` has to win over the `display` these get from the grid. */
+.image[hidden],
+.video[hidden] {
+  display: none;
+}
+
+.control {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  color: var(--color-text-on-color-primary);
+  background-color: rgba(255, 255, 255, 0.12);
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.control:hover {
+  background-color: rgba(255, 255, 255, 0.24);
+}
+
+.prev {
+  grid-column: 1;
+}
+
+.next {
+  grid-column: 3;
+}
+
+.close {
+  position: absolute;
+  top: var(--space-6);
+  right: var(--space-6);
+}
+
+.counter {
+  composes: cardText from '../../styles/typography.module.css';
+  position: absolute;
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--color-text-on-color-secondary);
+}
+
+@media (max-width: 720px) {
+  .lightbox {
+    padding: var(--space-3);
+  }
+
+  /* Not enough width for side-by-side arrows next to the photo — they move
+     onto the bottom row, beside the counter. */
+  .lightbox[open] {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1fr) auto;
+    justify-items: center;
+  }
+
+  .image,
+  .video {
+    grid-column: 1;
+    max-height: 100%;
+  }
+
+  .prev,
+  .next {
+    grid-row: 2;
+  }
+
+  .prev {
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  .next {
+    grid-column: 1;
+    justify-self: end;
+  }
+
+  .counter {
+    bottom: calc(var(--space-3) + 12px);
+  }
+}

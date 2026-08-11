@@ -1,0 +1,219 @@
+---
+import { Image, getImage } from 'astro:assets';
+import Container from '../layout/Container.astro';
+import Icon from '../icons/Icon.astro';
+import { galleryItems } from '../../content/gallery';
+import styles from './Gallery.module.css';
+
+/*
+ * Full-size derivative per photo, built once at build time. It doubles as the
+ * tile's plain `href`, which is what makes the lightbox progressive: with no
+ * JavaScript the tile is simply a link that opens the photo — or, for a clip,
+ * the .mp4 itself.
+ * No `width` — the sources top out at 1280px, so asking for more would upscale.
+ */
+const fullSize = await Promise.all(
+  galleryItems.map((item) => getImage({ src: item.src, format: 'webp' }))
+);
+
+/** 46 -> "0:46". Shown on the badge. */
+const clock = (seconds: number) =>
+  `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
+---
+
+<section class={styles.section} id="galeria">
+  <Container class={styles.container}>
+    <h2 class={styles.title}>Galeria</h2>
+
+    <ul class={styles.grid} role="list" data-reveal-children>
+      {
+        galleryItems.map((item, index) => (
+          <li>
+            <a
+              class={styles.tile}
+              href={item.video ?? fullSize[index]!.src}
+              data-gallery-item
+              data-gallery-video={item.video}
+            >
+              <Image
+                src={item.src}
+                alt={item.alt}
+                widths={[285, 400, 570, 800]}
+                sizes="(min-width: 1081px) 285px, (min-width: 721px) 30vw, 45vw"
+                loading="lazy"
+                decoding="async"
+                style={
+                  item.objectPosition
+                    ? `object-position: ${item.objectPosition}`
+                    : undefined
+                }
+              />
+              {/* Not aria-hidden: the badge is the only thing distinguishing a
+                  clip from a photo, so it has to reach the accessible name too.
+                  The icon carries no text, hence the visually-hidden word. */}
+              {item.video && (
+                <span class={styles.badge}>
+                  <Icon name="play" size={16} />
+                  <span class="visually-hidden">Vídeo,</span>
+                  {item.duration && clock(item.duration)}
+                </span>
+              )}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </Container>
+
+  {/*
+    Native <dialog>: Esc, the focus trap, the inert background and returning
+    focus to the tile on close all come from the platform — the same reason the
+    FAQ is built on <details>. The script only swaps which photo is shown.
+  */}
+  <dialog class={styles.lightbox} aria-label="Imagem ampliada" data-gallery-dialog>
+    <button
+      class={`${styles.control} ${styles.close}`}
+      type="button"
+      aria-label="Fechar"
+      data-gallery-close
+    >
+      <Icon name="x" />
+    </button>
+
+    <button
+      class={`${styles.control} ${styles.prev}`}
+      type="button"
+      aria-label="Imagem anterior"
+      data-gallery-prev
+    >
+      <Icon name="chevron-left" />
+    </button>
+
+    <img class={styles.image} alt="" data-gallery-image />
+
+    {/*
+      `preload="none"` and no `src` until a clip is opened: the element exists
+      in the markup but costs nothing until it is asked for. `playsinline`
+      keeps iOS from hijacking it into its own fullscreen player.
+    */}
+    <video
+      class={styles.video}
+      controls
+      playsinline
+      preload="none"
+      hidden
+      data-gallery-video-player></video>
+
+    <button
+      class={`${styles.control} ${styles.next}`}
+      type="button"
+      aria-label="Próxima imagem"
+      data-gallery-next
+    >
+      <Icon name="chevron-right" />
+    </button>
+
+    <p class={styles.counter} aria-live="polite" data-gallery-counter></p>
+  </dialog>
+</section>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>(
+    '[data-gallery-dialog]'
+  );
+  const tiles = [
+    ...document.querySelectorAll<HTMLAnchorElement>('[data-gallery-item]'),
+  ];
+  const view = dialog?.querySelector<HTMLImageElement>('[data-gallery-image]');
+  const player = dialog?.querySelector<HTMLVideoElement>(
+    '[data-gallery-video-player]'
+  );
+  const counter = dialog?.querySelector<HTMLElement>('[data-gallery-counter]');
+
+  if (dialog && view && player && tiles.length) {
+    let index = 0;
+
+    /*
+     * Detaching the source is what actually stops a clip: pausing alone leaves
+     * the download running and the element holding on to the buffer. Removing
+     * the attribute and calling load() aborts it — which is why leaving the
+     * lightbox costs nothing, and why switching photos never leaves audio
+     * playing behind a closed dialog.
+     */
+    const releaseVideo = () => {
+      player.pause();
+      player.removeAttribute('src');
+      player.load();
+      player.hidden = true;
+    };
+
+    const show = (next: number) => {
+      // Wraps both ways, so the arrows never dead-end.
+      index = (next + tiles.length) % tiles.length;
+      const tile = tiles[index]!;
+      const clip = tile.dataset.galleryVideo;
+      const alt = tile.querySelector('img')?.alt ?? '';
+
+      releaseVideo();
+
+      if (clip) {
+        view.hidden = true;
+        player.src = clip;
+        player.hidden = false;
+        // The visitor opened this deliberately, so start it — muted, because
+        // anything else is blocked by autoplay policy anyway. The controls are
+        // there to unmute.
+        player.muted = true;
+        player.play().catch(() => {
+          /* A blocked autoplay just leaves the poster and controls. */
+        });
+      } else {
+        view.hidden = false;
+        view.src = tile.href;
+        view.alt = alt;
+      }
+
+      if (counter) counter.textContent = `${index + 1} / ${tiles.length}`;
+    };
+
+    tiles.forEach((tile, i) => {
+      tile.addEventListener('click', (event) => {
+        // Modified clicks ("open in new tab", "save as") belong to the href.
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) {
+          return;
+        }
+        event.preventDefault();
+        show(i);
+        dialog.showModal();
+      });
+    });
+
+    dialog
+      .querySelector('[data-gallery-prev]')
+      ?.addEventListener('click', () => show(index - 1));
+    dialog
+      .querySelector('[data-gallery-next]')
+      ?.addEventListener('click', () => show(index + 1));
+    dialog
+      .querySelector('[data-gallery-close]')
+      ?.addEventListener('click', () => dialog.close());
+
+    dialog.addEventListener('keydown', (event) => {
+      // The video's own controls own the arrow keys once focused — seeking is
+      // what they mean there, not "next photo".
+      if (document.activeElement === player) return;
+      if (event.key === 'ArrowLeft') show(index - 1);
+      if (event.key === 'ArrowRight') show(index + 1);
+    });
+
+    // Covers every route out: Esc, the close button and the backdrop all end
+    // here, so no path leaves a clip downloading.
+    dialog.addEventListener('close', releaseVideo);
+
+    // The dialog box fills the viewport, so anything landing on it rather than
+    // on the photo or a control is a click on the backdrop.
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  }
+</script>

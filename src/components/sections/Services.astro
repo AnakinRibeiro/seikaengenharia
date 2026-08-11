@@ -31,16 +31,15 @@ const ctaLabel = 'Entrar em contato';
 
     <div class={styles.grid} data-reveal-children>
       {
-        /* "Ver portfólio →" has no dedicated destination in the design or
-           on this one-page site yet — points at the contact section as a
-           placeholder until individual service/portfolio pages exist. */
+        /* Every card points at the same gallery — the design gives no
+           per-service portfolio, and /portfolio covers all of them. */
         services.map((service) => (
           <ServiceCard
             title={service.title}
             description={service.description}
             image={service.image}
             imageAlt={service.imageAlt}
-            href="#contato"
+            href="/portfolio"
           />
         ))
       }

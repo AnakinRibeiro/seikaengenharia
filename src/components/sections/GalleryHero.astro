@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+import Container from '../layout/Container.astro';
+import Label from '../ui/Label.astro';
+import heroImage from '../../assets/hero-usina-solar.jpg';
+import styles from './GalleryHero.module.css';
+---
+
+<section class={styles.hero}>
+  <div class={styles.backdrop} aria-hidden="true">
+    {/* LCP element, same as the homepage hero: eager and high priority. */}
+    <Image
+      src={heroImage}
+      alt=""
+      widths={[640, 1024, 1440, 1920, 2560]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      decoding="sync"
+    />
+  </div>
+
+  {/* Cascades in on load — see motion.css. */}
+  <Container class={styles.container}>
+    <Label icon="sun" data-intro style="--intro-index: 0"
+      >Serviços realizados</Label
+    >
+
+    <div class={styles.content}>
+      <h1 class={styles.title} data-intro style="--intro-index: 1">
+        Engenharia elétrica do <br class={styles.desktopBreak} aria-hidden="true"
+        />projeto ao laudo
+      </h1>
+
+      <p class={styles.subtitle} data-intro style="--intro-index: 2">
+        Um único responsável técnico para todo o ciclo: estudo de viabilidade,
+        projeto, execução e acompanhamento da geração.
+      </p>
+    </div>
+  </Container>
+</section>

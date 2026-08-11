@@ -38,9 +38,9 @@
   flex-shrink: 0;
 }
 
-/* Medium (144px) by default, Small (120px) once scrolled. */
+/* Medium (152px) by default, Small (120px) once scrolled. */
 .logo {
-  width: 144px;
+  width: 152px;
   height: auto;
   transition: width var(--duration-base) var(--easing-standard);
 }

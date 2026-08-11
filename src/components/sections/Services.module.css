@@ -1,0 +1,91 @@
+.section {
+  background-color: var(--color-background-primary);
+  padding-block: var(--section-padding-block);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-8);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+  width: 100%;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.headerRow {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+  width: 100%;
+}
+
+.heading {
+  composes: sectionHeader from '../../styles/typography.module.css';
+  color: var(--color-text-primary);
+  flex: 1 0 0;
+  min-width: 0;
+}
+
+.paragraph {
+  composes: sectionParagraph from '../../styles/typography.module.css';
+  color: var(--color-text-secondary);
+  width: 100%;
+}
+
+/* Figma hard-breaks the heading into two lines even though it fits on one at
+   1200px — mobile wraps naturally instead (see Hero for the same pattern). */
+.desktopBreak {
+  display: none;
+}
+
+/* Same relocation pattern as Solar Energy — see that component's note. */
+.headerCta {
+  display: none;
+  flex-shrink: 0;
+}
+
+.mobileCta {
+  width: 100%;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+@media (min-width: 1081px) {
+  .headerCta {
+    display: inline-flex;
+  }
+
+  .mobileCta {
+    display: none;
+  }
+
+  .desktopBreak {
+    display: inline;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-8);
+  }
+}

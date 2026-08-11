@@ -1,0 +1,56 @@
+---
+import { Image } from 'astro:assets';
+import Container from '../layout/Container.astro';
+import Button from '../ui/Button.astro';
+import Label from '../ui/Label.astro';
+import heroImage from '../../assets/hero-usina-solar.jpg';
+import { simulationCtaUrl } from '../../lib/site';
+import styles from './Hero.module.css';
+---
+
+<section class={styles.hero} id="inicio">
+  <div class={styles.backdrop} aria-hidden="true">
+    {/* LCP element: eager and high priority, and the only image above the fold. */}
+    <Image
+      src={heroImage}
+      alt=""
+      widths={[640, 1024, 1440, 1920, 2560]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      decoding="sync"
+    />
+  </div>
+
+  {/* The hero cascades in on load. Indexes are the reading order, not the DOM
+      order, so the wrapper below can stay purely structural. */}
+  <Container class={styles.container}>
+    <Label icon="sun" data-intro style="--intro-index: 0"
+      >Transformando sol e economia</Label
+    >
+
+    <div class={styles.content}>
+      <h1 class={styles.title} data-intro style="--intro-index: 1">
+        Energia solar e engenharia elétrica para <span class={styles.highlight}
+          >reduzir sua conta de luz</span
+        >
+      </h1>
+
+      <p class={styles.subtitle} data-intro style="--intro-index: 2">
+        Projetos e soluções em engenharia elétrica para residências e empresas.
+        Do dimensionamento à homologação, com economia comprovada na primeira
+        fatura.
+      </p>
+
+      <div class={styles.actions} data-intro style="--intro-index: 3">
+        <Button href={simulationCtaUrl}>Simular minha economia</Button>
+        <Button href="#servicos" model="secondary">Ver todos os serviços</Button>
+      </div>
+
+      <p class={styles.footnote} data-intro style="--intro-index: 4">
+        <span>*Envie uma foto da sua conta de luz pelo WhatsApp.</span>
+        <span>A simulação é gratuita e sem compromisso.</span>
+      </p>
+    </div>
+  </Container>
+</section>

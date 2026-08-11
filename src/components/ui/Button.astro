@@ -1,0 +1,57 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import styles from './Button.module.css';
+import typography from '../../styles/typography.module.css';
+
+export type ButtonModel = 'primary' | 'secondary';
+export type ButtonSize = 'large' | 'small';
+
+type Props = {
+  model?: ButtonModel;
+  size?: ButtonSize;
+  /** Renders an <a> instead of a <button>. */
+  href?: string;
+  fullWidth?: boolean;
+  class?: string;
+} & Omit<HTMLAttributes<'button'>, 'class'> &
+  Omit<HTMLAttributes<'a'>, 'class'>;
+
+const {
+  model = 'primary',
+  size = 'large',
+  href,
+  fullWidth = false,
+  class: className,
+  type,
+  ...rest
+} = Astro.props;
+
+/*
+ * Figma quirk, reproduced deliberately: Size=Small + Model=Secondary uses the
+ * 16px "Button text" style rather than the 14px "Button text small", which is
+ * why that variant measures 40px tall instead of the small primary's 38px.
+ */
+const usesLargeText = size === 'large' || model === 'secondary';
+
+const classList = [
+  styles.button,
+  styles[model],
+  styles[size],
+  usesLargeText ? typography.buttonText : typography.buttonTextSmall,
+  fullWidth && styles.fullWidth,
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  class={classList}
+  href={href}
+  type={href ? undefined : (type ?? 'button')}
+  {...rest}
+>
+  <slot />
+</Tag>

@@ -1,0 +1,15 @@
+/**
+ * The 1200px content column from the Figma frames, with the 120px desktop
+ * gutter collapsing on smaller viewports (see tokens.css).
+ */
+.container {
+  width: 100%;
+  max-width: calc(var(--layout-content-width) + var(--layout-gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--layout-gutter);
+}
+
+/* Edge-to-edge child (full-bleed media) inside a normal container. */
+.wide {
+  max-width: none;
+}

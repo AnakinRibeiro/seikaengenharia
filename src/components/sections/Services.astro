@@ -1,0 +1,53 @@
+---
+import Container from '../layout/Container.astro';
+import SectionLabel from '../ui/SectionLabel.astro';
+import Button from '../ui/Button.astro';
+import ServiceCard from '../ui/ServiceCard.astro';
+import { services } from '../../content/services';
+import styles from './Services.module.css';
+
+const ctaLabel = 'Entrar em contato';
+---
+
+<section class={styles.section} id="servicos">
+  <Container class={styles.container}>
+    <div class={styles.header} data-reveal>
+      <div class={styles.title}>
+        <SectionLabel icon="toolbox">Nossos serviços</SectionLabel>
+        <div class={styles.headerRow}>
+          <h2 class={styles.heading}>
+            Engenharia elétrica do <br class={styles.desktopBreak} aria-hidden="true" />projeto ao laudo
+          </h2>
+          <Button href="#contato" size="small" class={styles.headerCta}>
+            {ctaLabel}
+          </Button>
+        </div>
+      </div>
+      <p class={styles.paragraph}>
+        Um único responsável técnico para todo o ciclo: estudo de
+        viabilidade, projeto, execução e acompanhamento da geração.
+      </p>
+    </div>
+
+    <div class={styles.grid} data-reveal-children>
+      {
+        /* "Ver portfólio →" has no dedicated destination in the design or
+           on this one-page site yet — points at the contact section as a
+           placeholder until individual service/portfolio pages exist. */
+        services.map((service) => (
+          <ServiceCard
+            title={service.title}
+            description={service.description}
+            image={service.image}
+            imageAlt={service.imageAlt}
+            href="#contato"
+          />
+        ))
+      }
+    </div>
+
+    <Button href="#contato" size="small" class={styles.mobileCta}>
+      {ctaLabel}
+    </Button>
+  </Container>
+</section>

@@ -1,0 +1,142 @@
+---
+import '@fontsource-variable/open-sans/wght.css';
+import '../styles/global.css';
+// Importing the woff2 gives us its hashed build URL so the preload always
+// points at the file the stylesheet actually requests.
+import openSansLatin from '@fontsource-variable/open-sans/files/open-sans-latin-wght-normal.woff2?url';
+
+import Seo from '../components/seo/Seo.astro';
+import Header from '../components/layout/Header.astro';
+import { site } from '../lib/site';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  schema?: Record<string, unknown>[];
+}
+
+const { title, description, image, type, noindex, schema } = Astro.props;
+---
+
+<!doctype html>
+<html lang={site.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#09283b" />
+
+    {/* Portuguese is fully covered by the latin subset, so this is the only
+        font file the page will ever request — worth preloading. */}
+    <link
+      rel="preload"
+      href={openSansLatin}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <Seo
+      title={title}
+      description={description}
+      image={image}
+      type={type}
+      noindex={noindex}
+      schema={schema}
+    />
+
+    <slot name="head" />
+
+    {/* Gates the scroll-reveal styles on being able to undo them — see
+        motion.css. Inline and in the head so the class is on the element
+        before first paint: added any later and it would hide content the
+        visitor is already looking at. */}
+    <script is:inline>
+      if ('IntersectionObserver' in window) {
+        document.documentElement.classList.add('js-motion');
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+    <Header />
+
+    <main id="conteudo">
+      <slot />
+    </main>
+
+    <slot name="footer" />
+
+    <script>
+      const items = document.querySelectorAll<HTMLElement>(
+        '[data-reveal], [data-reveal-children] > *'
+      );
+
+      if (items.length) {
+        // Taken from motion.css so the reveal cascade and the hero intro can
+        // never drift apart. One read at startup, before anything is observed.
+        const stagger =
+          parseFloat(
+            getComputedStyle(document.documentElement).getPropertyValue(
+              '--enter-stagger'
+            )
+          ) || 90;
+
+        /*
+         * Caps the cascade at six items. How many elements cross the line in
+         * the same frame is a function of screen height — a laptop gets a row
+         * of three, a tall or high-resolution monitor can get a dozen at once,
+         * and without a cap the last of those would sit blank for a second.
+         */
+        const MAX_STEPS = 5;
+
+        const observer = new IntersectionObserver(
+          (entries, obs) => {
+            const arriving = entries.filter((entry) => entry.isIntersecting);
+
+            // Entry order is unspecified, so sort into reading order: elements
+            // that arrive together should light up top-to-bottom, then
+            // left-to-right. The rects are already measured, so this is free.
+            arriving.sort(
+              (a, b) =>
+                a.boundingClientRect.top - b.boundingClientRect.top ||
+                a.boundingClientRect.left - b.boundingClientRect.left
+            );
+
+            arriving.forEach((entry, index) => {
+              const element = entry.target as HTMLElement;
+              element.style.setProperty(
+                '--reveal-delay',
+                `${Math.min(index, MAX_STEPS) * stagger}ms`
+              );
+              element.dataset.revealed = '';
+              obs.unobserve(element);
+            });
+          },
+          {
+            /*
+             * threshold 0 is load-bearing. An element taller than the viewport
+             * can never reach a ratio like 0.25, so any non-zero threshold
+             * would silently strand tall sections at opacity 0 on short
+             * screens. The trigger point is set by the bottom margin instead,
+             * and as a percentage it tracks the viewport rather than assuming
+             * a screen height.
+             */
+            threshold: 0,
+            rootMargin: '0px 0px -10% 0px',
+          }
+        );
+
+        items.forEach((element) => observer.observe(element));
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+---
+import { icons, type IconName } from './icons';
+
+interface Props {
+  name: IconName;
+  /** Defaults to the size the icon is drawn at in Figma. */
+  size?: number;
+  /** Accessible name. Omit for decorative icons (the default). */
+  title?: string;
+  class?: string;
+}
+
+const { name, size, title, class: className } = Astro.props;
+
+const icon = icons[name];
+const dimension = size ?? icon.defaultSize;
+const decorative = title === undefined;
+---
+
+<svg
+  class={className}
+  width={dimension}
+  height={dimension}
+  viewBox="0 0 24 24"
+  role={decorative ? 'presentation' : 'img'}
+  aria-hidden={decorative ? 'true' : undefined}
+  aria-label={decorative ? undefined : title}
+  focusable="false"
+  xmlns="http://www.w3.org/2000/svg"
+  set:html={icon.body}
+/>
+
+<style>
+  svg {
+    flex-shrink: 0;
+  }
+</style>

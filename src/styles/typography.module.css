@@ -1,0 +1,135 @@
+/**
+ * The Figma text styles, one class each — nothing extrapolated. Components
+ * pull these in with `composes` so a text style is defined in exactly one
+ * place:
+ *
+ *   .title { composes: cardTitle from '@styles/typography.module.css'; }
+ *
+ * Every style uses letter-spacing 0, matching the library.
+ *
+ * Note that the library defines no h3/h4. Smaller headings are `cardTitle`
+ * (16/28, used for card and accordion titles), `sectionParagraphStrong`
+ * (16/28 bold, used for "Atendemos:") and `cardTextStrong` (14/24, used for
+ * the footer column headings). Don't invent anything between them.
+ */
+
+/* ── Hero ───────────────────────────────────────────────────────────── */
+
+.heroTitle {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-h1);
+  line-height: var(--line-height-h1);
+}
+
+/* Semibold, unlike the regular-weight Section paragraph at the same size. */
+.heroText {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-md);
+}
+
+.heroSubtitle {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+}
+
+.heroLabel {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-xs);
+  text-transform: uppercase;
+}
+
+/* ── Section ────────────────────────────────────────────────────────── */
+
+.sectionHeader {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-h2);
+  line-height: var(--line-height-h2);
+}
+
+/* Bold 14/24 — heavier and larger than the hero's pill label. */
+.sectionLabel {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+  text-transform: uppercase;
+}
+
+.sectionParagraph {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-md);
+}
+
+.sectionParagraphStrong {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-md);
+}
+
+/* ── Card ───────────────────────────────────────────────────────────── */
+
+.cardTitle {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-md);
+}
+
+.cardText {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+}
+
+.cardTextStrong {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+}
+
+/* Footer title — 16/28 SemiBold. Metrically identical to Hero text, but a
+   distinct named Figma style; used only for the mobile Footer Bottom bar
+   (desktop uses cardTextStrong at 14/24 for the same text). */
+.footerTitle {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-md);
+}
+
+/* ── Controls ───────────────────────────────────────────────────────── */
+
+.navbarItem {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+}
+
+.buttonText {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-md);
+  /* Figma pins this to the font size, not the paragraph line-height. */
+  line-height: var(--font-size-md);
+}
+
+.buttonTextSmall {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  line-height: var(--font-size-sm);
+}

@@ -1,0 +1,83 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-3);
+  background-color: var(--color-fill-default);
+  box-shadow: var(--shadow-card);
+  overflow: clip;
+  height: 100%;
+}
+
+.media {
+  width: 100%;
+  height: 236px;
+  flex-shrink: 0;
+}
+
+.media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  width: 100%;
+  background-color: var(--color-background-primary);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.title {
+  composes: cardTitle from '../../styles/typography.module.css';
+  color: var(--color-text-primary);
+}
+
+/*
+ * "descrição fixa em 3 linhas com truncamento" — the card reserves exactly
+ * three 24px lines so every card in a row lines up.
+ */
+.description {
+  composes: cardText from '../../styles/typography.module.css';
+  color: var(--color-text-secondary);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  height: calc(3 * var(--line-height-sm));
+}
+
+.link {
+  composes: cardTextStrong from '../../styles/typography.module.css';
+  color: var(--color-text-highlight);
+  margin-top: auto;
+  transition: color var(--duration-fast) var(--easing-standard);
+}
+
+.link:hover {
+  color: color-mix(in srgb, var(--color-text-highlight) 80%, black);
+}
+
+/* Make the whole card clickable while keeping one real link for a11y. */
+.link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.card:has(.link) {
+  position: relative;
+}

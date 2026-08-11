@@ -1,0 +1,33 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-3);
+  background-color: var(--color-background-primary);
+  box-shadow: var(--shadow-card);
+  overflow: clip;
+  /* Width comes from the grid ("use Fill dentro da grade"); height is the
+     designed minimum rather than a hard 230px so copy can breathe. */
+  min-height: 230px;
+  height: 100%;
+}
+
+.iconContainer {
+  display: flex;
+  padding: var(--space-2);
+  border-radius: var(--radius-2);
+  background-color: var(--color-fill-highlight-muted);
+  color: var(--color-text-highlight);
+}
+
+.title {
+  composes: cardTitle from '../../styles/typography.module.css';
+  color: var(--color-text-primary);
+}
+
+.description {
+  composes: cardText from '../../styles/typography.module.css';
+  color: var(--color-text-secondary);
+}

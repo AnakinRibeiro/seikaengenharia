@@ -1,0 +1,140 @@
+/**
+ * Header, three Figma variants in one element:
+ *   Type=Default   — first paint, transparent over the hero, 24px block padding
+ *   Type=Scrolling — once the page moves, dark fill and 16px block padding
+ *   Type=Mobile    — dark fill, logo + menu button (73px tall)
+ * Default -> Scrolling is driven by `data-scrolled` on the header element.
+ */
+.header {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: var(--z-header);
+  display: flex;
+  justify-content: center;
+  padding-block: var(--space-6);
+  background-color: transparent;
+  color: var(--color-text-on-color-primary);
+  transition:
+    background-color var(--duration-base) var(--easing-standard),
+    padding-block var(--duration-base) var(--easing-standard);
+}
+
+.header[data-scrolled='true'] {
+  padding-block: var(--space-4);
+  background-color: var(--color-background-highlight-dark);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  width: 100%;
+}
+
+.logoLink {
+  display: flex;
+  flex-shrink: 0;
+}
+
+/* Medium (144px) by default, Small (120px) once scrolled. */
+.logo {
+  width: 144px;
+  height: auto;
+  transition: width var(--duration-base) var(--easing-standard);
+}
+
+.header[data-scrolled='true'] .logo {
+  width: 120px;
+}
+
+/*
+ * On desktop the panel dissolves so that .nav and the CTA become direct flex
+ * children of .inner; on mobile it becomes the drop-down that holds both.
+ */
+.panel {
+  display: contents;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+}
+
+.navLink {
+  composes: navbarItem from '../../styles/typography.module.css';
+  color: var(--color-text-on-color-primary);
+  white-space: nowrap;
+  transition: color var(--duration-fast) var(--easing-standard);
+}
+
+.navLink:hover,
+.navLink[aria-current='page'] {
+  color: var(--color-text-highlight);
+}
+
+.cta {
+  flex-shrink: 0;
+}
+
+.menuButton {
+  display: none;
+  color: var(--color-text-highlight);
+}
+
+/* ── Mobile variant ─────────────────────────────────────────────────── */
+
+@media (max-width: 1080px) {
+  .header,
+  .header[data-scrolled='true'] {
+    padding-block: var(--space-4);
+    /* Filled from the start — with the nav behind a button there is no
+       transparent state left to fall back to. */
+    background-color: var(--color-background-highlight-dark);
+  }
+
+  .logo,
+  .header[data-scrolled='true'] .logo {
+    width: 96px;
+  }
+
+  .menuButton {
+    display: flex;
+  }
+
+  .panel {
+    position: fixed;
+    inset-block-start: var(--header-height-mobile);
+    inset-inline: 0;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--space-2) var(--layout-gutter) var(--space-6);
+    background-color: var(--color-background-highlight-dark);
+    max-height: calc(100svh - 73px);
+    overflow-y: auto;
+  }
+
+  .panel[data-open='true'] {
+    display: flex;
+  }
+
+  .nav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .navLink {
+    padding-block: var(--space-3);
+    white-space: normal;
+  }
+
+  .cta {
+    margin-top: var(--space-4);
+    align-self: flex-start;
+  }
+}

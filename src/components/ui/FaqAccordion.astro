@@ -1,0 +1,33 @@
+---
+import Icon from '../icons/Icon.astro';
+import styles from './FaqAccordion.module.css';
+
+interface Props {
+  question: string;
+  /** Open on load — the Figma "State=Open" variant. */
+  open?: boolean;
+  /**
+   * Share one name across a list to make the group exclusive (opening one
+   * closes the others), natively and without JavaScript.
+   */
+  name?: string;
+  class?: string;
+}
+
+const { question, open = false, name, class: className } = Astro.props;
+---
+
+<details class:list={[styles.item, className]} open={open} name={name}>
+  <summary class={styles.summary}>
+    <span class={styles.question}>{question}</span>
+    <Icon name="plus" size={24} class={`${styles.indicator} ${styles.iconPlus}`} />
+    <Icon
+      name="minus"
+      size={24}
+      class={`${styles.indicator} ${styles.iconMinus}`}
+    />
+  </summary>
+  <div class={styles.answer}>
+    <slot />
+  </div>
+</details>

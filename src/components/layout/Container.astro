@@ -1,0 +1,24 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import styles from './Container.module.css';
+
+type Props = {
+  /** Element to render — use `section`/`header`/`footer` for landmarks. */
+  as?: keyof HTMLElementTagNameMap;
+  wide?: boolean;
+  class?: string;
+} & HTMLAttributes<'div'>;
+
+// The explicit annotation keeps `Props` referenced: components that render a
+// dynamic tag from a destructured prop otherwise trip ts(6196).
+const {
+  as: Tag = 'div',
+  wide = false,
+  class: className,
+  ...rest
+}: Props = Astro.props;
+---
+
+<Tag class:list={[styles.container, wide && styles.wide, className]} {...rest}>
+  <slot />
+</Tag>

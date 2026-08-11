@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+import styles from './ServiceCard.module.css';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Import the photo from src/assets so Astro can optimise it. */
+  image: ImageMetadata;
+  imageAlt: string;
+  /** Renders the highlighted call-to-action; omit to hide it. */
+  href?: string;
+  linkLabel?: string;
+  as?: 'h2' | 'h3' | 'h4';
+  class?: string;
+}
+
+const {
+  title,
+  description,
+  image,
+  imageAlt,
+  href,
+  linkLabel = 'Ver portfólio →',
+  as: Title = 'h3',
+  class: className,
+}: Props = Astro.props;
+---
+
+<article class:list={[styles.card, className]}>
+  <div class={styles.media}>
+    <Image
+      src={image}
+      alt={imageAlt}
+      widths={[380, 760]}
+      sizes="(max-width: 720px) 100vw, (max-width: 1080px) 50vw, 380px"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+  <div class={styles.content}>
+    <div class={styles.text}>
+      <Title class={styles.title}>{title}</Title>
+      <p class={styles.description}>{description}</p>
+    </div>
+    {
+      href && (
+        <a class={styles.link} href={href}>
+          {linkLabel}
+        </a>
+      )
+    }
+  </div>
+</article>

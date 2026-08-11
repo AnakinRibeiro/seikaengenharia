@@ -1,0 +1,146 @@
+.section {
+  background-color: var(--color-background-secondary);
+  padding-block: var(--section-padding-block);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-9);
+  width: 100%;
+}
+
+.image {
+  width: 100%;
+  height: 342px;
+  flex-shrink: 0;
+  border-radius: var(--radius-4);
+  box-shadow: var(--shadow-elevated);
+  overflow: clip;
+}
+
+.image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.title {
+  composes: sectionHeader from '../../styles/typography.module.css';
+  color: var(--color-text-primary);
+  width: 100%;
+}
+
+.paragraph {
+  composes: sectionParagraph from '../../styles/typography.module.css';
+  color: var(--color-text-secondary);
+  width: 100%;
+}
+
+/* Section paragraph strong is the same 16/28 as Section paragraph, so only
+   the weight changes — no need to re-declare size/line-height/color. */
+.paragraph strong {
+  font-weight: var(--font-weight-bold);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.listTitle {
+  composes: sectionParagraphStrong from '../../styles/typography.module.css';
+  color: var(--color-text-primary);
+}
+
+/*
+ * `align-items: start` is load-bearing on the two-column layout. "Residências
+ * de alto consumo" is the one entry that wraps at 224px, so its row is two
+ * lines tall; under the default `stretch` its neighbour stretches with it and
+ * then centres its own single line in that taller track, dropping "Produtores
+ * rurais" half a line and opening a gap that reads as a spacing bug. Figma
+ * top-aligns the pair, so the row keeps the same 16px rhythm as the two above.
+ */
+.items {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: start;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.itemIcon {
+  flex-shrink: 0;
+  color: var(--color-fill-highlight);
+}
+
+.itemText {
+  composes: sectionParagraphStrong from '../../styles/typography.module.css';
+  color: var(--color-text-primary);
+}
+
+.cta {
+  width: 100%;
+}
+
+@media (min-width: 1081px) {
+  .container {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .image {
+    width: 512px;
+    height: auto;
+    align-self: stretch;
+  }
+
+  .content {
+    flex: 1 0 0;
+    min-width: 0;
+  }
+
+  /*
+   * Figma lays these out as fixed 224px columns with a 24px gutter, not a
+   * stretched two-column grid — reproduced with minmax(0, 224px) rather than
+   * a flat 224px so the pair sits left-aligned with room to spare at 1200px
+   * (matching the design) but shrinks together instead of overflowing once
+   * the fixed 512px image leaves less than 472px for the content column
+   * (true from 1081px up to roughly 1250px).
+   */
+  .items {
+    grid-template-columns: repeat(2, minmax(0, 224px));
+    column-gap: var(--space-6);
+    row-gap: var(--space-4);
+  }
+
+  .cta {
+    width: auto;
+  }
+}

@@ -1,0 +1,113 @@
+---
+import Container from './Container.astro';
+import Button from '../ui/Button.astro';
+import Logo from '../ui/Logo.astro';
+import Icon from '../icons/Icon.astro';
+import { primaryNav, contactCta } from '../../lib/navigation';
+import styles from './Header.module.css';
+
+interface Props {
+  /** Marks the matching nav item as current. */
+  currentPath?: string;
+}
+
+const { currentPath } = Astro.props;
+---
+
+<header class={styles.header} data-scrolled="false" data-site-header>
+  <Container class={styles.inner}>
+    <a class={styles.logoLink} href="/" aria-label="Seika Engenharia — ir para o início">
+      <Logo size="medium" alt="" class={styles.logo} />
+    </a>
+
+    <button
+      class={styles.menuButton}
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-nav-panel"
+      aria-label="Abrir menu"
+      data-menu-toggle
+    >
+      <Icon name="menu" size={24} />
+    </button>
+
+    <div class={styles.panel} id="site-nav-panel" data-open="false">
+      <nav class={styles.nav} aria-label="Navegação principal">
+        {
+          primaryNav.map((item) => (
+            <a
+              class={styles.navLink}
+              href={item.href}
+              aria-current={item.href === currentPath ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+      <Button
+        href={contactCta.href}
+        model="primary"
+        size="small"
+        class={styles.cta}
+      >
+        {contactCta.label}
+      </Button>
+    </div>
+  </Container>
+</header>
+
+{/* A 1px sentinel at the top of the document: when it scrolls out of view the
+    header switches to its Scrolling variant. Cheaper than a scroll listener. */}
+<div data-header-sentinel aria-hidden="true"></div>
+
+<style>
+  [data-header-sentinel] {
+    position: absolute;
+    top: 0;
+    height: 1px;
+    width: 1px;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-site-header]');
+  const sentinel = document.querySelector('[data-header-sentinel]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const panel = document.getElementById('site-nav-panel');
+
+  if (header && sentinel) {
+    new IntersectionObserver(
+      ([entry]) => {
+        header.dataset.scrolled = String(!entry!.isIntersecting);
+      },
+      { threshold: 0 }
+    ).observe(sentinel);
+  }
+
+  if (toggle && panel) {
+    const setOpen = (open: boolean) => {
+      panel.dataset.open = String(open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    };
+
+    toggle.addEventListener('click', () => {
+      setOpen(panel.dataset.open !== 'true');
+    });
+
+    // Tapping a link inside the panel navigates to an anchor on the same page,
+    // which would otherwise leave the panel covering the target section.
+    panel.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a')) setOpen(false);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && panel.dataset.open === 'true') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+  }
+</script>

@@ -1,0 +1,83 @@
+---
+import { Image } from 'astro:assets';
+import Container from '../layout/Container.astro';
+import SectionLabel from '../ui/SectionLabel.astro';
+import Button from '../ui/Button.astro';
+import BentoCard from '../ui/BentoCard.astro';
+import bentoPhoto from '../../assets/bento-casa-solar.jpg';
+import { bentoItems } from '../../content/solarEnergy';
+import { simulationCtaUrl } from '../../lib/site';
+import styles from './SolarEnergy.module.css';
+
+const ctaLabel = 'Simular minha economia';
+---
+
+<section class={styles.section} id="energia-solar">
+  <Container class={styles.container}>
+    <div class={styles.mainContent} data-reveal>
+      <div class={styles.header}>
+        <SectionLabel icon="sun-lucide">Energia solar em residências</SectionLabel>
+        <div class={styles.headerRow}>
+          <h2 class={styles.title}>
+            Transformando casas em fontes de energia limpa e renovável
+          </h2>
+          <Button href={simulationCtaUrl} size="small" class={styles.headerCta}>
+            {ctaLabel}
+          </Button>
+        </div>
+      </div>
+      <p class={styles.paragraph}>
+        Com a energia solar, sua casa se torna mais do que apenas um lugar
+        para morar, ela se torna uma fonte de energia sustentável. Ao instalar
+        painéis solares em seu telhado, você aproveita o poder do sol para
+        gerar eletricidade limpa, reduzindo sua dependência da rede elétrica
+        tradicional.
+      </p>
+    </div>
+
+    <div class={styles.grid}>
+      <div class={styles.row} data-reveal-children>
+        <div class={styles.photoTile}>
+          <Image
+            src={bentoPhoto}
+            alt="Painéis solares instalados em telhado residencial"
+            widths={[360, 440, 680, 880]}
+            sizes="(max-width: 1080px) 100vw, 440px"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <BentoCard
+          icon={bentoItems[0].icon}
+          title={bentoItems[0].title}
+          description={bentoItems[0].description}
+        />
+        <BentoCard
+          icon={bentoItems[1].icon}
+          title={bentoItems[1].title}
+          description={bentoItems[1].description}
+        />
+      </div>
+      <div class={styles.row} data-reveal-children>
+        <BentoCard
+          icon={bentoItems[2].icon}
+          title={bentoItems[2].title}
+          description={bentoItems[2].description}
+        />
+        <BentoCard
+          icon={bentoItems[3].icon}
+          title={bentoItems[3].title}
+          description={bentoItems[3].description}
+        />
+        <BentoCard
+          icon={bentoItems[4].icon}
+          title={bentoItems[4].title}
+          description={bentoItems[4].description}
+        />
+      </div>
+      <Button href={simulationCtaUrl} size="small" class={styles.mobileCta}>
+        {ctaLabel}
+      </Button>
+    </div>
+  </Container>
+</section>

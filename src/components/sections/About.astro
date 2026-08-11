@@ -1,0 +1,56 @@
+---
+import { Image } from 'astro:assets';
+import Container from '../layout/Container.astro';
+import SectionLabel from '../ui/SectionLabel.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../icons/Icon.astro';
+import aboutPhoto from '../../assets/about-instalacao.jpg';
+import { servedSegments } from '../../content/about';
+import styles from './About.module.css';
+---
+
+<section class={styles.section} id="sobre-nos">
+  <Container class={styles.container}>
+    <div class={styles.image} data-reveal>
+      <Image
+        src={aboutPhoto}
+        alt="Instalação de painéis solares em telhado residencial"
+        widths={[400, 512, 768, 1024]}
+        sizes="(max-width: 1080px) 100vw, 512px"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+
+    <div class={styles.content} data-reveal>
+      <div class={styles.header}>
+        <SectionLabel icon="users">Sobre nós</SectionLabel>
+        <h2 class={styles.title}>
+          Uma empresa de engenharia, não uma revenda de painéis
+        </h2>
+      </div>
+
+      <p class={styles.paragraph}>
+        A SEIKA Engenharia atua em projetos elétricos e sistemas fotovoltaicos sob responsabilidade técnica do <strong>engenheiro Adriano José Gorges (CREA-PR 206130/D)</strong>. Cada projeto é dimensionado a partir do consumo real do cliente, com foco em economia, segurança e conformidade com as normas técnicas.
+      </p>
+
+      <div class={styles.list}>
+        <p class={styles.listTitle}>Atendemos:</p>
+        <ul class={styles.items} role="list">
+          {
+            servedSegments.map((segment) => (
+              <li class={styles.item}>
+                <Icon name="lightning" size={18} class={styles.itemIcon} />
+                <span class={styles.itemText}>{segment}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <Button href="#contato" size="small" class={styles.cta}>
+        Entrar em contato
+      </Button>
+    </div>
+  </Container>
+</section>

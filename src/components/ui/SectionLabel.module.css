@@ -1,0 +1,21 @@
+/**
+ * The eyebrow above every section header: a 22px icon and bold uppercase text,
+ * both in the highlight colour, with no pill behind them. Distinct from
+ * `Label`, which is the translucent pill used only in the hero.
+ */
+.label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-highlight);
+  composes: sectionLabel from '../../styles/typography.module.css';
+}
+
+/* On the dark CTA band the text goes white while the icon stays gold. */
+.onDark {
+  color: var(--color-text-on-color-primary);
+}
+
+.onDark .icon {
+  color: var(--color-text-highlight);
+}

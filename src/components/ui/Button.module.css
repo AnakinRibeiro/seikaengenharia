@@ -1,0 +1,72 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border-radius: var(--radius-2);
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  /* Interaction states are not specified in Figma — derived from the tokens. */
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard),
+    transform var(--duration-fast) var(--easing-standard);
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.button[aria-disabled='true'],
+.button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ── Model ──────────────────────────────────────────────────────────── */
+
+.primary {
+  background-color: var(--color-fill-highlight);
+  color: var(--color-text-on-color-highlight);
+  border: 1px solid transparent;
+}
+
+.primary:hover {
+  background-color: color-mix(in srgb, var(--color-fill-highlight) 88%, black);
+}
+
+/*
+ * Secondary is drawn on dark surfaces in the library (transparent fill, light
+ * border, white label) — it is the hero/header counterpart to primary.
+ */
+.secondary {
+  background-color: transparent;
+  color: var(--color-text-on-color-primary);
+  border: 1px solid var(--color-border-primary);
+}
+
+.secondary:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--color-text-on-color-primary) 12%,
+    transparent
+  );
+  border-color: var(--color-text-on-color-primary);
+}
+
+/* ── Size · padding only; the text style is picked in Button.astro ──── */
+
+.large {
+  padding: var(--space-4) var(--space-8);
+}
+
+.small {
+  padding: var(--space-3) var(--space-6);
+}
+
+/* ── Layout modifier ────────────────────────────────────────────────── */
+
+.fullWidth {
+  width: 100%;
+}

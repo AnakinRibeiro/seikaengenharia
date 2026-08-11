@@ -1,0 +1,95 @@
+/**
+ * Built on <details>/<summary> so it works with JavaScript disabled and gets
+ * keyboard support and in-page search ("find in page" expands it) for free.
+ */
+.item {
+  /* Slower than the UI transitions in tokens.css, which answer a click with a
+     state change. This one carries a panel of text through its whole height,
+     and that still reads as a jump at 250ms. */
+  --duration-disclosure: 420ms;
+  width: 100%;
+  padding: var(--space-6);
+  border-radius: var(--radius-3);
+  background-color: var(--color-background-primary);
+  /*
+   * Opts this subtree into interpolating to and from `auto`, without which the
+   * height below cannot animate. Scoped to the component rather than :root so
+   * it can't quietly change how anything else on the page sizes itself.
+   */
+  interpolate-size: allow-keywords;
+}
+
+/*
+ * <details> has no animatable box of its own — its content lives in the
+ * ::details-content pseudo-element, which is what gets a height to travel.
+ * Engines that don't support it (or interpolate-size) snap open exactly the
+ * way this did before; it is a native disclosure either way.
+ */
+.item::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition:
+    block-size var(--duration-disclosure) var(--easing-standard),
+    /* Holds the answer on screen for the length of the closing transition
+       instead of dropping it on the first frame. */
+    content-visibility var(--duration-disclosure) var(--easing-standard)
+      allow-discrete;
+}
+
+.item[open]::details-content {
+  block-size: auto;
+}
+
+/*
+ * Grid rather than flex so both indicators can share one cell and cross-fade —
+ * see below. The two columns are the same layout the flex row produced.
+ */
+.summary {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+  cursor: pointer;
+  list-style: none;
+}
+
+/* Hide the native disclosure triangle in every engine. */
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.question {
+  composes: cardTitle from '../../styles/typography.module.css';
+  color: var(--color-text-primary);
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+
+/* Both indicators occupy the same cell, stacked, so the swap can be a
+   cross-fade instead of a cut — a hard swap against a 420ms panel reads as a
+   glitch. Sharing a cell also means neither reserves layout of its own. */
+.indicator {
+  grid-area: 1 / 2;
+  color: var(--color-text-secondary);
+  transition:
+    opacity var(--duration-disclosure) var(--easing-standard),
+    transform var(--duration-disclosure) var(--easing-standard);
+}
+
+/*
+ * Closed shows the plus, open shows the minus. The quarter turn is only
+ * legible on the minus — it pivots out of the plus's vertical stroke — since a
+ * plus rotated 90deg is itself, which leaves it to just fade.
+ */
+.item[open] .iconPlus,
+.item:not([open]) .iconMinus {
+  opacity: 0;
+  transform: rotate(-90deg);
+}
+
+.answer {
+  composes: cardText from '../../styles/typography.module.css';
+  color: var(--color-text-secondary);
+  margin-top: var(--space-4);
+}

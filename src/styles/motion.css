@@ -1,0 +1,91 @@
+/**
+ * Motion — the first-load intro and the scroll reveals.
+ *
+ * Two rules govern everything in this file:
+ *
+ * 1. Only opacity and transform are animated. Both are composited, so a reveal
+ *    costs no layout and no paint, and it can never shift anything around it
+ *    (no CLS). Nothing here animates height, margin or top.
+ * 2. The page is complete without motion. The intro is a plain CSS animation
+ *    that always runs to its end; the reveals only hide anything once the
+ *    inline script in BaseLayout has confirmed it can bring them back. No JS,
+ *    a failed bundle, or a crawler that skips scripts — the content is there.
+ *
+ * `will-change` is deliberately absent: it would promote every card on the
+ * page to its own compositor layer for the whole session to save one frame of
+ * setup on a transition the browser already promotes on its own.
+ */
+
+:root {
+  /* Much longer than the UI transitions in tokens.css — those answer a click,
+     these play while you read, so they can afford a slow settle. */
+  --duration-enter: 900ms;
+  /* Cubic-out. An expo curve dumps nearly all the travel into the first third,
+     which at this duration reads as a snap followed by a long drift; cubic
+     spreads the motion evenly enough to stay smooth the whole way down. */
+  --easing-enter: cubic-bezier(0.33, 1, 0.68, 1);
+  /* Paired with the duration: too short a travel over 900ms drops the apparent
+     speed low enough to look like a stall. Still small enough that a translated
+     element never reaches past the bottom of the document. */
+  --enter-distance: 20px;
+  /* Read by the observer in BaseLayout too — keep it the only definition. */
+  --enter-stagger: 90ms;
+}
+
+/* `to` is left implicit so the element lands on its own computed style. */
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, var(--enter-distance), 0);
+  }
+}
+
+/**
+ * First load — above-the-fold only, and deliberately not gated on JS. A CSS
+ * animation starts at first paint, so the hero never waits on a script to
+ * become visible. `--intro-index` orders the cascade.
+ */
+[data-intro] {
+  animation: enter var(--duration-enter) var(--easing-enter) both;
+  animation-delay: calc(var(--intro-index, 0) * var(--enter-stagger));
+}
+
+/**
+ * Scroll reveal — everything below the fold. `.js-motion` is set by the inline
+ * script in BaseLayout before first paint, so these elements are only ever
+ * hidden when an observer is guaranteed to be there to reveal them.
+ */
+.js-motion [data-reveal],
+.js-motion [data-reveal-children] > * {
+  opacity: 0;
+  transform: translate3d(0, var(--enter-distance), 0);
+  transition:
+    opacity var(--duration-enter) var(--easing-enter),
+    transform var(--duration-enter) var(--easing-enter);
+  /* Written per element by the observer, from its place in the batch. */
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+/* Same specificity as the two rules above, so source order decides. */
+.js-motion [data-revealed] {
+  opacity: 1;
+  transform: none;
+}
+
+/*
+ * The reset already flattens every duration in the document, which would leave
+ * these elements to snap in. Skipping the effect outright is both clearer and
+ * less work than a 0.01ms transition on every card.
+ */
+@media (prefers-reduced-motion: reduce) {
+  [data-intro] {
+    animation: none;
+  }
+
+  .js-motion [data-reveal],
+  .js-motion [data-reveal-children] > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

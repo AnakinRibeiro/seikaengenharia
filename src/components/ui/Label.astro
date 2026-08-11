@@ -1,0 +1,19 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import Icon from '../icons/Icon.astro';
+import type { IconName } from '../icons/icons';
+import styles from './Label.module.css';
+
+type Props = {
+  /** Omit to render a text-only pill. */
+  icon?: IconName;
+  class?: string;
+} & HTMLAttributes<'span'>;
+
+const { icon, class: className, ...rest }: Props = Astro.props;
+---
+
+<span class:list={[styles.label, className]} {...rest}>
+  {icon && <Icon name={icon} size={14} class={styles.icon} />}
+  <slot />
+</span>

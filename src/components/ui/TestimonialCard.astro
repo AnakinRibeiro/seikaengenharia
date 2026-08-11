@@ -1,0 +1,24 @@
+---
+import Rating, { type RatingValue } from './Rating.astro';
+import styles from './TestimonialCard.module.css';
+
+interface Props {
+  rating: RatingValue;
+  quote: string;
+  name: string;
+  /** Which service the client hired — shown under the name. */
+  service: string;
+  class?: string;
+}
+
+const { rating, quote, name, service, class: className } = Astro.props;
+---
+
+<figure class:list={[styles.card, className]}>
+  <Rating rating={rating} />
+  <blockquote class={styles.quote}>{quote}</blockquote>
+  <figcaption class={styles.identity}>
+    <span class={styles.name}>{name}</span>
+    <span class={styles.service}>{service}</span>
+  </figcaption>
+</figure>

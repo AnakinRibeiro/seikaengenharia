@@ -1,0 +1,29 @@
+---
+import Container from '../layout/Container.astro';
+import SectionLabel from '../ui/SectionLabel.astro';
+import TestimonialCard from '../ui/TestimonialCard.astro';
+import { testimonials } from '../../content/testimonials';
+import styles from './Testimonials.module.css';
+---
+
+<section class={styles.section} id="depoimentos">
+  <Container class={styles.container}>
+    <div class={styles.header} data-reveal>
+      <SectionLabel icon="message-quote">Depoimentos</SectionLabel>
+      <h2 class={styles.title}>O que nossos clientes dizem</h2>
+    </div>
+
+    <div class={styles.grid} data-reveal-children>
+      {
+        testimonials.map((testimonial) => (
+          <TestimonialCard
+            rating={testimonial.rating}
+            quote={testimonial.quote}
+            name={testimonial.name}
+            service={testimonial.service}
+          />
+        ))
+      }
+    </div>
+  </Container>
+</section>

@@ -1,0 +1,156 @@
+.footer {
+  background-color: var(--color-background-highlight-dark);
+  padding-top: var(--section-padding-block);
+  color: var(--color-text-on-color-secondary);
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-9);
+  padding-bottom: var(--space-8);
+  border-bottom: 1px solid var(--color-border-primary);
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-8);
+  width: 100%;
+  max-width: 320px;
+}
+
+/* Figma swaps the order: description first then logo on mobile, logo first
+   on desktop. One markup, reordered with CSS rather than duplicated. */
+.logo {
+  order: 2;
+}
+
+.description {
+  composes: cardText from '../../styles/typography.module.css';
+  order: 1;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.columnTitle {
+  composes: cardTextStrong from '../../styles/typography.module.css';
+  color: var(--color-text-on-color-primary);
+}
+
+.columnLink,
+.columnText {
+  composes: cardText from '../../styles/typography.module.css';
+  color: var(--color-text-on-color-secondary);
+}
+
+.columnLink {
+  transition: color var(--duration-fast) var(--easing-standard);
+}
+
+.columnLink:hover {
+  color: var(--color-text-on-color-primary);
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding-block: var(--space-6);
+  width: 100%;
+}
+
+/*
+ * .copyright and .whatsappLink switch text style at the same breakpoint as
+ * everything else — Footer title (16/28 SemiBold) on mobile, Card text
+ * strong (14/24 SemiBold) on desktop. `composes` can only pull a style in
+ * once at build time, so the breakpoint override below uses the same font
+ * properties as plain declarations instead, letting the normal cascade swap
+ * them at 1081px.
+ */
+.copyright,
+.whatsappLink {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-md);
+}
+
+.copyright {
+  color: var(--color-text-on-color-secondary);
+}
+
+.whatsappLink {
+  color: var(--color-text-highlight);
+  transition: color var(--duration-fast) var(--easing-standard);
+}
+
+.whatsappLink:hover {
+  color: color-mix(in srgb, var(--color-text-highlight) 80%, white);
+}
+
+@media (min-width: 1081px) {
+  .top {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-9);
+  }
+
+  /*
+   * Figma fixes these at 360/240/240px plus a flexible last column, adding to
+   * more than 1200px only once the 40px gaps are included — exact at the
+   * 1200px frame. Below that (1081-1250px, where Figma gives no guidance)
+   * fixed + shrink:0 would push the row past the container, as About's and
+   * the bento grid's fixed columns did — so these shrink together instead,
+   * and the nowrap below is dropped so squeezed text wraps rather than
+   * overflowing.
+   */
+  .brand {
+    flex: 0 1 360px;
+    min-width: 0;
+  }
+
+  /* Desktop shows logo first, then description — reversed from mobile. */
+  .logo {
+    order: 1;
+  }
+
+  .description {
+    order: 2;
+  }
+
+  .column {
+    flex: 0 1 240px;
+    min-width: 0;
+    gap: var(--space-2);
+  }
+
+  .column:last-child {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .bottom {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* Desktop uses Card text strong (14/24) for this bar instead of the
+     mobile-only Footer title (16/28). */
+  .copyright,
+  .whatsappLink {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+  }
+}

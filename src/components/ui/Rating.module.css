@@ -1,0 +1,11 @@
+.rating {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--space-1);
+  color: var(--color-fill-highlight);
+}
+
+/* Unfilled stars keep the layout stable at ratings below 5. */
+.empty {
+  color: var(--color-border-primary);
+}

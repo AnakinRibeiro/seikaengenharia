@@ -1,0 +1,19 @@
+---
+import Icon from '../icons/Icon.astro';
+import type { IconName } from '../icons/icons';
+import styles from './SectionLabel.module.css';
+
+interface Props {
+  icon: IconName;
+  /** Keeps the icon gold but turns the text white, for dark backgrounds. */
+  onDark?: boolean;
+  class?: string;
+}
+
+const { icon, onDark = false, class: className } = Astro.props;
+---
+
+<span class:list={[styles.label, onDark && styles.onDark, className]}>
+  <Icon name={icon} size={22} class={styles.icon} />
+  <slot />
+</span>

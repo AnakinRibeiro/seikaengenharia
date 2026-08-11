@@ -1,0 +1,127 @@
+/**
+ * Hero — the transparent header sits over the top of this section, so the
+ * top padding has to clear it (192px desktop, header height + 48px mobile,
+ * where the header is opaque and paints over the photo).
+ */
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-block: 192px var(--space-16);
+  overflow: clip;
+  background-color: var(--color-background-highlight-dark);
+  color: var(--color-text-on-color-primary);
+}
+
+/* Photo at 60% over the dark base, then a left-to-right scrim so the copy
+   keeps its contrast while the right side of the image stays visible. */
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.backdrop img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+}
+
+.backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    90deg,
+    rgba(9, 40, 59, 0.82) 0%,
+    rgba(9, 40, 59, 0.64) 46%,
+    rgba(14, 61, 88, 0) 100%
+  );
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+  width: 100%;
+}
+
+/*
+ * Figma hard-codes the line breaks. These max-widths reproduce the same three
+ * and three-line wraps while still reflowing on narrow viewports.
+ */
+.title {
+  composes: heroTitle from '../../styles/typography.module.css';
+  color: var(--color-text-on-color-primary);
+  /*
+   * Figma breaks this greedily over three lines. The reset balances headings,
+   * which moves a word, so opt this one back into normal wrapping. Measured
+   * window for the designed break is 638-716px; 25ch sits in the middle.
+   */
+  text-wrap: wrap;
+  max-width: 25ch;
+}
+
+.highlight {
+  color: var(--color-text-highlight);
+}
+
+.subtitle {
+  composes: heroText from '../../styles/typography.module.css';
+  color: var(--color-text-on-color-secondary);
+  max-width: 62ch;
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-4);
+}
+
+/*
+ * Two separate sentences, each on its own line in the design. Structural
+ * lines rather than a max-width: the window that produces the designed break
+ * is only ~1.6ch wide, which any font-metric shift would flip.
+ */
+.footnote {
+  composes: heroSubtitle from '../../styles/typography.module.css';
+  color: var(--color-text-on-color-secondary);
+}
+
+.footnote span {
+  display: block;
+}
+
+@media (max-width: 1080px) {
+  .hero {
+    padding-block: calc(var(--header-height-mobile) + var(--space-10))
+      var(--space-10);
+  }
+
+  .title,
+  .subtitle,
+  .footnote {
+    max-width: none;
+  }
+
+  /* Both buttons go full width and stack. */
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .actions > * {
+    width: 100%;
+  }
+}

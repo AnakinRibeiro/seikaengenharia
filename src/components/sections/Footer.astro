@@ -1,0 +1,88 @@
+---
+import Container from '../layout/Container.astro';
+import Logo from '../ui/Logo.astro';
+import { primaryNav } from '../../lib/navigation';
+import { site, simulationCtaUrl } from '../../lib/site';
+import styles from './Footer.module.css';
+
+const currentYear = new Date().getFullYear();
+// Figma's footer list omits "Início" (the hero anchor) from the other five.
+const quickLinks = primaryNav.slice(1);
+
+const socialLinks = [
+  { label: 'Instagram', href: site.social.instagram },
+  { label: 'LinkedIn', href: site.social.linkedin },
+];
+---
+
+<footer class={styles.footer}>
+  <Container>
+    <div class={styles.top}>
+      <div class={styles.brand}>
+        <a href="/" aria-label={`${site.name} — ir para o início`} class={styles.logo}>
+          <Logo size="large" alt="" />
+        </a>
+        <p class={styles.description}>
+          Projetos e soluções em engenharia elétrica. Especialista em energia
+          limpa e renovável — transformando sol em economia.
+        </p>
+      </div>
+
+      <div class={styles.column}>
+        <p class={styles.columnTitle}>Links rápidos</p>
+        {
+          quickLinks.map((link) => (
+            <a class={styles.columnLink} href={link.href}>
+              {link.label}
+            </a>
+          ))
+        }
+      </div>
+
+      <div class={styles.column}>
+        <p class={styles.columnTitle}>Contato</p>
+        {
+          /* WhatsApp number is still a Figma placeholder (repeated-digit
+             pattern) — rendered as text, not a fake wa.me link, until real. */
+        }
+        <span class={styles.columnText}>
+          WhatsApp: {site.contact.whatsapp || '(a definir)'}
+        </span>
+        <a class={styles.columnLink} href={`mailto:${site.contact.email}`}>
+          {site.contact.email}
+        </a>
+        <span class={styles.columnText}>{site.serviceArea}</span>
+      </div>
+
+      <div class={styles.column}>
+        <p class={styles.columnTitle}>Redes sociais</p>
+        {
+          socialLinks.map((social) =>
+            social.href ? (
+              <a
+                class={styles.columnLink}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {social.label}
+              </a>
+            ) : (
+              // No confirmed profile URL yet — shown as text, not a dead link.
+              <span class={styles.columnText}>{social.label}</span>
+            )
+          )
+        }
+      </div>
+    </div>
+
+    <div class={styles.bottom}>
+      <p class={styles.copyright}>
+        © {currentYear} SEIKA Engenharia · CNPJ {site.taxId}
+      </p>
+      <a class={styles.whatsappLink} href={simulationCtaUrl}>
+        Fale conosco pelo WhatsApp →
+      </a>
+    </div>
+  </Container>
+</footer>

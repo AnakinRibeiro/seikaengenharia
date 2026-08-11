@@ -1,0 +1,41 @@
+---
+import Container from '../layout/Container.astro';
+import { highlights } from '../../content/highlights';
+import styles from './Highlights.module.css';
+---
+
+<section class={styles.section} aria-label="Diferenciais">
+  <Container>
+    {/*
+      Part of the first-load intro rather than a scroll reveal: the strip is
+      the first thing under the hero, so on a tall screen it is already on
+      show while the observer is still waiting on its script. Picking up the
+      hero's cascade at 5 keeps it one continuous sequence, and the half steps
+      tighten it — these four read as a row of peers, not as a hierarchy like
+      the hero's stack, so they should arrive closer together.
+    */}
+    <ul class={styles.list} role="list">
+      {
+        highlights.map((item, index) => (
+          <li
+            class={styles.item}
+            data-intro
+            style={`--intro-index: ${5 + index * 0.5}`}
+          >
+            <span class={styles.dot} aria-hidden="true" />
+            <p class={styles.text}>
+              {item.segments.map((segment, i) => (
+                <>
+                  {i === item.breakBeforeIndex && (
+                    <br class={styles.desktopBreak} aria-hidden="true" />
+                  )}
+                  {segment.strong ? <strong>{segment.text}</strong> : segment.text}
+                </>
+              ))}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </Container>
+</section>

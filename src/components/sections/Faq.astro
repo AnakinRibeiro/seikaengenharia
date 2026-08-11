@@ -1,0 +1,26 @@
+---
+import Container from '../layout/Container.astro';
+import SectionLabel from '../ui/SectionLabel.astro';
+import FaqAccordion from '../ui/FaqAccordion.astro';
+import { faqItems } from '../../content/faq';
+import styles from './Faq.module.css';
+---
+
+<section class={styles.section} id="faq">
+  <Container class={styles.container}>
+    <div class={styles.header} data-reveal>
+      <SectionLabel icon="message-circle-question">FAQ</SectionLabel>
+      <h2 class={styles.title}>Perguntas frequentes</h2>
+    </div>
+
+    <div class={styles.list} data-reveal-children>
+      {
+        faqItems.map((item) => (
+          <FaqAccordion question={item.question} name="faq">
+            {item.answer}
+          </FaqAccordion>
+        ))
+      }
+    </div>
+  </Container>
+</section>

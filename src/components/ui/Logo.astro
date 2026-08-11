@@ -1,0 +1,43 @@
+---
+import { Image } from 'astro:assets';
+import logoSrc from '../../assets/logo-seika.png';
+
+export type LogoSize = 'mobile' | 'small' | 'medium' | 'large';
+
+interface Props {
+  size?: LogoSize;
+  /** Alt text. Pass "" when the logo sits inside an already-labelled link. */
+  alt?: string;
+  class?: string;
+  loading?: 'eager' | 'lazy';
+}
+
+/** Widths of the four Figma variants; height follows the artwork's ratio. */
+const WIDTHS: Record<LogoSize, number> = {
+  mobile: 96,
+  small: 120,
+  medium: 144,
+  large: 184,
+};
+
+const {
+  size = 'medium',
+  alt = 'Seika Engenharia — Soluções e projetos',
+  class: className,
+  loading = 'eager',
+} = Astro.props;
+
+const width = WIDTHS[size];
+const height = Math.round((width * logoSrc.height) / logoSrc.width);
+---
+
+<Image
+  src={logoSrc}
+  alt={alt}
+  width={width}
+  height={height}
+  densities={[1, 2]}
+  loading={loading}
+  decoding={loading === 'eager' ? 'sync' : 'async'}
+  class={className}
+/>

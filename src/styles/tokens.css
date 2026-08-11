@@ -1,0 +1,153 @@
+/**
+ * Design tokens — mirrored from the Seika Figma library.
+ * https://www.figma.com/design/KN7BwGxSYDf2NRMFSYTAOa/Seika
+ *
+ * Naming follows the Figma variable paths, flattened:
+ *   colors/text/primary        -> --color-text-primary
+ *   Spacing/4                  -> --space-4
+ *   Border-radius/2            -> --radius-2
+ *   Typescale/paragraph/*      -> --font-size-md / --line-height-md
+ *
+ * Anything NOT backed by a Figma variable is called out inline so it can be
+ * replaced the moment the design system defines it.
+ */
+
+:root {
+  /* ── Color · text ──────────────────────────────────────────────────── */
+  --color-text-primary: #09283b;
+  --color-text-secondary: #707476;
+  --color-text-highlight: #e8a53d;
+  --color-text-on-color-primary: #ffffff;
+  --color-text-on-color-secondary: #d9e0e5;
+  --color-text-on-color-highlight: #593f17;
+
+  /* ── Color · background ────────────────────────────────────────────── */
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f5f8fa;
+  --color-background-highlight-dark: #09283b;
+
+  /* ── Color · fill ──────────────────────────────────────────────────── */
+  --color-fill-default: #ffffff;
+  --color-fill-highlight: #e8a53d;
+  --color-fill-highlight-muted: #fdf6ec;
+
+  /* ── Color · border ────────────────────────────────────────────────── */
+  --color-border-primary: #b2b8bc;
+  /* border/secondary -> neutral/100 */
+  --color-border-secondary: #F5F8FA;
+
+  /* Raw values from the Label component (no Figma variable behind them).
+     Label is a translucent pill meant to sit on top of dark/photo heroes. */
+  --color-fill-glass: rgba(178, 210, 229, 0.15);
+  --color-border-glass: rgba(255, 255, 255, 0.3);
+
+  /* ── Spacing ───────────────────────────────────────────────────────── */
+  /* Only the steps Figma actually publishes. The scale is 4x n up to 10 and
+     then widens, so the gaps are real — don't fill them in by guessing. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-9: 40px;
+  --space-10: 48px;
+  --space-14: 80px;
+  --space-16: 112px;
+
+  /* ── Radius ────────────────────────────────────────────────────────── */
+  --radius-2: 8px;
+  --radius-3: 12px;
+  /* Border-radius/4 — used only on the Bento Grid's photo tile. */
+  --radius-4: 16px;
+  --radius-full: 999px;
+
+  /* ── Typography ────────────────────────────────────────────────────── */
+  --font-family-primary: 'Open Sans Variable', 'Open Sans', -apple-system,
+    BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Typescale/paragraph-xsmall */
+  --font-size-xs: 12px;
+  --line-height-xs: 20px;
+  /* Typescale/paragraph-small */
+  --font-size-sm: 14px;
+  --line-height-sm: 24px;
+  /* Typescale/paragraph */
+  --font-size-md: 16px;
+  --line-height-md: 28px;
+
+  /*
+   * Typescale/h1 and Typescale/h2 are responsive Figma variables: each has a
+   * Desktop and a Mobile mode, stepped down in the media query below. The
+   * design defines no h3/h4 — smaller headings use Card title (16/28) or
+   * Section paragraph strong, so nothing is invented here.
+   */
+  /* Typescale/h2 — Desktop mode */
+  --font-size-h2: 40px;
+  --line-height-h2: 56px;
+  /* Typescale/h1 — Desktop mode */
+  --font-size-h1: 48px;
+  --line-height-h1: 64px;
+
+  /* ── Elevation ─────────────────────────────────────────────────────── */
+  /* Bento Card / Service Card share this exact two-part shadow. */
+  --shadow-card: 0 2px 2px 0 rgba(0, 0, 0, 0.08),
+    0 0 0 0.5px rgba(0, 0, 0, 0.12);
+  /* Feature photos (About, ...) use this heavier single-shadow instead. */
+  --shadow-elevated: 0 12px 20px 0 rgba(48, 48, 48, 0.16);
+
+  /* ── Layout ────────────────────────────────────────────────────────── */
+  /* Figma frames are 1440 wide with a 1200 content column -> 120px gutters. */
+  --layout-content-width: 1200px;
+  --layout-gutter: 120px;
+  --layout-gutter-mobile: 24px;
+  /* Section rhythm: Spacing/14 on desktop, Spacing/10 on mobile. */
+  --section-padding-block: var(--space-14);
+  /* Header heights from the Figma variants, used to clear the fixed header. */
+  --header-height: 110px;
+  --header-height-mobile: 73px;
+
+  /* ── Motion ────────────────────────────────────────────────────────── */
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Stacking ──────────────────────────────────────────────────────── */
+  --z-header: 100;
+  --z-overlay: 200;
+}
+
+/*
+ * Mobile mode. Figma publishes exactly two modes per responsive variable, and
+ * the tablet range reuses the mobile layout, so there is a single Desktop ->
+ * Mobile boundary at 1080px — the same width the header switches at.
+ */
+@media (max-width: 1080px) {
+  :root {
+    --layout-gutter: var(--space-10);
+    --section-padding-block: var(--space-10);
+
+    /* Typescale/h1 — Mobile mode */
+    --font-size-h1: 40px;
+    --line-height-h1: 56px;
+    /* Typescale/h2 — Mobile mode */
+    --font-size-h2: 32px;
+    --line-height-h2: 48px;
+  }
+}
+
+/*
+ * Below 720px the layout is unchanged — only the gutter narrows to the 24px
+ * of the 390px frame. Keeping 48px through the tablet range stops the
+ * single-column stack from stretching to ~1000px of line length.
+ */
+@media (max-width: 720px) {
+  :root {
+    --layout-gutter: var(--layout-gutter-mobile);
+  }
+}

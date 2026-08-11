@@ -1,0 +1,83 @@
+/**
+ * Same photo + dark-base + gradient technique as Hero, but the gradient runs
+ * vertical (darkest at the bottom) instead of Hero's horizontal scrim, and
+ * the content is centered instead of left-aligned.
+ */
+.section {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-block: var(--section-padding-block);
+  overflow: clip;
+  background-color: var(--color-background-highlight-dark);
+  color: var(--color-text-on-color-primary);
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.backdrop img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+}
+
+.backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    0deg,
+    rgba(9, 40, 59, 0.82) 0%,
+    rgba(9, 40, 59, 0.66) 46%,
+    rgba(14, 61, 88, 0) 100%
+  );
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+  text-align: center;
+}
+
+.title {
+  composes: sectionHeader from '../../styles/typography.module.css';
+  color: var(--color-text-on-color-primary);
+  max-width: 1016px;
+}
+
+.paragraph {
+  composes: sectionParagraph from '../../styles/typography.module.css';
+  color: var(--color-text-on-color-secondary);
+  max-width: 700px;
+}
+
+.cta {
+  width: auto;
+}
+
+/* Figma hard-breaks both lines for a centered, art-directed wrap — mobile
+   flows naturally instead (same pattern as Hero and Services). */
+.desktopBreak {
+  display: none;
+}
+
+@media (min-width: 1081px) {
+  .desktopBreak {
+    display: inline;
+  }
+}
+
+@media (max-width: 1080px) {
+  .cta {
+    width: 100%;
+  }
+}

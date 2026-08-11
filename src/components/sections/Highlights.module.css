@@ -1,0 +1,66 @@
+.section {
+  background-color: var(--color-background-primary);
+  padding-block: var(--space-6);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.item {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+  width: 100%;
+}
+
+.dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  margin-top: var(--space-2);
+  border-radius: 50%;
+  background-color: var(--color-fill-highlight);
+}
+
+.text {
+  composes: cardText from '../../styles/typography.module.css';
+  color: var(--color-text-primary);
+  flex: 1 0 0;
+  min-width: 0;
+}
+
+.text strong {
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Mobile wraps naturally; the Figma hard break only applies on desktop. */
+.desktopBreak {
+  display: none;
+}
+
+@media (min-width: 1081px) {
+  .list {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .item {
+    width: auto;
+  }
+
+  .text {
+    flex: none;
+    white-space: nowrap;
+  }
+
+  .desktopBreak {
+    display: inline;
+  }
+}

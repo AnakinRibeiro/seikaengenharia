@@ -1,0 +1,327 @@
+---
+/*
+ * Internal reference page: every token and component in one place, so the
+ * implementation can be compared against the Figma library at a glance.
+ * Excluded from search engines and from the sitemap.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/layout/Container.astro';
+import Button from '../components/ui/Button.astro';
+import Label from '../components/ui/Label.astro';
+import SectionLabel from '../components/ui/SectionLabel.astro';
+import Logo from '../components/ui/Logo.astro';
+import Rating from '../components/ui/Rating.astro';
+import BentoCard from '../components/ui/BentoCard.astro';
+import ServiceCard from '../components/ui/ServiceCard.astro';
+import TestimonialCard from '../components/ui/TestimonialCard.astro';
+import FaqAccordion from '../components/ui/FaqAccordion.astro';
+import Icon from '../components/icons/Icon.astro';
+import { iconNames } from '../components/icons/icons';
+import typography from '../styles/typography.module.css';
+import placeholder from '../assets/placeholder-servico.jpg';
+
+const colors = [
+  ['text/primary', '--color-text-primary'],
+  ['text/secondary', '--color-text-secondary'],
+  ['text/highlight', '--color-text-highlight'],
+  ['text/on-color-primary', '--color-text-on-color-primary'],
+  ['text/on-color-highlight', '--color-text-on-color-highlight'],
+  ['background/primary', '--color-background-primary'],
+  ['background/secondary', '--color-background-secondary'],
+  ['background/highlight-dark', '--color-background-highlight-dark'],
+  ['fill/highlight', '--color-fill-highlight'],
+  ['fill/highlight-muted', '--color-fill-highlight-muted'],
+  ['border/primary', '--color-border-primary'],
+];
+
+/** Headings. Specs are Desktop / Mobile, from the Figma variable modes. */
+const headingStyles: [label: string, spec: string, className: string][] = [
+  ['Hero title · h1', '48/64 → 40/56 · 700', typography.heroTitle],
+  ['Section header · h2', '40/56 → 32/48 · 700', typography.sectionHeader],
+  ['Card title', '16/28 · 600', typography.cardTitle],
+];
+
+const textStyles: [label: string, className: string][] = [
+  ['Hero label', typography.heroLabel],
+  ['Hero text', typography.heroText],
+  ['Hero subtitle', typography.heroSubtitle],
+  ['Section label', typography.sectionLabel],
+  ['Section paragraph', typography.sectionParagraph],
+  ['Section paragraph strong', typography.sectionParagraphStrong],
+  ['Card title', typography.cardTitle],
+  ['Card text', typography.cardText],
+  ['Card text strong', typography.cardTextStrong],
+  ['Footer title', typography.footerTitle],
+  ['Navbar item', typography.navbarItem],
+  ['Button text', typography.buttonText],
+  ['Button text small', typography.buttonTextSmall],
+];
+---
+
+<BaseLayout title="Styleguide" noindex>
+  <Container class="page">
+    <h1 class="h1">Seika — Design System</h1>
+
+    <section>
+      <h2 class="h2">Cores</h2>
+      <div class="swatches">
+        {
+          colors.map(([name, token]) => (
+            <div class="swatch">
+              <div class="chip" style={`background: var(${token})`} />
+              <code>{name}</code>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section>
+      <h2 class="h2">Títulos</h2>
+      <div class="stack">
+        {
+          headingStyles.map(([name, spec, cls]) => (
+            <div>
+              <code class="tag">
+                {name} — {spec}
+              </code>
+              <p class={cls}>Energia solar que se paga</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section>
+      <h2 class="h2">Tipografia</h2>
+      <div class="stack">
+        {
+          textStyles.map(([name, cls]) => (
+            <div>
+              <code class="tag">{name}</code>
+              <p class={cls}>
+                Energia solar para residências e empresas — 0123456789
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section>
+      <h2 class="h2">Logo</h2>
+      <div class="row">
+        <Logo size="mobile" /><Logo size="small" /><Logo size="medium" />
+        <Logo size="large" />
+      </div>
+    </section>
+
+    <section>
+      <h2 class="h2">Ícones</h2>
+      <div class="row icons">
+        {
+          iconNames.map((name) => (
+            <span class="iconCell">
+              <Icon name={name} />
+              <code>{name}</code>
+            </span>
+          ))
+        }
+      </div>
+    </section>
+
+    <section>
+      <h2 class="h2">Button</h2>
+      <div class="row">
+        <Button size="large">Value</Button>
+        <Button size="small">Value</Button>
+      </div>
+      <div class="row onDark">
+        <Button size="large" model="secondary">Value</Button>
+        <Button size="small" model="secondary">Value</Button>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="h2">Label</h2>
+      <div class="row onDark">
+        <Label icon="sun">Texto da label</Label>
+        <Label icon="shield-check">Garantia de 25 anos</Label>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="h2">Section Label</h2>
+      <div class="stack">
+        <SectionLabel icon="sun-lucide">Energia solar em residências</SectionLabel>
+        <SectionLabel icon="users">Sobre nós</SectionLabel>
+        <SectionLabel icon="toolbox">Nossos serviços</SectionLabel>
+        <SectionLabel icon="message-quote">Depoimentos</SectionLabel>
+        <SectionLabel icon="message-circle-question">FAQ</SectionLabel>
+      </div>
+      <div class="onDark">
+        <SectionLabel icon="sun-lucide" onDark>Sobre fundo escuro</SectionLabel>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="h2">Rating</h2>
+      <div class="stack">
+        <Rating rating={5} /><Rating rating={4} /><Rating rating={3} />
+        <Rating rating={2} /><Rating rating={1} />
+      </div>
+    </section>
+
+    <section>
+      <h2 class="h2">Bento Card</h2>
+      <div class="grid3">
+        <BentoCard
+          icon="hand-coins"
+          title="Título do card"
+          description="Descrição de apoio do card. Explique o benefício em uma ou duas frases curtas."
+        />
+        <BentoCard icon="leaf" title="Energia limpa" />
+        <BentoCard
+          icon="trend-up"
+          title="Retorno do investimento"
+          description="Payback médio entre 3 e 5 anos, com economia mensal desde o primeiro mês."
+        />
+      </div>
+    </section>
+
+    <section>
+      <h2 class="h2">Service Card</h2>
+      <div class="grid3">
+        <ServiceCard
+          title="Título do serviço"
+          description="Descrição do serviço em até três linhas, explicando o que está incluso e para quem ele se aplica."
+          image={placeholder}
+          imageAlt="Painéis solares instalados em uma usina"
+          href="#"
+        />
+        <ServiceCard
+          title="Sem link"
+          description="Este card não exibe a chamada para ação, demonstrando a propriedade opcional do componente."
+          image={placeholder}
+          imageAlt="Painéis solares instalados em uma usina"
+        />
+      </div>
+    </section>
+
+    <section>
+      <h2 class="h2">Testimonial Card</h2>
+      <div class="grid3">
+        <TestimonialCard
+          rating={5}
+          quote="Depoimento do cliente em até três linhas, contando o problema que tinha e como o serviço resolveu."
+          name="Nome do cliente"
+          service="Tipo de serviço"
+        />
+        <TestimonialCard
+          rating={4}
+          quote="Instalação rápida e sem sujeira. A conta de luz caiu de R$ 780 para R$ 90 já no primeiro mês."
+          name="Ana Ribeiro"
+          service="Energia solar residencial"
+        />
+      </div>
+    </section>
+
+    <section>
+      <h2 class="h2">FAQ Accordion</h2>
+      <div class="stack faq">
+        <FaqAccordion question="Pergunta frequente do cliente?" name="sg-faq" open>
+          Resposta objetiva da pergunta, explicando o ponto principal em poucas
+          linhas e sem jargão técnico desnecessário.
+        </FaqAccordion>
+        <FaqAccordion question="Quanto tempo leva a instalação?" name="sg-faq">
+          Entre um e três dias úteis para sistemas residenciais.
+        </FaqAccordion>
+      </div>
+    </section>
+  </Container>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: 160px 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+  }
+  .h1 {
+    font-size: var(--font-size-h1);
+    line-height: var(--line-height-h1);
+    font-weight: var(--font-weight-bold);
+  }
+  .h2 {
+    font-size: var(--font-size-h2);
+    line-height: var(--line-height-h2);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border-primary);
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+    align-items: center;
+  }
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    align-items: flex-start;
+  }
+  .faq {
+    align-items: stretch;
+    background: var(--color-background-secondary);
+    padding: var(--space-4);
+    border-radius: var(--radius-3);
+    gap: var(--space-4);
+  }
+  .grid3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-6);
+  }
+  .onDark {
+    background: var(--color-background-highlight-dark);
+    padding: var(--space-6);
+    border-radius: var(--radius-3);
+    margin-top: var(--space-4);
+  }
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: var(--space-4);
+  }
+  .chip {
+    height: 56px;
+    border-radius: var(--radius-2);
+    border: 1px solid var(--color-border-primary);
+  }
+  .swatch code,
+  .iconCell code,
+  .tag {
+    display: block;
+    margin-top: var(--space-2);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    font-family: ui-monospace, monospace;
+  }
+  .icons {
+    gap: var(--space-6) var(--space-8);
+  }
+  .iconCell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--color-text-highlight);
+    width: 96px;
+    text-align: center;
+  }
+  .tag {
+    margin-bottom: var(--space-1);
+  }
+</style>

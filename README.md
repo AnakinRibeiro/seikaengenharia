@@ -119,6 +119,13 @@ para inventar, precisam vir do cliente:
 - [ ] Confirmar o domínio final em `astro.config.mjs` (`site`) e em
       `public/robots.txt` — hoje aponta para `seikaengenharia.com.br` como
       placeholder.
+- [ ] **Valores do card de economia do Hero.** `src/content/savings.ts` é um
+      cenário *inventado* (R$ 450 → R$ 68, economia de R$ 382/mês) — não veio do
+      Figma nem do cliente. As contas fecham entre si e o "depois" não é zero de
+      propósito (custo de disponibilidade + fio B da Lei 14.300), mas continua
+      sendo ficção mostrada a consumidor. Antes de publicar: ou vira um caso
+      real com autorização do cliente, ou o card sai do ar. O aviso "valores
+      ilustrativos" dentro do card é o mínimo, não a solução.
 - [ ] **Depoimentos reais.** `src/content/testimonials.ts` reproduz fielmente
       os três cards do Figma, mas os três são *idênticos* (mesmo nome, mesmo
       texto) — claramente um placeholder duplicado no design, não conteúdo

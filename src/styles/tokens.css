@@ -40,6 +40,12 @@
      Label is a translucent pill meant to sit on top of dark/photo heroes. */
   --color-fill-glass: rgba(178, 210, 229, 0.15);
   --color-border-glass: rgba(255, 255, 255, 0.3);
+  /* Darkening counterpart to the fill above, also with no Figma variable
+     behind it. --color-fill-glass *lightens*, which is fine under a 12px pill
+     but drops white text to ~3:1 over the bright side of the hero photo. This
+     one is background/highlight-dark at 55%, which holds AA for a whole card of
+     text over an unpredictable photograph. Used by SavingsCard. */
+  --color-fill-glass-dark: rgba(9, 40, 59, 0.55);
 
   /* ── Spacing ───────────────────────────────────────────────────────── */
   /* Only the steps Figma actually publishes. The scale is 4x n up to 10 and
@@ -118,6 +124,11 @@
   --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
 
   /* ── Stacking ──────────────────────────────────────────────────────── */
+  /* Floating page furniture (the WhatsApp button). Deliberately below the
+     header: on mobile the nav panel is a child of the header and can run to
+     the bottom of the screen, so anything at or above --z-header would float
+     on top of an open menu. */
+  --z-floating: 90;
   --z-header: 100;
   --z-overlay: 200;
 }

@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import Container from '../layout/Container.astro';
 import Button from '../ui/Button.astro';
 import ctaImage from '../../assets/cta-usina-solar.jpg';
-import { simulationCtaUrl } from '../../lib/site';
+import { simulationCtaLink } from '../../lib/site';
 import styles from './Cta.module.css';
 ---
 
@@ -30,7 +30,7 @@ import styles from './Cta.module.css';
       pode economizar. Sem compromisso, sem custo.
     </p>
 
-    <Button href={simulationCtaUrl} size="large" class={styles.cta}>
+    <Button {...simulationCtaLink} size="large" class={styles.cta}>
       Simular minha economia
     </Button>
   </Container>

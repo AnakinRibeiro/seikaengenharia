@@ -1,0 +1,46 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { savingsExample } from '../../content/savings';
+import styles from './SavingsCard.module.css';
+
+type Props = {
+  class?: string;
+} & HTMLAttributes<'figure'>;
+
+const { class: className, ...rest } = Astro.props;
+
+const { scenario, rows, savingsLabel, savingsValue, savingsPeriod, savingsAnnual, disclaimer } =
+  savingsExample;
+---
+
+{/*
+  <figure> + <dl> + <figcaption>: the rows are genuinely term/value pairs, and
+  the disclaimer is a caption for the whole figure — the same structure
+  TestimonialCard already uses for quote + attribution.
+*/}
+<figure class:list={[styles.card, className]} {...rest}>
+  <p class={styles.scenario}>{scenario}</p>
+
+  <dl class={styles.rows}>
+    {
+      rows.map((row) => (
+        <div class={styles.row}>
+          <dt class={styles.rowLabel}>{row.label}</dt>
+          <dd class={styles.rowValue}>{row.value}</dd>
+        </div>
+      ))
+    }
+
+    <div class={styles.total}>
+      <dt class={styles.totalLabel}>{savingsLabel}</dt>
+      <dd class={styles.totalValue}>
+        <span class={styles.amount}>{savingsValue}</span><span class={styles.period}
+          >{savingsPeriod}</span
+        >
+        <span class={styles.annual}>{savingsAnnual}</span>
+      </dd>
+    </div>
+  </dl>
+
+  <figcaption class={styles.disclaimer}>{disclaimer}</figcaption>
+</figure>

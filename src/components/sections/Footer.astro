@@ -2,17 +2,18 @@
 import Container from '../layout/Container.astro';
 import Logo from '../ui/Logo.astro';
 import { primaryNav } from '../../lib/navigation';
-import { site, simulationCtaUrl } from '../../lib/site';
+import { site, simulationCtaLink, whatsAppCtaLink } from '../../lib/site';
 import styles from './Footer.module.css';
 
 const currentYear = new Date().getFullYear();
 // Figma's footer list omits "Início" (the hero anchor) from the other five.
 const quickLinks = primaryNav.slice(1);
 
-const socialLinks = [
-  { label: 'Instagram', href: site.social.instagram },
-  { label: 'LinkedIn', href: site.social.linkedin },
-];
+const socialLinks = [{ label: 'Instagram', href: site.social.instagram }];
+
+const whatsappContact = whatsAppCtaLink(
+  'Olá! Vim pelo site da Seika Engenharia e gostaria de mais informações.'
+);
 ---
 
 <footer class={styles.footer}>
@@ -41,13 +42,9 @@ const socialLinks = [
 
       <div class={styles.column}>
         <p class={styles.columnTitle}>Contato</p>
-        {
-          /* WhatsApp number is still a Figma placeholder (repeated-digit
-             pattern) — rendered as text, not a fake wa.me link, until real. */
-        }
-        <span class={styles.columnText}>
-          WhatsApp: {site.contact.whatsapp || '(a definir)'}
-        </span>
+        <a class={styles.columnLink} {...whatsappContact}>
+          WhatsApp: {site.contact.phoneDisplay}
+        </a>
         <a class={styles.columnLink} href={`mailto:${site.contact.email}`}>
           {site.contact.email}
         </a>
@@ -80,7 +77,7 @@ const socialLinks = [
       <p class={styles.copyright}>
         © {currentYear} SEIKA Engenharia · CNPJ {site.taxId}
       </p>
-      <a class={styles.whatsappLink} href={simulationCtaUrl}>
+      <a class={styles.whatsappLink} {...simulationCtaLink}>
         Fale conosco pelo WhatsApp →
       </a>
     </div>

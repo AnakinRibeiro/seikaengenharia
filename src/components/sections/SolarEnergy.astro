@@ -6,7 +6,7 @@ import Button from '../ui/Button.astro';
 import BentoCard from '../ui/BentoCard.astro';
 import bentoPhoto from '../../assets/bento-casa-solar.jpg';
 import { bentoItems } from '../../content/solarEnergy';
-import { simulationCtaUrl } from '../../lib/site';
+import { simulationCtaLink } from '../../lib/site';
 import styles from './SolarEnergy.module.css';
 
 const ctaLabel = 'Simular minha economia';
@@ -21,7 +21,7 @@ const ctaLabel = 'Simular minha economia';
           <h2 class={styles.title}>
             Transformando casas em fontes de energia limpa e renovável
           </h2>
-          <Button href={simulationCtaUrl} size="small" class={styles.headerCta}>
+          <Button {...simulationCtaLink} size="small" class={styles.headerCta}>
             {ctaLabel}
           </Button>
         </div>
@@ -75,7 +75,7 @@ const ctaLabel = 'Simular minha economia';
           description={bentoItems[4].description}
         />
       </div>
-      <Button href={simulationCtaUrl} size="small" class={styles.mobileCta}>
+      <Button {...simulationCtaLink} size="small" class={styles.mobileCta}>
         {ctaLabel}
       </Button>
     </div>

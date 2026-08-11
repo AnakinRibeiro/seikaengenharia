@@ -3,8 +3,9 @@ import { Image } from 'astro:assets';
 import Container from '../layout/Container.astro';
 import Button from '../ui/Button.astro';
 import Label from '../ui/Label.astro';
+import SavingsCard from '../ui/SavingsCard.astro';
 import heroImage from '../../assets/hero-usina-solar.jpg';
-import { simulationCtaUrl } from '../../lib/site';
+import { simulationCtaLink } from '../../lib/site';
 import styles from './Hero.module.css';
 ---
 
@@ -25,32 +26,40 @@ import styles from './Hero.module.css';
   {/* The hero cascades in on load. Indexes are the reading order, not the DOM
       order, so the wrapper below can stay purely structural. */}
   <Container class={styles.container}>
-    <Label icon="sun" data-intro style="--intro-index: 0"
-      >Transformando sol e economia</Label
-    >
+    <div class={styles.copy}>
+      <Label icon="sun" data-intro style="--intro-index: 0"
+        >Transformando sol e economia</Label
+      >
 
-    <div class={styles.content}>
-      <h1 class={styles.title} data-intro style="--intro-index: 1">
-        Energia solar e engenharia elétrica para <span class={styles.highlight}
-          >reduzir sua conta de luz</span
-        >
-      </h1>
+      <div class={styles.content}>
+        <h1 class={styles.title} data-intro style="--intro-index: 1">
+          Energia solar e engenharia elétrica para <span class={styles.highlight}
+            >reduzir sua conta de luz</span
+          >
+        </h1>
 
-      <p class={styles.subtitle} data-intro style="--intro-index: 2">
-        Projetos e soluções em engenharia elétrica para residências e empresas.
-        Do dimensionamento à homologação, com economia comprovada na primeira
-        fatura.
-      </p>
+        <p class={styles.subtitle} data-intro style="--intro-index: 2">
+          Projetos e soluções em engenharia elétrica para residências e
+          empresas. Do dimensionamento à homologação, com economia comprovada na
+          primeira fatura.
+        </p>
 
-      <div class={styles.actions} data-intro style="--intro-index: 3">
-        <Button href={simulationCtaUrl}>Simular minha economia</Button>
-        <Button href="#servicos" model="secondary">Ver todos os serviços</Button>
+        <div class={styles.actions} data-intro style="--intro-index: 3">
+          <Button {...simulationCtaLink}>Simular minha economia</Button>
+          <Button href="#servicos" model="secondary"
+            >Ver todos os serviços</Button
+          >
+        </div>
+
+        <p class={styles.footnote} data-intro style="--intro-index: 4">
+          <span>*Envie uma foto da sua conta de luz pelo WhatsApp.</span>
+          <span>A simulação é gratuita e sem compromisso.</span>
+        </p>
       </div>
-
-      <p class={styles.footnote} data-intro style="--intro-index: 4">
-        <span>*Envie uma foto da sua conta de luz pelo WhatsApp.</span>
-        <span>A simulação é gratuita e sem compromisso.</span>
-      </p>
     </div>
+
+    {/* Last in the cascade on both layouts: it reads as the evidence arriving
+        to back the offer, and on mobile it is genuinely last in the flow. */}
+    {/*<SavingsCard class={styles.savings} data-intro style="--intro-index: 5" />*/}
   </Container>
 </section>

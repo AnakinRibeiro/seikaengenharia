@@ -7,6 +7,7 @@ import openSansLatin from '@fontsource-variable/open-sans/files/open-sans-latin-
 
 import Seo from '../components/seo/Seo.astro';
 import Header from '../components/layout/Header.astro';
+import WhatsAppButton from '../components/ui/WhatsAppButton.astro';
 import { site } from '../lib/site';
 
 interface Props {
@@ -74,6 +75,10 @@ const { title, description, image, type, noindex, schema } = Astro.props;
     </main>
 
     <slot name="footer" />
+
+    {/* Last in the DOM so it is also last in the tab order — a persistent
+        floating control should not sit between the footer and the page. */}
+    <WhatsAppButton />
 
     <script>
       const items = document.querySelectorAll<HTMLElement>(

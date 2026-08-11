@@ -47,6 +47,8 @@ const { currentPath } = Astro.props;
       </nav>
       <Button
         href={contactCta.href}
+        target={contactCta.target}
+        rel={contactCta.rel}
         model="primary"
         size="small"
         class={styles.cta}

@@ -4,6 +4,7 @@ import SectionLabel from '../ui/SectionLabel.astro';
 import Button from '../ui/Button.astro';
 import ServiceCard from '../ui/ServiceCard.astro';
 import { services } from '../../content/services';
+import { contactCtaLink } from '../../lib/site';
 import styles from './Services.module.css';
 
 const ctaLabel = 'Entrar em contato';
@@ -18,7 +19,7 @@ const ctaLabel = 'Entrar em contato';
           <h2 class={styles.heading}>
             Engenharia elétrica do <br class={styles.desktopBreak} aria-hidden="true" />projeto ao laudo
           </h2>
-          <Button href="#contato" size="small" class={styles.headerCta}>
+          <Button {...contactCtaLink} size="small" class={styles.headerCta}>
             {ctaLabel}
           </Button>
         </div>
@@ -45,7 +46,7 @@ const ctaLabel = 'Entrar em contato';
       }
     </div>
 
-    <Button href="#contato" size="small" class={styles.mobileCta}>
+    <Button {...contactCtaLink} size="small" class={styles.mobileCta}>
       {ctaLabel}
     </Button>
   </Container>

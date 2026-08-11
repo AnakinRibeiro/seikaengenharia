@@ -1,0 +1,14 @@
+---
+import Icon from '../icons/Icon.astro';
+import { whatsAppCtaLink } from '../../lib/site';
+import styles from './WhatsAppButton.module.css';
+
+const link = whatsAppCtaLink(
+  'Olá! Vim pelo site da Seika Engenharia e gostaria de falar sobre energia solar.'
+);
+---
+
+<a class={styles.button} {...link} aria-label="Falar no WhatsApp">
+  {/* Decorative: the anchor already carries the accessible name. */}
+  <Icon name="whatsapp" size={32} />
+</a>

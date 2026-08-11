@@ -1,0 +1,66 @@
+/**
+ * Floating WhatsApp button — fixed to the bottom-right on every page.
+ */
+
+.button {
+  position: fixed;
+  /* env() keeps it clear of the iOS home indicator and Android gesture bar;
+     the fallback is 0 everywhere else, leaving the plain --space-6 gutter. */
+  inset-block-end: calc(var(--space-6) + env(safe-area-inset-bottom, 0px));
+  inset-inline-end: calc(var(--space-6) + env(safe-area-inset-right, 0px));
+  z-index: var(--z-floating);
+
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+
+  /*
+   * WhatsApp's own green, deliberately outside the Seika palette and with no
+   * Figma variable behind it. Recolouring the mark to --color-fill-highlight
+   * would cost the instant recognition that makes a floating button of this
+   * kind work at all. White glyph on #25d366 is the platform's own pairing.
+   */
+  background-color: #25d366;
+  color: #ffffff;
+
+  box-shadow: var(--shadow-elevated);
+  transition:
+    transform var(--duration-fast) var(--easing-standard),
+    box-shadow var(--duration-fast) var(--easing-standard),
+    background-color var(--duration-fast) var(--easing-standard);
+}
+
+.button:hover {
+  /* Darker green rather than a lighter tint: the button sits over white for
+     most of the page, where a lighter fill would lose contrast against it. */
+  background-color: #1da851;
+  transform: translateY(-2px);
+  box-shadow: 0 16px 24px 0 rgba(48, 48, 48, 0.24);
+}
+
+.button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-card);
+}
+
+@media (max-width: 1080px) {
+  .button {
+    inset-block-end: calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+    inset-inline-end: calc(var(--space-4) + env(safe-area-inset-right, 0px));
+    width: 52px;
+    height: 52px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: background-color var(--duration-fast) var(--easing-standard);
+  }
+
+  .button:hover,
+  .button:active {
+    transform: none;
+  }
+}

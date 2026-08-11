@@ -1,0 +1,125 @@
+/**
+ * Illustrative savings card — sits on the right of the Hero, over the photo.
+ *
+ * Glass, not a solid card, so the scrim in Hero.module.css keeps doing what it
+ * was tuned for: fading to transparent on the right so the photograph stays
+ * visible. A solid card there would cover exactly the region the gradient
+ * protects.
+ *
+ * The fill has to *darken*, which is why it can't reuse --color-fill-glass:
+ * that one lightens (rgba(178,210,229,0.15)) and was tuned for a 12px pill.
+ * The hero photo sits at opacity .6 over #09283b, so a bright sky lands around
+ * rgb(128,152,168) — white text on that is ~3.0:1, well under AA. The darkening
+ * fill below takes the worst case to ~7.2:1 for white and 5.4:1 for
+ * on-color-secondary, on the fill alone: if backdrop-filter isn't supported the
+ * contrast is unchanged, only the softening is lost.
+ *
+ * The gold is the one exception at 3.4:1, which is why it appears *only* on the
+ * 40px bold figure, where AA's large-text threshold is 3:1. Every small label
+ * here stays white or on-color-secondary. This is the same rule the README
+ * records for text/highlight elsewhere on the site.
+ */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border-glass);
+  border-radius: var(--radius-3);
+  background-color: var(--color-fill-glass-dark);
+  backdrop-filter: blur(12px);
+  color: var(--color-text-on-color-primary);
+}
+
+/* The card's identifying line — effectively its title, so it takes the weight
+   the row labels don't. */
+.scenario {
+  composes: cardTextStrong from '../../styles/typography.module.css';
+  color: var(--color-text-on-color-primary);
+}
+
+/* ── Comparison rows ────────────────────────────────────────────────── */
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.rowLabel {
+  composes: cardText from '../../styles/typography.module.css';
+  color: var(--color-text-on-color-secondary);
+}
+
+.rowValue {
+  composes: cardTextStrong from '../../styles/typography.module.css';
+  color: var(--color-text-on-color-primary);
+  /* Keeps "R$ 450" together, and keeps the two amounts on one optical column
+     regardless of digit widths. */
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── The payoff ─────────────────────────────────────────────────────── */
+
+.total {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border-glass);
+}
+
+.totalLabel {
+  composes: cardText from '../../styles/typography.module.css';
+  color: var(--color-text-on-color-secondary);
+}
+
+.totalValue {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+/*
+ * Section header (40/56) is the largest published style below h1 — the library
+ * has no display-figure style, and inventing one to sit between them is exactly
+ * what typography.module.css says not to do.
+ */
+.amount {
+  composes: sectionHeader from '../../styles/typography.module.css';
+  color: var(--color-text-highlight);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.period {
+  composes: cardText from '../../styles/typography.module.css';
+  color: var(--color-text-on-color-secondary);
+}
+
+/* Full width so it drops below the figure rather than trailing it. */
+.annual {
+  composes: cardText from '../../styles/typography.module.css';
+  width: 100%;
+  color: var(--color-text-on-color-secondary);
+}
+
+/*
+ * Kept at Card text rather than shrunk into fine print: the library publishes
+ * no 12/20 regular sentence-case style, and a savings figure shown to a
+ * consumer is the last thing to hide. Separation comes from the gap and the
+ * lighter colour instead.
+ */
+.disclaimer {
+  composes: cardText from '../../styles/typography.module.css';
+  color: var(--color-text-on-color-secondary);
+}

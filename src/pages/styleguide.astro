@@ -14,11 +14,13 @@ import Rating from '../components/ui/Rating.astro';
 import BentoCard from '../components/ui/BentoCard.astro';
 import ServiceCard from '../components/ui/ServiceCard.astro';
 import TestimonialCard from '../components/ui/TestimonialCard.astro';
+import SavingsCard from '../components/ui/SavingsCard.astro';
 import FaqAccordion from '../components/ui/FaqAccordion.astro';
 import Icon from '../components/icons/Icon.astro';
 import { iconNames } from '../components/icons/icons';
 import typography from '../styles/typography.module.css';
 import placeholder from '../assets/placeholder-servico.jpg';
+import heroImage from '../assets/hero-usina-solar.jpg';
 
 const colors = [
   ['text/primary', '--color-text-primary'],
@@ -227,6 +229,18 @@ const textStyles: [label: string, className: string][] = [
     </section>
 
     <section>
+      <h2 class="h2">Savings Card</h2>
+      {/* Sem contraparte no Figma: valores fictícios, vidro escurecido para
+          sobreviver a qualquer foto atrás. Ver src/content/savings.ts. */}
+      <div
+        class="onDark savingsDemo"
+        style={`background-image: url(${heroImage.src})`}
+      >
+        <SavingsCard />
+      </div>
+    </section>
+
+    <section>
       <h2 class="h2">FAQ Accordion</h2>
       <div class="stack faq">
         <FaqAccordion question="Pergunta frequente do cliente?" name="sg-faq" open>
@@ -290,6 +304,16 @@ const textStyles: [label: string, className: string][] = [
     padding: var(--space-6);
     border-radius: var(--radius-3);
     margin-top: var(--space-4);
+  }
+  /* The card is only ever glass over a photo, so a flat swatch would flatter
+     it — this is the width it gets in the hero, over the real hero image. */
+  .savingsDemo {
+    margin-top: 0;
+    background-size: cover;
+    background-position: center;
+  }
+  .savingsDemo > * {
+    max-width: 400px;
   }
   .swatches {
     display: grid;

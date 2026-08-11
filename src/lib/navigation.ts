@@ -1,6 +1,8 @@
 /**
  * Primary navigation, transcribed from the Header component in Figma.
  */
+import { contactCtaLink } from './site';
+
 export interface NavItem {
   label: string;
   href: string;
@@ -22,9 +24,10 @@ export const primaryNav: NavItem[] = [
   { label: 'FAQ', href: '/#faq' },
 ];
 
-/* Bare fragment on purpose: every page carrying the header also renders the
-   CTA band, so this always resolves within the current page. */
+/* Opens WhatsApp directly rather than scrolling to the CTA band: the band
+   only ever asks for the same click again. `contactCtaLink` carries the
+   target/rel this needs as an outbound link — spread it, don't unpack it. */
 export const contactCta = {
   label: 'Entrar em contato',
-  href: '#contato',
+  ...contactCtaLink,
 };

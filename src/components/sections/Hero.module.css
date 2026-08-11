@@ -42,11 +42,25 @@
   );
 }
 
+/*
+ * Two columns from 1081px up — copy left, savings card right — and a single
+ * stack below it, which is the same Desktop -> Mobile boundary everything else
+ * on the site switches at. The gap here separates the two columns; the 16px
+ * rhythm between the pill label and the copy block moved into .copy.
+ */
 .container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  gap: var(--space-10);
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   gap: var(--space-4);
+  width: 100%;
 }
 
 .content {
@@ -102,6 +116,31 @@
   display: block;
 }
 
+@media (min-width: 1081px) {
+  .container {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .copy {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  /*
+   * `0 1` rather than a fixed 400px, for the same reason About's and the
+   * footer's fixed columns shrink: between 1081px and roughly 1250px the
+   * gutters leave less than 1200px of content, and a rigid card would push the
+   * row past the container. The title keeps its designed three-line break
+   * either way — that break is held by its own max-width: 25ch, not by the
+   * width of this column.
+   */
+  .savings {
+    flex: 0 1 400px;
+    min-width: 0;
+  }
+}
+
 @media (max-width: 1080px) {
   .hero {
     padding-block: calc(var(--header-height-mobile) + var(--space-10))
@@ -112,6 +151,11 @@
   .subtitle,
   .footnote {
     max-width: none;
+  }
+
+  /* Full width, matching the buttons directly above it. */
+  .savings {
+    width: 100%;
   }
 
   /* Both buttons go full width and stack. */

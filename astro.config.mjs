@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 // Update `site` before the first production deploy: it is what makes canonical
 // URLs, the sitemap and Open Graph image URLs resolve to absolute addresses.
 export default defineConfig({
-  site: 'https://www.seikaengenharia.com.br',
+  site: 'https://seikaengenharia.com.br',
   trailingSlash: 'never',
   integrations: [
     sitemap({

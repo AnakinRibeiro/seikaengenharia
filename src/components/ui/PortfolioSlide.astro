@@ -1,0 +1,52 @@
+---
+import { Image } from 'astro:assets';
+import type { GalleryItem } from '../../content/gallery';
+import styles from './PortfolioSlide.module.css';
+
+interface Props {
+  item: GalleryItem;
+  /** Poster derivative for a clip — ignored on a photo. */
+  poster?: string;
+}
+
+const { item, poster } = Astro.props;
+---
+
+<li class={styles.slide}>
+  {
+    /*
+     * A clip is a plain looping `<video>`, not a poster with a play badge:
+     * the band has no per-slide control, so the only way for a video to read
+     * as a video is to move. `preload="none"` and no `src` — the script
+     * attaches the source when the slide is scrolled to, so a clip that is
+     * never reached costs the page nothing.
+     */
+    item.video ? (
+      <video
+        class={styles.media}
+        poster={poster}
+        muted
+        loop
+        playsinline
+        preload="none"
+        aria-label={item.alt}
+        data-clip={item.video}
+      />
+    ) : (
+      <Image
+        class={styles.media}
+        src={item.src}
+        alt={item.alt}
+        widths={[240, 360, 480, 600]}
+        sizes="(min-width: 1440px) 600px, 42vw"
+        loading="lazy"
+        decoding="async"
+        style={
+          item.objectPosition
+            ? `object-position: ${item.objectPosition}`
+            : undefined
+        }
+      />
+    )
+  }
+</li>

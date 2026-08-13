@@ -1,11 +1,12 @@
 /**
- * The "Galeria" grid on /portfolio — real jobs.
+ * The Portfolio band on the home page — real jobs.
  *
- * The clips lead, then the photos in the order the Figma frame (326:392) lays
- * them out, read left-to-right and top-to-bottom. Video is the strongest thing
- * on the page and putting it first also puts the play badges above the fold,
- * which is what tells anyone the grid is worth clicking. Purely an ordering
- * call — move the entries to change it.
+ * A clip every third slide, photos in between, in the order the Figma frame
+ * (326:392) laid them out. Six clips against thirteen photos works out to one
+ * video always within reach of the visible slides, so the band has something
+ * moving in it however far along it is scrolled — without the run of six that
+ * grouping them together produced. Purely an ordering call — move the entries
+ * to change it.
  */
 import type { ImageMetadata } from 'astro';
 import videoPoster01 from '../assets/video-01-poster.jpg';
@@ -62,42 +63,18 @@ export const galleryItems: GalleryItem[] = [
     duration: 46,
   },
   {
-    src: videoPoster02,
-    alt: 'Módulos fotovoltaicos instalados em telhado de residência, vistos de perto',
-    video: '/videos/video-02.mp4',
-    duration: 15,
-  },
-  {
-    src: videoPoster03,
-    alt: 'Sistema fotovoltaico sobre a cobertura de uma residência moderna de laje branca',
-    video: '/videos/video-03.mp4',
-    duration: 24,
-  },
-  {
-    src: videoPoster04,
-    alt: 'Módulos fotovoltaicos instalados em telhado de telhas cerâmicas',
-    video: '/videos/video-04.mp4',
-    duration: 18,
-  },
-  {
-    src: videoPoster05,
-    alt: 'Painéis solares em telhado de telhas cerâmicas, com vista para a vizinhança',
-    video: '/videos/video-05.mp4',
-    duration: 21,
-  },
-  {
-    src: videoPoster06,
-    alt: 'Painéis solares instalados sobre telhado de fibrocimento',
-    video: '/videos/video-06.mp4',
-    duration: 20,
-  },
-  {
     src: gallery01,
     alt: 'Painéis solares fotovoltaicos instalados em telhado residencial, com o bairro ao fundo',
   },
   {
     src: gallery02,
     alt: 'Módulos fotovoltaicos sobre telhado metálico de residência, com piscina e área verde ao fundo',
+  },
+  {
+    src: videoPoster02,
+    alt: 'Módulos fotovoltaicos instalados em telhado de residência, vistos de perto',
+    video: '/videos/video-02.mp4',
+    duration: 15,
   },
   {
     src: gallery03,
@@ -108,12 +85,24 @@ export const galleryItems: GalleryItem[] = [
     alt: 'Painéis solares sobre telhado metálico azul em bairro residencial',
   },
   {
+    src: videoPoster03,
+    alt: 'Sistema fotovoltaico sobre a cobertura de uma residência moderna de laje branca',
+    video: '/videos/video-03.mp4',
+    duration: 24,
+  },
+  {
     src: gallery05,
     alt: 'Dois módulos fotovoltaicos posicionados sobre telhado de telhas claras durante a instalação',
   },
   {
     src: gallery06,
     alt: 'Usina solar sobre cobertura comercial com vista panorâmica da cidade',
+  },
+  {
+    src: videoPoster04,
+    alt: 'Módulos fotovoltaicos instalados em telhado de telhas cerâmicas',
+    video: '/videos/video-04.mp4',
+    duration: 18,
   },
   {
     src: gallery07,
@@ -124,6 +113,12 @@ export const galleryItems: GalleryItem[] = [
     alt: 'Painéis solares alinhados ao longo do telhado metálico de um galpão',
   },
   {
+    src: videoPoster05,
+    alt: 'Painéis solares em telhado de telhas cerâmicas, com vista para a vizinhança',
+    video: '/videos/video-05.mp4',
+    duration: 21,
+  },
+  {
     src: gallery09,
     alt: 'Módulo fotovoltaico fixado em telhado de telhas claras junto à estrutura de sustentação',
   },
@@ -132,6 +127,12 @@ export const galleryItems: GalleryItem[] = [
     alt: 'Vista superior de telhado residencial com módulos fotovoltaicos instalados',
     // h-[296.71%] top-[-164.43%] -> 1.6443 / (2.9671 - 1) = 0.836
     objectPosition: 'center 84%',
+  },
+  {
+    src: videoPoster06,
+    alt: 'Painéis solares instalados sobre telhado de fibrocimento',
+    video: '/videos/video-06.mp4',
+    duration: 20,
   },
   {
     src: gallery11,

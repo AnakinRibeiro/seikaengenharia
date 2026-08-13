@@ -1,0 +1,215 @@
+---
+import { getImage } from 'astro:assets';
+import Container from '../layout/Container.astro';
+import SectionLabel from '../ui/SectionLabel.astro';
+import Icon from '../icons/Icon.astro';
+import PortfolioSlide from '../ui/PortfolioSlide.astro';
+import { galleryItems } from '../../content/gallery';
+import styles from './Portfolio.module.css';
+
+/*
+ * Poster frames for the clips, built once at build time. Only the video slides
+ * need one — a photo slide renders through <Image> and sizes itself.
+ */
+const posters = await Promise.all(
+  galleryItems.map((item) =>
+    item.video
+      ? getImage({ src: item.src, format: 'webp', width: 600 })
+      : undefined
+  )
+);
+---
+
+<section class={styles.section} id="portfolio">
+  <Container class={styles.container}>
+    <div class={styles.header} data-reveal>
+      <SectionLabel icon="slideshow">Portfólio</SectionLabel>
+      <h2 class={styles.title}>Alguns dos serviços que realizamos</h2>
+    </div>
+  </Container>
+
+  {/*
+    The band is full-bleed — it runs off both edges, which is what says "there
+    is more of this" before an arrow is ever pressed.
+
+    The strip is a plain scroll container with snap points, so swipe, trackpad
+    and the arrow keys all work on their own; the buttons only call scrollBy.
+    That is also why they start hidden and are revealed by the script below —
+    without JS they would be two dead circles over a strip that still scrolls
+    perfectly well by hand.
+  */}
+  <div class={styles.strip} data-portfolio>
+    <button
+      class={`${styles.arrow} ${styles.prev}`}
+      type="button"
+      aria-label="Ver fotos anteriores"
+      data-portfolio-prev
+    >
+      <Icon name="chevron-left" />
+    </button>
+
+    <ul
+      class={styles.scroller}
+      role="list"
+      tabindex="0"
+      aria-label="Fotos e vídeos de serviços realizados"
+      data-portfolio-scroller
+    >
+      {
+        galleryItems.map((item, index) => (
+          <PortfolioSlide item={item} poster={posters[index]?.src} />
+        ))
+      }
+    </ul>
+
+    <button
+      class={`${styles.arrow} ${styles.next}`}
+      type="button"
+      aria-label="Ver próximas fotos"
+      data-portfolio-next
+    >
+      <Icon name="chevron-right" />
+    </button>
+  </div>
+</section>
+
+<script>
+  const band = document.querySelector<HTMLElement>('[data-portfolio]');
+  const scroller = document.querySelector<HTMLElement>(
+    '[data-portfolio-scroller]'
+  );
+  const prev = document.querySelector<HTMLButtonElement>('[data-portfolio-prev]');
+  const next = document.querySelector<HTMLButtonElement>('[data-portfolio-next]');
+  const still = matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (band && scroller && prev && next) {
+    // Measured rather than read from the token: the slide width is a clamp of
+    // the viewport, so this is the only number that is right at every size.
+    const step = () =>
+      scroller.querySelector('li')?.getBoundingClientRect().width ??
+      scroller.clientWidth;
+
+    /*
+     * Where the last press aimed, or null once the band has come to rest.
+     *
+     * This is what makes a run of clicks add up. `scrollLeft` reads the
+     * mid-flight position during a smooth scroll, so hopping one slide from
+     * *there* means each press restarts the animation barely ahead of where
+     * the last one had reached — thirty presses land one slide along. Aiming
+     * from the pending target instead makes the third press mean three slides.
+     */
+    let target: number | null = null;
+    let settle: ReturnType<typeof setTimeout>;
+
+    const page = (direction: number) => {
+      const width = step();
+      const max = scroller.scrollWidth - scroller.clientWidth;
+      const from = target ?? scroller.scrollLeft;
+      // Round first: a hand-swiped position is mid-slide, and the arrows should
+      // leave the band on a boundary rather than carry the offset along.
+      const landing = Math.round(from / width) * width + direction * width;
+
+      target = Math.max(0, Math.min(max, landing));
+      scroller.scrollTo({
+        left: target,
+        behavior: still.matches ? 'auto' : 'smooth',
+      });
+    };
+
+    prev.addEventListener('click', () => page(-1));
+    next.addEventListener('click', () => page(1));
+
+    /*
+     * Ends are dead ends — the band does not wrap. Disabling the arrow there
+     * is the honest signal; an arrow that silently stops working is not.
+     * The 1px of slack absorbs the fractional scrollLeft a clamped slide width
+     * produces, which otherwise leaves "next" live at the very end.
+     */
+    const sync = () => {
+      prev.disabled = scroller.scrollLeft <= 1;
+      next.disabled =
+        scroller.scrollLeft >= scroller.scrollWidth - scroller.clientWidth - 1;
+    };
+
+    scroller.addEventListener(
+      'scroll',
+      () => {
+        sync();
+        /*
+         * Scroll events run continuously while a smooth scroll is in flight,
+         * so this only fires once the band has actually stopped — whether it
+         * arrived under its own power or the visitor swiped it somewhere else.
+         * Dropping the target there is what lets the next press start from
+         * where the band really is.
+         */
+        clearTimeout(settle);
+        settle = setTimeout(() => {
+          target = null;
+        }, 150);
+      },
+      { passive: true }
+    );
+
+    addEventListener('resize', () => {
+      // The slide width is a clamp of the viewport, so a resize invalidates
+      // any pending target along with the disabled flags.
+      target = null;
+      sync();
+    });
+
+    sync();
+
+    // Only now are the buttons wired to anything.
+    band.dataset.ready = '';
+  }
+
+  /*
+   * Clips play only while they are on screen. Gating on intersection is what
+   * keeps the ~11MB of video off the wire until a slide is actually scrolled
+   * to, and it stops six decoders running for the sake of the two or three
+   * slides anyone can see.
+   */
+  const clips = document.querySelectorAll<HTMLVideoElement>('[data-clip]');
+
+  if (clips.length && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target as HTMLVideoElement;
+
+          if (!entry.isIntersecting) {
+            video.pause();
+            return;
+          }
+
+          // First arrival: attach the source. `src` is '' until we set it.
+          if (!video.src) video.src = video.dataset.clip!;
+
+          // Muted is not a choice — autoplay policy blocks anything else — and
+          // a rejected play() just leaves the poster, which is a fine slide.
+          video.play().catch(() => {});
+        });
+      },
+      // Starts the fetch while the slide is still off to the side, so it is
+      // moving by the time it is seen rather than a still that springs to life.
+      { rootMargin: '200px' }
+    );
+
+    /*
+     * Under prefers-reduced-motion the clips do not play: a looping video is
+     * exactly the kind of unbidden movement the setting asks us to drop. The
+     * posters stay, and the band still scrolls — that motion is asked for.
+     */
+    const sync = () => {
+      if (still.matches) {
+        observer.disconnect();
+        clips.forEach((video) => video.pause());
+      } else {
+        clips.forEach((video) => observer.observe(video));
+      }
+    };
+
+    sync();
+    still.addEventListener('change', sync);
+  }
+</script>

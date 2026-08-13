@@ -1,5 +1,10 @@
 .section {
-  background-color: var(--color-background-secondary);
+  /*
+   * White, which is what gives the accordion items their edge back: they are
+   * filled with background/secondary, so on this section they read as cards
+   * again rather than the flat rows they collapse into on a secondary surface.
+   */
+  background-color: var(--color-background-primary);
   padding-block: var(--section-padding-block);
   display: flex;
   flex-direction: column;

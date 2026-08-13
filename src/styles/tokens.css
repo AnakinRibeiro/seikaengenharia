@@ -33,7 +33,13 @@
 
   /* ── Color · border ────────────────────────────────────────────────── */
   --color-border-primary: #b2b8bc;
-  /* border/secondary -> neutral/100 */
+  /*
+   * border/secondary -> neutral/0, the same swatch background/secondary is
+   * bound to. So a border/secondary edge is invisible against a
+   * background/secondary surface by design, not by oversight — the FAQ items
+   * rely on exactly that. Rebinding the variable in Figma is what gives every
+   * one of those edges a colour; don't substitute another token per component.
+   */
   --color-border-secondary: #F5F8FA;
 
   /* Raw values from the Label component (no Figma variable behind them).

@@ -1,0 +1,140 @@
+/**
+ * Portfolio — the band of finished jobs, Figma node 386:492.
+ *
+ * The Figma frame has padding only at the top: the header sits on the section
+ * background and the photo band runs off the bottom edge, which is what makes
+ * the FAQ below start hard against the photos. Don't add a bottom padding "for
+ * symmetry" — it would open a stripe of section background under the band.
+ */
+.section {
+  background-color: var(--color-background-secondary);
+  padding-block-start: var(--section-padding-block);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-9);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  text-align: center;
+}
+
+.title {
+  composes: sectionHeader from '../../styles/typography.module.css';
+  color: var(--color-text-primary);
+}
+
+/* ── The band ──────────────────────────────────────────────────────── */
+
+.strip {
+  position: relative;
+  width: 100%;
+}
+
+.scroller {
+  display: flex;
+  overflow-x: auto;
+  /*
+   * Figma's 600px square, held to a share of the viewport below the 1440px
+   * frame so a phone still shows a slide and a half rather than one cropped
+   * face. Read by PortfolioSlide.
+   */
+  --slide-size: clamp(240px, 42vw, 600px);
+  scroll-snap-type: x mandatory;
+  /* Keeps a fast swipe at the end of the band from turning into the browser's
+     back gesture. */
+  overscroll-behavior-x: contain;
+  /* The arrows are the affordance here, and the design draws no scrollbar. */
+  scrollbar-width: none;
+}
+
+.scroller::-webkit-scrollbar {
+  display: none;
+}
+
+/* The scroller is focusable so the arrow keys reach it; the ring belongs on
+   the band rather than inside the clipped strip. */
+.scroller:focus-visible {
+  outline: 2px solid var(--color-text-highlight);
+  outline-offset: -2px;
+}
+
+/* ── Arrows ────────────────────────────────────────────────────────── */
+
+/*
+ * Hidden until the script has wired them up — see Portfolio.astro. Without JS
+ * the band is still a scroll container that answers a swipe, a trackpad and
+ * the arrow keys, so nothing is lost; two dead circles would be worse.
+ */
+.arrow {
+  display: none;
+  position: absolute;
+  inset-block-start: 50%;
+  transform: translateY(-50%);
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  color: var(--color-text-primary);
+  background-color: var(--color-fill-default);
+  box-shadow: var(--shadow-elevated);
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard),
+    opacity var(--duration-fast) var(--easing-standard);
+}
+
+[data-ready] .arrow {
+  display: grid;
+}
+
+.arrow:hover {
+  color: var(--color-text-on-color-highlight);
+  background-color: var(--color-fill-highlight);
+}
+
+/* Still in the layout and still focusable, so the band's ends are legible
+   rather than silently losing a control. */
+.arrow:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.arrow:disabled:hover {
+  color: var(--color-text-primary);
+  background-color: var(--color-fill-default);
+}
+
+.prev {
+  inset-inline-start: var(--space-6);
+}
+
+.next {
+  inset-inline-end: var(--space-6);
+}
+
+@media (max-width: 720px) {
+  .arrow {
+    width: 40px;
+    height: 40px;
+  }
+
+  .prev {
+    inset-inline-start: var(--space-3);
+  }
+
+  .next {
+    inset-inline-end: var(--space-3);
+  }
+}

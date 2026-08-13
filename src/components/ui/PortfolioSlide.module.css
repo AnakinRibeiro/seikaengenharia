@@ -1,0 +1,35 @@
+/*
+ * One cell of the Portfolio marquee. Figma draws these as 600x600 squares butted
+ * straight against each other — no gap, no radius — so the strip reads as one
+ * continuous band rather than a row of cards.
+ */
+.slide {
+  flex: none;
+  width: var(--slide-size);
+  aspect-ratio: 1;
+  /* An arrow press scrolls by exactly one slide width, so the snap only ever
+     has to correct a hand-driven swipe. */
+  scroll-snap-align: start;
+  /* The section colour, so a slide still decoding reads as a gap in the band
+     rather than a grey card. A clip covers this from the start — `poster` is
+     fetched independently of `preload`. */
+  background-color: var(--color-background-secondary);
+}
+
+/*
+ * The end of the band has to be a snap position too. Slides are a clamp of the
+ * viewport, so the last `start` snap point lands past the maximum scroll — and
+ * under `mandatory` the browser then parks short of the end, leaving the final
+ * slide half-shown and the "next" arrow live but useless. Snapping the last one
+ * by its trailing edge gives the end an exact stop.
+ */
+.slide:last-child {
+  scroll-snap-align: end;
+}
+
+.media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

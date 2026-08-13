@@ -9,11 +9,12 @@ export interface NavItem {
 }
 
 /*
- * Every target is a section of the home page, so these are root-relative rather
- * than bare fragments — a bare `#servicos` resolves to nothing from /portfolio.
- * On the home page itself the browser still treats `/#servicos` as a
+ * Every target is a section of the home page. They stay root-relative rather
+ * than bare fragments so they keep working from any page the site grows later;
+ * on the home page itself the browser still treats `/#servicos` as a
  * same-document fragment navigation, so smooth scrolling is unaffected.
- * Footer.astro builds its "Links rápidos" column from this same array.
+ * Order follows the page. Footer.astro builds its "Links rápidos" column from
+ * this same array.
  */
 export const primaryNav: NavItem[] = [
   { label: 'Início', href: '/#inicio' },
@@ -21,6 +22,7 @@ export const primaryNav: NavItem[] = [
   { label: 'Serviços', href: '/#servicos' },
   { label: 'Sobre nós', href: '/#sobre-nos' },
   { label: 'Depoimentos', href: '/#depoimentos' },
+  { label: 'Portfólio', href: '/#portfolio' },
   { label: 'FAQ', href: '/#faq' },
 ];
 

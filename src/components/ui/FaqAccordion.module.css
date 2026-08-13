@@ -10,7 +10,16 @@
   width: 100%;
   padding: var(--space-6);
   border-radius: var(--radius-3);
-  background-color: var(--color-background-primary);
+  /*
+   * Figma 345:158 fills the item with background/secondary and strokes it with
+   * border/secondary. Both are bound to neutral/0, which is also the FAQ
+   * section behind them — so the edge is invisible and an item reads as a flat
+   * row rather than a card. That is the design, not a token to swap out here
+   * (see the border/secondary note in tokens.css); the application frame
+   * 345:159 renders the same way.
+   */
+  border: 1px solid var(--color-border-secondary);
+  background-color: var(--color-background-secondary);
   /*
    * Opts this subtree into interpolating to and from `auto`, without which the
    * height below cannot animate. Scoped to the component rather than :root so

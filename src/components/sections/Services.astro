@@ -33,14 +33,14 @@ const ctaLabel = 'Entrar em contato';
     <div class={styles.grid} data-reveal-children>
       {
         /* Every card points at the same gallery — the design gives no
-           per-service portfolio, and /portfolio covers all of them. */
+           per-service portfolio, and the Portfolio band covers all of them. */
         services.map((service) => (
           <ServiceCard
             title={service.title}
             description={service.description}
             image={service.image}
             imageAlt={service.imageAlt}
-            href="/portfolio"
+            href="/#portfolio"
           />
         ))
       }

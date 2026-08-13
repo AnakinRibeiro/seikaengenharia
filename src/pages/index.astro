@@ -6,10 +6,12 @@ import SolarEnergy from '../components/sections/SolarEnergy.astro';
 import About from '../components/sections/About.astro';
 import Services from '../components/sections/Services.astro';
 import Testimonials from '../components/sections/Testimonials.astro';
+import Portfolio from '../components/sections/Portfolio.astro';
 import Faq from '../components/sections/Faq.astro';
 import Cta from '../components/sections/Cta.astro';
 import Footer from '../components/sections/Footer.astro';
 import { faqItems } from '../content/faq';
+import { galleryItems } from '../content/gallery';
 import { site } from '../lib/site';
 
 const faqSchema = {
@@ -22,19 +24,37 @@ const faqSchema = {
 };
 
 /*
+ * MediaGallery rather than ImageGallery — the band is photos *and* clips, and
+ * MediaGallery is the parent type covering both.
+ */
+const gallerySchema = {
+  '@type': 'MediaGallery',
+  name: `Portfólio — ${site.name}`,
+  description:
+    'Projetos de energia solar e engenharia elétrica executados pela SEIKA ' +
+    'Engenharia: usinas fotovoltaicas em telhados residenciais e comerciais, ' +
+    'inversores e quadros elétricos.',
+  numberOfItems: galleryItems.length,
+};
+
+/*
  * Sections are composed here one at a time, in the order of the Figma
  * "Homepage" frame: Hero, highlights, Solar Energy, About, Services,
- * Testimonials, FAQ, CTA, Footer.
+ * Testimonials, Portfolio, FAQ, CTA, Footer.
  */
 ---
 
-<BaseLayout title={`${site.name} — ${site.tagline}`} schema={[faqSchema]}>
+<BaseLayout
+  title={`${site.name} — ${site.tagline}`}
+  schema={[faqSchema, gallerySchema]}
+>
   <Hero />
   <Highlights />
   <SolarEnergy />
   <Services />
   <About />
   <Testimonials />
+  <Portfolio />
   <Faq />
   <Cta />
   <Footer slot="footer" />

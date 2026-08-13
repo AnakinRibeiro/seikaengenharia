@@ -7,10 +7,17 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://seikaengenharia.com.br',
   trailingSlash: 'never',
+  // /portfolio was its own page until the gallery moved onto the home page.
+  // Anything already indexed or linked lands on the band instead of a 404.
+  redirects: {
+    '/portfolio': '/#portfolio',
+  },
   integrations: [
     sitemap({
-      // The styleguide is an internal reference page.
-      filter: (page) => !page.includes('/styleguide'),
+      // The styleguide is an internal reference page; /portfolio is a redirect
+      // rather than a destination.
+      filter: (page) =>
+        !page.includes('/styleguide') && !page.includes('/portfolio'),
     }),
   ],
   build: {

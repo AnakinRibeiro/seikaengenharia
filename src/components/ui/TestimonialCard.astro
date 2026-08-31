@@ -4,7 +4,7 @@ import styles from './TestimonialCard.module.css';
 
 interface Props {
   rating: RatingValue;
-  quote: string;
+  quote: string[];
   name: string;
   /** Which service the client hired — shown under the name. */
   service: string;
@@ -16,7 +16,9 @@ const { rating, quote, name, service, class: className } = Astro.props;
 
 <figure class:list={[styles.card, className]}>
   <Rating rating={rating} />
-  <blockquote class={styles.quote}>{quote}</blockquote>
+  <blockquote class={styles.quote}>
+    {quote.map((paragraph) => <p class={styles.paragraph}>{paragraph}</p>)}
+  </blockquote>
   <figcaption class={styles.identity}>
     <span class={styles.name}>{name}</span>
     <span class={styles.service}>{service}</span>

@@ -215,13 +215,18 @@ const textStyles: [label: string, className: string][] = [
       <div class="grid3">
         <TestimonialCard
           rating={5}
-          quote="Depoimento do cliente em até três linhas, contando o problema que tinha e como o serviço resolveu."
+          quote={[
+            'Depoimento do cliente contando o problema que tinha e como o serviço resolveu.',
+            'Um segundo parágrafo, para mostrar o espaçamento entre parágrafos.',
+          ]}
           name="Nome do cliente"
           service="Tipo de serviço"
         />
         <TestimonialCard
           rating={4}
-          quote="Instalação rápida e sem sujeira. A conta de luz caiu de R$ 780 para R$ 90 já no primeiro mês."
+          quote={[
+            'Instalação rápida e sem sujeira. A conta de luz caiu de R$ 780 para R$ 90 já no primeiro mês.',
+          ]}
           name="Ana Ribeiro"
           service="Energia solar residencial"
         />

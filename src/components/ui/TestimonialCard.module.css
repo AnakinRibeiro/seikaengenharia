@@ -9,17 +9,21 @@
   height: 100%;
 }
 
-/* Three reserved 24px lines keep a row of testimonials aligned. */
+/*
+ * The Figma card reserved exactly three 24px lines, which worked only because
+ * all three placeholder quotes were the same sentence. Real testimonials vary
+ * in length and some run to two paragraphs, so the clamp is gone — the quote
+ * sets its own height and the grid's stretch alignment plus `margin-top: auto`
+ * on .identity keeps the names level across the row.
+ */
 .quote {
   composes: cardText from '../../styles/typography.module.css';
   color: var(--color-text-primary);
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  overflow: hidden;
-  height: calc(3 * var(--line-height-sm));
   margin: 0;
+}
+
+.paragraph + .paragraph {
+  margin-top: var(--space-3);
 }
 
 .identity {

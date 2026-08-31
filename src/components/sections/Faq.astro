@@ -17,7 +17,9 @@ import styles from './Faq.module.css';
       {
         faqItems.map((item) => (
           <FaqAccordion question={item.question} name="faq">
-            {item.answer}
+            {item.answer.map((paragraph) => (
+              <p class={styles.paragraph}>{paragraph}</p>
+            ))}
           </FaqAccordion>
         ))
       }

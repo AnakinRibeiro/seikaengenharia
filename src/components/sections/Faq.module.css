@@ -39,3 +39,11 @@
   gap: var(--space-5);
   width: 100%;
 }
+
+/*
+ * Some answers run to several paragraphs and the reset zeroes margins. Spacing
+ * lives here rather than in FaqAccordion, which stays generic over its slot.
+ */
+.paragraph + .paragraph {
+  margin-top: var(--space-3);
+}

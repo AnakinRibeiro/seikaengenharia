@@ -27,21 +27,14 @@ const {
 } = Astro.props;
 
 /*
- * Size=Large is body/large (18/150% SemiBold) in the Figma button component —
- * verified against the Hero, which is the only frame migrated so far.
- *
- * Size=Small is NOT yet verified against the new library; it keeps the old
- * `buttonTextSmall` alias until a frame that uses it is migrated. The quirk it
- * encodes — Small + Secondary borrowing the larger text style — came from the
- * previous library and should be re-checked at the same time.
+ * All four variants in the component set use body/large. Size changes the
+ * height and the horizontal padding only, never the text style.
  */
-const usesLargeText = size === 'large' || model === 'secondary';
-
 const classList = [
   styles.button,
   styles[model],
   styles[size],
-  usesLargeText ? typography.bodyLarge : typography.buttonTextSmall,
+  typography.bodyLarge,
   fullWidth && styles.fullWidth,
   className,
 ]

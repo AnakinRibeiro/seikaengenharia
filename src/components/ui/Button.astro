@@ -4,11 +4,9 @@ import styles from './Button.module.css';
 import typography from '../../styles/typography.module.css';
 
 export type ButtonModel = 'primary' | 'secondary';
-export type ButtonSize = 'large' | 'small';
 
 type Props = {
   model?: ButtonModel;
-  size?: ButtonSize;
   /** Renders an <a> instead of a <button>. */
   href?: string;
   fullWidth?: boolean;
@@ -18,7 +16,6 @@ type Props = {
 
 const {
   model = 'primary',
-  size = 'large',
   href,
   fullWidth = false,
   class: className,
@@ -27,13 +24,12 @@ const {
 } = Astro.props;
 
 /*
- * All four variants in the component set use body/large. Size changes the
- * height and the horizontal padding only, never the text style.
+ * One size in the component set — Primary and Secondary differ in fill and
+ * border only, and both use body/large.
  */
 const classList = [
   styles.button,
   styles[model],
-  styles[size],
   typography.bodyLarge,
   fullWidth && styles.fullWidth,
   className,

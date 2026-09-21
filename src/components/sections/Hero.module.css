@@ -1,6 +1,6 @@
 /**
  * Hero — the transparent header sits over the top of this section, so the
- * top padding has to clear it (192px desktop, header height + 48px mobile,
+ * top padding has to clear it (192px desktop, header height + 80px mobile,
  * where the header is opaque and paints over the photo).
  */
 .hero {
@@ -55,7 +55,28 @@
   gap: var(--space-10);
 }
 
+/*
+ * The Content frame's nesting, gap for gap: Label and title 16px apart, the
+ * subtitle 24px under them, then 40px down to the buttons, which sit 16px
+ * above the footnote.
+ */
 .copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-9);
+  width: 100%;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-6);
+  width: 100%;
+}
+
+.heading {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -63,12 +84,11 @@
   width: 100%;
 }
 
-.content {
+.cta {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-5);
-  width: 100%;
+  gap: var(--space-4);
 }
 
 /*
@@ -148,8 +168,8 @@
 
 @media (max-width: 1080px) {
   .hero {
-    padding-block: calc(var(--header-height-mobile) + var(--space-10))
-      var(--space-10);
+    padding-block: calc(var(--header-height-mobile) + var(--space-14))
+      var(--space-14);
   }
 
   /* heading/h1 -> heading/h3. Same weight, line-height and tracking, so the
@@ -170,6 +190,10 @@
   }
 
   /* Both buttons go full width and stack. */
+  .cta {
+    width: 100%;
+  }
+
   .actions {
     flex-direction: column;
     align-items: stretch;

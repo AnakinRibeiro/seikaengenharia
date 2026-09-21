@@ -137,7 +137,7 @@
  * callers building and roughly where they are today — none of them is a
  * decision about which of the eleven real styles that text should end up in.
  *
- * Migrated so far: Hero, Header, Label, Button, Logo, FAQ Accordion,
+ * Migrated so far: Hero, Highlights, Header, Label, Button, Logo, FAQ Accordion,
  * Bento Card, Service Card, Testimonial Card.
  *
  * Migration is one pass per component: pick the right heading or body class

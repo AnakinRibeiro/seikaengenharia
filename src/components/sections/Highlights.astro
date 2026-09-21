@@ -5,7 +5,7 @@ import styles from './Highlights.module.css';
 ---
 
 <section class={styles.section} aria-label="Diferenciais">
-  <Container>
+  <Container grid>
     {/*
       Part of the first-load intro rather than a scroll reveal: the strip is
       the first thing under the hero, so on a tall screen it is already on
@@ -24,12 +24,19 @@ import styles from './Highlights.module.css';
           >
             <span class={styles.dot} aria-hidden="true" />
             <p class={styles.text}>
-              {item.segments.map((segment, i) => (
+              {item.lines.map((line, i) => (
                 <>
-                  {i === item.breakBeforeIndex && (
-                    <br class={styles.desktopBreak} aria-hidden="true" />
+                  {/* The space joins the lines on mobile; before a <br> it
+                      collapses, so desktop is unaffected. */}
+                  {i > 0 && (
+                    <>
+                      {' '}
+                      <br class={styles.desktopBreak} aria-hidden="true" />
+                    </>
                   )}
-                  {segment.strong ? <strong>{segment.text}</strong> : segment.text}
+                  {line.map((segment) =>
+                    segment.strong ? <strong>{segment.text}</strong> : segment.text
+                  )}
                 </>
               ))}
             </p>

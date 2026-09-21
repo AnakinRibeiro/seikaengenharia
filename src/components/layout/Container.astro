@@ -6,6 +6,8 @@ type Props = {
   /** Element to render — use `section`/`header`/`footer` for landmarks. */
   as?: keyof HTMLElementTagNameMap;
   wide?: boolean;
+  /** Sit on the Figma grid column instead of the 1200px one. */
+  grid?: boolean;
   class?: string;
 } & HTMLAttributes<'div'>;
 
@@ -14,11 +16,12 @@ type Props = {
 const {
   as: Tag = 'div',
   wide = false,
+  grid = false,
   class: className,
   ...rest
 }: Props = Astro.props;
 ---
 
-<Tag class:list={[styles.container, wide && styles.wide, className]} {...rest}>
+<Tag class:list={[styles.container, grid && styles.grid, wide && styles.wide, className]} {...rest}>
   <slot />
 </Tag>

@@ -11,8 +11,8 @@ body {
   background-color: var(--color-background-primary);
   color: var(--color-text-primary);
   font-family: var(--font-family-primary);
-  font-size: var(--font-size-md);
-  line-height: var(--line-height-md);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
   font-weight: var(--font-weight-regular);
 }
 
@@ -40,7 +40,7 @@ body {
   border-radius: var(--radius-2);
   background-color: var(--color-fill-highlight);
   color: var(--color-text-on-color-highlight);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-body-small);
   font-weight: var(--font-weight-semibold);
   transform: translateY(calc(-100% - var(--space-4)));
   transition: transform var(--duration-fast) var(--easing-standard);

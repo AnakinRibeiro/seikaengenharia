@@ -57,7 +57,7 @@
   -webkit-line-clamp: 3;
   line-clamp: 3;
   overflow: hidden;
-  height: calc(3 * var(--line-height-sm));
+  height: calc(3 * var(--font-size-body-small) * var(--line-height-body));
 }
 
 .link {

@@ -82,8 +82,8 @@
 .whatsappLink {
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-md);
-  line-height: var(--line-height-md);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
 }
 
 .copyright {
@@ -150,7 +150,7 @@
      mobile-only Footer title (16/28). */
   .copyright,
   .whatsappLink {
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-sm);
+    font-size: var(--font-size-body-small);
+    line-height: var(--line-height-body);
   }
 }

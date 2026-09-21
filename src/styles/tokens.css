@@ -6,7 +6,10 @@
  *   colors/text/primary        -> --color-text-primary
  *   Spacing/4                  -> --space-4
  *   Border-radius/2            -> --radius-2
- *   Typescale/paragraph/*      -> --font-size-md / --line-height-md
+ *
+ * Typography is the exception: it comes from the Figma text styles rather
+ * than from variables, so it is named after the styles (heading/h1 ->
+ * --font-size-h1, body/small -> --font-size-body-small).
  *
  * Anything NOT backed by a Figma variable is called out inline so it can be
  * replaced the moment the design system defines it.
@@ -76,6 +79,16 @@
   --radius-full: 999px;
 
   /* ── Typography ────────────────────────────────────────────────────── */
+  /*
+   * The type system is the Figma text styles and nothing else. Each style
+   * below maps 1:1 to a style in the library (heading/h1 … body/legal) and is
+   * consumed through typography.module.css — never by reaching for a raw
+   * size here.
+   *
+   * Only the font family is a Figma variable (Font-family/primary). Sizes,
+   * line-heights and letter-spacings live on the text styles themselves, so
+   * there are no responsive modes: the scale is the same at every width.
+   */
   --font-family-primary: 'Open Sans Variable', 'Open Sans', -apple-system,
     BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
@@ -83,28 +96,29 @@
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
-  /* Typescale/paragraph-xsmall */
-  --font-size-xs: 12px;
-  --line-height-xs: 20px;
-  /* Typescale/paragraph-small */
-  --font-size-sm: 14px;
-  --line-height-sm: 24px;
-  /* Typescale/paragraph */
-  --font-size-md: 16px;
-  --line-height-md: 28px;
+  /* Line-height is a unitless multiplier in the library: every heading is
+     120%, every body style 150%. Two values, so two tokens. */
+  --line-height-heading: 1.2;
+  --line-height-body: 1.5;
 
-  /*
-   * Typescale/h1 and Typescale/h2 are responsive Figma variables: each has a
-   * Desktop and a Mobile mode, stepped down in the media query below. The
-   * design defines no h3/h4 — smaller headings use Card title (16/28) or
-   * Section paragraph strong, so nothing is invented here.
-   */
-  /* Typescale/h2 — Desktop mode */
-  --font-size-h2: 40px;
-  --line-height-h2: 56px;
-  /* Typescale/h1 — Desktop mode */
-  --font-size-h1: 48px;
-  --line-height-h1: 64px;
+  /* Likewise letter-spacing: -3% on the three largest headings, 0 everywhere
+     else. -3% of the font size is exactly what -0.03em resolves to. */
+  --letter-spacing-tight: -0.03em;
+  --letter-spacing-none: 0;
+
+  /* heading/* — h1–h3 Bold, h4–h6 SemiBold */
+  --font-size-h1: 64px;
+  --font-size-h2: 56px;
+  --font-size-h3: 48px;
+  --font-size-h4: 40px;
+  --font-size-h5: 32px;
+  --font-size-h6: 24px;
+
+  /* body/* — large is SemiBold, the rest Regular */
+  --font-size-body-large: 18px;
+  --font-size-body: 16px;
+  --font-size-body-small: 14px;
+  --font-size-body-legal: 12px;
 
   /* ── Elevation ─────────────────────────────────────────────────────── */
   /* Bento Card / Service Card share this exact two-part shadow. */
@@ -140,21 +154,15 @@
 }
 
 /*
- * Mobile mode. Figma publishes exactly two modes per responsive variable, and
- * the tablet range reuses the mobile layout, so there is a single Desktop ->
- * Mobile boundary at 1080px — the same width the header switches at.
+ * Mobile mode. Layout only — the type scale no longer steps down, because the
+ * Figma text styles carry a single set of values with no Desktop/Mobile modes
+ * behind them. A 64px h1 on a 390px screen is the direct consequence; see the
+ * note at the top of typography.module.css before inventing a step-down here.
  */
 @media (max-width: 1080px) {
   :root {
     --layout-gutter: var(--space-10);
     --section-padding-block: var(--space-10);
-
-    /* Typescale/h1 — Mobile mode */
-    --font-size-h1: 40px;
-    --line-height-h1: 56px;
-    /* Typescale/h2 — Mobile mode */
-    --font-size-h2: 32px;
-    --line-height-h2: 48px;
   }
 }
 

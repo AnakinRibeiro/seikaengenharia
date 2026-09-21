@@ -41,7 +41,7 @@
 }
 
 .title {
-  composes: cardTitle from '../../styles/typography.module.css';
+  composes: bodyLarge from '../../styles/typography.module.css';
   color: var(--color-text-primary);
 }
 
@@ -50,18 +50,20 @@
  * three 24px lines so every card in a row lines up.
  */
 .description {
-  composes: cardText from '../../styles/typography.module.css';
+  composes: bodyBody from '../../styles/typography.module.css';
   color: var(--color-text-secondary);
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   line-clamp: 3;
   overflow: hidden;
-  height: calc(3 * var(--font-size-body-small) * var(--line-height-body));
+  height: calc(3 * var(--font-size-body) * var(--line-height-body));
 }
 
+/* body/body at Bold — 16px, the same size as the description above it. */
 .link {
-  composes: cardTextStrong from '../../styles/typography.module.css';
+  composes: bodyBody from '../../styles/typography.module.css';
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-highlight);
   margin-top: auto;
   transition: color var(--duration-fast) var(--easing-standard);

@@ -17,7 +17,7 @@
  * on .identity keeps the names level across the row.
  */
 .quote {
-  composes: cardText from '../../styles/typography.module.css';
+  composes: bodyBody from '../../styles/typography.module.css';
   color: var(--color-text-primary);
   margin: 0;
 }
@@ -34,13 +34,16 @@
 }
 
 .name {
-  composes: sectionParagraphStrong from '../../styles/typography.module.css';
+  composes: bodyLarge from '../../styles/typography.module.css';
   color: var(--color-text-primary);
   white-space: nowrap;
 }
 
+/* body/large at Regular. The pair is one 18px block in Figma, the weight is
+   the only thing separating the name from the service under it. */
 .service {
-  composes: sectionParagraph from '../../styles/typography.module.css';
+  composes: bodyLarge from '../../styles/typography.module.css';
+  font-weight: var(--font-weight-regular);
   color: var(--color-text-secondary);
   white-space: nowrap;
 }

@@ -23,11 +23,11 @@
 }
 
 .title {
-  composes: cardTitle from '../../styles/typography.module.css';
+  composes: bodyLarge from '../../styles/typography.module.css';
   color: var(--color-text-primary);
 }
 
 .description {
-  composes: cardText from '../../styles/typography.module.css';
+  composes: bodyBody from '../../styles/typography.module.css';
   color: var(--color-text-secondary);
 }

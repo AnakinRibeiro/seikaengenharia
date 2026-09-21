@@ -137,7 +137,8 @@
  * callers building and roughly where they are today — none of them is a
  * decision about which of the eleven real styles that text should end up in.
  *
- * Migrated so far: Hero, Header, Label, Button, Logo.
+ * Migrated so far: Hero, Header, Label, Button, Logo, FAQ Accordion,
+ * Bento Card, Service Card, Testimonial Card.
  *
  * Migration is one pass per component: pick the right heading or body class
  * from above, repoint the `composes:`, and delete the alias. The file is
@@ -165,11 +166,6 @@
   font-weight: var(--font-weight-bold);
 }
 
-/* was 16/28 SemiBold */
-.cardTitle {
-  composes: bodyLarge;
-}
-
 /* was 14/24 Regular */
 .cardText {
   composes: bodyBody;
@@ -179,9 +175,4 @@
 .cardTextStrong {
   composes: bodyBody;
   font-weight: var(--font-weight-semibold);
-}
-
-/* was 16/28 SemiBold */
-.footerTitle {
-  composes: bodyLarge;
 }

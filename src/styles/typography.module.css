@@ -2,32 +2,32 @@
  * The Figma text styles, one class each — nothing extrapolated.
  * https://www.figma.com/design/KN7BwGxSYDf2NRMFSYTAOa/Seika?node-id=427-359
  *
- * The library publishes exactly ten styles. Every piece of text on the site
- * is one of them:
+ * The library publishes eleven styles. Every piece of text on the site is
+ * one of them:
  *
- *   heading/h1   64px  Bold      120%  -3%
- *   heading/h2   56px  Bold      120%  -3%
- *   heading/h3   48px  Bold      120%  -3%
- *   heading/h4   40px  SemiBold  120%   0
- *   heading/h5   32px  SemiBold  120%   0
- *   heading/h6   24px  SemiBold  120%   0
- *   body/large   18px  SemiBold  150%   0
- *   body/body    16px  Regular   150%   0
- *   body/small   14px  Regular   150%   0   (uppercase)
- *   body/legal   12px  Regular   150%   0
+ *   heading/h1             64px  Bold      120%  -3%
+ *   heading/h2             56px  Bold      120%  -3%
+ *   heading/h3             48px  Bold      120%  -3%
+ *   heading/h4             40px  SemiBold  120%   0
+ *   heading/h5             32px  SemiBold  120%   0
+ *   heading/h6             24px  SemiBold  120%   0
+ *   body/large             18px  SemiBold  150%   0
+ *   body/body              16px  Regular   150%   0
+ *   body/small             14px  Regular   150%   0
+ *   body/small-uppercase   14px  Regular   150%   0  (uppercase)
+ *   body/legal             12px  Regular   150%   0
  *
  * Components pull these in with `composes` so a text style is defined in
  * exactly one place:
  *
  *   .title { composes: headingH5 from '@styles/typography.module.css'; }
  *
- * Two things the library does NOT give us, so nothing here invents them:
- *
- * 1. No responsive modes. These are text styles, not variables with Desktop
- *    and Mobile modes, so h1 is 64px at every viewport width.
- * 2. No 14px style that isn't uppercase — body/small-uppercase is the only
- *    style at that size. Body copy that needs to stay sentence-case has to
- *    pick body/body or body/legal instead.
+ * The styles have no responsive modes: heading/h1 is 64px at every width.
+ * Where a frame gets smaller on mobile it is because the design swaps to a
+ * *different* style — the Hero title is heading/h1 on desktop and heading/h3
+ * on mobile. So responsive type lives in the component's media query, as a
+ * deliberate switch between two named styles, never as a token that quietly
+ * changes value underneath one.
  */
 
 /* ── heading/* ──────────────────────────────────────────────────────── */
@@ -101,8 +101,16 @@
   letter-spacing: var(--letter-spacing-none);
 }
 
-/* body/small-uppercase. The uppercasing is part of the style in Figma, which
-   is why there is no sentence-case variant to compose instead. */
+.bodySmall {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body-small);
+  line-height: var(--line-height-body);
+  letter-spacing: var(--letter-spacing-none);
+}
+
+/* Same metrics as body/small; the uppercasing is what makes it its own style
+   in the library, so it stays baked in here rather than set at the callsite. */
 .bodySmallUppercase {
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-regular);
@@ -124,39 +132,19 @@
  * LEGACY — temporary scaffolding, delete as components are migrated.
  *
  * The previous library had a style per usage site (heroTitle, cardText,
- * buttonText, ...). Those names are gone from Figma, but ~40 `composes:`
- * references still point at them. Each alias below keeps its callers
+ * buttonText, ...). Those names are gone from Figma, and the remaining
+ * `composes:` references below still point at them. Each alias below keeps its callers
  * building and roughly where they are today; none of them is a decision
- * about which of the ten real styles that text should end up in.
+ * about which of the eleven real styles that text should end up in.
  *
  * Migration is one pass per component: pick the right heading or body class
  * from above, repoint the `composes:`, and delete the alias. The file is
  * done when this whole block is gone.
  * ──────────────────────────────────────────────────────────────────── */
 
-/* was 48/64 Bold — h3 is the only 48px Bold style left */
-.heroTitle {
-  composes: headingH3;
-}
-
 /* was 40/56 Bold — h4 is 40px but SemiBold; h3/h5 are the Bold neighbours */
 .sectionHeader {
   composes: headingH4;
-}
-
-/* was 16/28 SemiBold */
-.heroText {
-  composes: bodyLarge;
-}
-
-/* was 14/24 Regular */
-.heroSubtitle {
-  composes: bodyBody;
-}
-
-/* was 12/20 SemiBold uppercase */
-.heroLabel {
-  composes: bodySmallUppercase;
 }
 
 /* was 14/24 Bold uppercase */
@@ -200,13 +188,6 @@
 .navbarItem {
   composes: bodyBody;
   font-weight: var(--font-weight-semibold);
-}
-
-/* was 16/16 SemiBold — line-height pinned to the font size */
-.buttonText {
-  composes: bodyBody;
-  font-weight: var(--font-weight-semibold);
-  line-height: 1;
 }
 
 /* was 14/14 SemiBold */

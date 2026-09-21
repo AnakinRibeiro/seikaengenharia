@@ -72,16 +72,21 @@
 }
 
 /*
+ * heading/h1 on desktop, heading/h3 on mobile — the design swaps the style
+ * rather than scaling one, and the step-down lives in the media query at the
+ * bottom of this file.
+ *
  * Figma hard-codes the line breaks. These max-widths reproduce the same three
  * and three-line wraps while still reflowing on narrow viewports.
  */
 .title {
-  composes: heroTitle from '../../styles/typography.module.css';
+  composes: headingH1 from '../../styles/typography.module.css';
   color: var(--color-text-on-color-primary);
   /*
    * Figma breaks this greedily over three lines. The reset balances headings,
-   * which moves a word, so opt this one back into normal wrapping. Measured
-   * window for the designed break is 638-716px; 25ch sits in the middle.
+   * which moves a word, so opt this one back into normal wrapping. `ch` is
+   * relative to the font size, so 25ch tracks the h1 -> h3 swap and lands in
+   * the middle of the designed break window at both sizes.
    */
   text-wrap: wrap;
   max-width: 25ch;
@@ -92,7 +97,7 @@
 }
 
 .subtitle {
-  composes: heroText from '../../styles/typography.module.css';
+  composes: bodyBody from '../../styles/typography.module.css';
   color: var(--color-text-on-color-secondary);
   max-width: 62ch;
 }
@@ -108,7 +113,7 @@
  * is only ~1.6ch wide, which any font-metric shift would flip.
  */
 .footnote {
-  composes: heroSubtitle from '../../styles/typography.module.css';
+  composes: bodySmall from '../../styles/typography.module.css';
   color: var(--color-text-on-color-secondary);
 }
 
@@ -145,6 +150,12 @@
   .hero {
     padding-block: calc(var(--header-height-mobile) + var(--space-10))
       var(--space-10);
+  }
+
+  /* heading/h1 -> heading/h3. Same weight, line-height and tracking, so the
+     size is the only thing that differs between the two styles. */
+  .title {
+    font-size: var(--font-size-h3);
   }
 
   .title,

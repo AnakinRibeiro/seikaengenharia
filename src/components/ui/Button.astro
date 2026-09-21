@@ -27,9 +27,13 @@ const {
 } = Astro.props;
 
 /*
- * Figma quirk, reproduced deliberately: Size=Small + Model=Secondary uses the
- * 16px "Button text" style rather than the 14px "Button text small", which is
- * why that variant measures 40px tall instead of the small primary's 38px.
+ * Size=Large is body/large (18/150% SemiBold) in the Figma button component —
+ * verified against the Hero, which is the only frame migrated so far.
+ *
+ * Size=Small is NOT yet verified against the new library; it keeps the old
+ * `buttonTextSmall` alias until a frame that uses it is migrated. The quirk it
+ * encodes — Small + Secondary borrowing the larger text style — came from the
+ * previous library and should be re-checked at the same time.
  */
 const usesLargeText = size === 'large' || model === 'secondary';
 
@@ -37,7 +41,7 @@ const classList = [
   styles.button,
   styles[model],
   styles[size],
-  usesLargeText ? typography.buttonText : typography.buttonTextSmall,
+  usesLargeText ? typography.bodyLarge : typography.buttonTextSmall,
   fullWidth && styles.fullWidth,
   className,
 ]

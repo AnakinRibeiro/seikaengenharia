@@ -37,7 +37,7 @@ const colors = [
 ];
 
 /**
- * The ten Figma text styles, in library order. This list IS the type system —
+ * The eleven Figma text styles, in library order. This list IS the type system —
  * if a style isn't here, it doesn't exist. Specs are size / line-height /
  * weight / letter-spacing, and none of them step down on mobile.
  */
@@ -50,7 +50,12 @@ const textStyles: [label: string, spec: string, className: string][] = [
   ['heading/h6', '24 · 120% · 600 · 0', typography.headingH6],
   ['body/large', '18 · 150% · 600 · 0', typography.bodyLarge],
   ['body/body', '16 · 150% · 400 · 0', typography.bodyBody],
-  ['body/small', '14 · 150% · 400 · 0 · uppercase', typography.bodySmallUppercase],
+  ['body/small', '14 · 150% · 400 · 0', typography.bodySmall],
+  [
+    'body/small-uppercase',
+    '14 · 150% · 400 · 0',
+    typography.bodySmallUppercase,
+  ],
   ['body/legal', '12 · 150% · 400 · 0', typography.bodyLegal],
 ];
 ---

@@ -11,7 +11,10 @@
   border-radius: var(--radius-full);
   background-color: var(--color-fill-glass);
   color: var(--color-text-on-color-primary);
-  composes: heroLabel from '../../styles/typography.module.css';
+  /* body/small-uppercase, overridden to Bold: the pill is the one place the
+     library draws that style at 700 rather than its own 400. */
+  composes: bodySmallUppercase from '../../styles/typography.module.css';
+  font-weight: var(--font-weight-bold);
 }
 
 /* The icon keeps the brand colour while the text stays white. */

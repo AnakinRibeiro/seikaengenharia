@@ -13,15 +13,16 @@ const ctaLabel = 'Simular minha economia';
 ---
 
 <section class={styles.section} id="energia-solar">
-  <Container class={styles.container}>
+  <Container grid class={styles.container}>
     <div class={styles.mainContent} data-reveal>
       <div class={styles.header}>
         <SectionLabel icon="sun-lucide">Energia solar em residências</SectionLabel>
         <div class={styles.headerRow}>
+          {/* Figma breaks after "fontes" on both frames. */}
           <h2 class={styles.title}>
-            Transformando casas em fontes de energia limpa e renovável
+            Transformando casas em fontes <br />de energia limpa e renovável
           </h2>
-          <Button {...simulationCtaLink} size="small" class={styles.headerCta}>
+          <Button {...simulationCtaLink} class={styles.headerCta}>
             {ctaLabel}
           </Button>
         </div>
@@ -75,7 +76,7 @@ const ctaLabel = 'Simular minha economia';
           description={bentoItems[4].description}
         />
       </div>
-      <Button {...simulationCtaLink} size="small" class={styles.mobileCta}>
+      <Button {...simulationCtaLink} class={styles.mobileCta}>
         {ctaLabel}
       </Button>
     </div>

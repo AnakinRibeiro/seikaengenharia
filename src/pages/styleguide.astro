@@ -36,27 +36,27 @@ const colors = [
   ['border/primary', '--color-border-primary'],
 ];
 
-/** Headings. Specs are Desktop / Mobile, from the Figma variable modes. */
-const headingStyles: [label: string, spec: string, className: string][] = [
-  ['Hero title · h1', '48/64 → 40/56 · 700', typography.heroTitle],
-  ['Section header · h2', '40/56 → 32/48 · 700', typography.sectionHeader],
-  ['Card title', '16/28 · 600', typography.cardTitle],
-];
-
-const textStyles: [label: string, className: string][] = [
-  ['Hero label', typography.heroLabel],
-  ['Hero text', typography.heroText],
-  ['Hero subtitle', typography.heroSubtitle],
-  ['Section label', typography.sectionLabel],
-  ['Section paragraph', typography.sectionParagraph],
-  ['Section paragraph strong', typography.sectionParagraphStrong],
-  ['Card title', typography.cardTitle],
-  ['Card text', typography.cardText],
-  ['Card text strong', typography.cardTextStrong],
-  ['Footer title', typography.footerTitle],
-  ['Navbar item', typography.navbarItem],
-  ['Button text', typography.buttonText],
-  ['Button text small', typography.buttonTextSmall],
+/**
+ * The eleven Figma text styles, in library order. This list IS the type system —
+ * if a style isn't here, it doesn't exist. Specs are size / line-height /
+ * weight / letter-spacing, and none of them step down on mobile.
+ */
+const textStyles: [label: string, spec: string, className: string][] = [
+  ['heading/h1', '64 · 120% · 700 · -3%', typography.headingH1],
+  ['heading/h2', '56 · 120% · 700 · -3%', typography.headingH2],
+  ['heading/h3', '48 · 120% · 700 · -3%', typography.headingH3],
+  ['heading/h4', '40 · 120% · 700 · 0', typography.headingH4],
+  ['heading/h5', '32 · 120% · 600 · 0', typography.headingH5],
+  ['heading/h6', '24 · 120% · 600 · 0', typography.headingH6],
+  ['body/large', '18 · 150% · 600 · 0', typography.bodyLarge],
+  ['body/body', '16 · 150% · 400 · 0', typography.bodyBody],
+  ['body/small', '14 · 150% · 400 · 0', typography.bodySmall],
+  [
+    'body/small-uppercase',
+    '14 · 150% · 400 · 0',
+    typography.bodySmallUppercase,
+  ],
+  ['body/legal', '12 · 150% · 400 · 0', typography.bodyLegal],
 ];
 ---
 
@@ -79,31 +79,15 @@ const textStyles: [label: string, className: string][] = [
     </section>
 
     <section>
-      <h2 class="h2">Títulos</h2>
+      <h2 class="h2">Tipografia</h2>
       <div class="stack">
         {
-          headingStyles.map(([name, spec, cls]) => (
+          textStyles.map(([name, spec, cls]) => (
             <div>
               <code class="tag">
                 {name} — {spec}
               </code>
-              <p class={cls}>Energia solar que se paga</p>
-            </div>
-          ))
-        }
-      </div>
-    </section>
-
-    <section>
-      <h2 class="h2">Tipografia</h2>
-      <div class="stack">
-        {
-          textStyles.map(([name, cls]) => (
-            <div>
-              <code class="tag">{name}</code>
-              <p class={cls}>
-                Energia solar para residências e empresas — 0123456789
-              </p>
+              <p class={cls}>Energia solar que se paga — 0123456789</p>
             </div>
           ))
         }
@@ -135,12 +119,10 @@ const textStyles: [label: string, className: string][] = [
     <section>
       <h2 class="h2">Button</h2>
       <div class="row">
-        <Button size="large">Value</Button>
-        <Button size="small">Value</Button>
+        <Button>Value</Button>
       </div>
       <div class="row onDark">
-        <Button size="large" model="secondary">Value</Button>
-        <Button size="small" model="secondary">Value</Button>
+        <Button model="secondary">Value</Button>
       </div>
     </section>
 
@@ -269,12 +251,12 @@ const textStyles: [label: string, className: string][] = [
   }
   .h1 {
     font-size: var(--font-size-h1);
-    line-height: var(--line-height-h1);
+    line-height: var(--line-height-heading);
     font-weight: var(--font-weight-bold);
   }
   .h2 {
     font-size: var(--font-size-h2);
-    line-height: var(--line-height-h2);
+    line-height: var(--line-height-heading);
     font-weight: var(--font-weight-bold);
     margin-bottom: var(--space-6);
     padding-bottom: var(--space-2);
@@ -335,7 +317,7 @@ const textStyles: [label: string, className: string][] = [
   .tag {
     display: block;
     margin-top: var(--space-2);
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-body-legal);
     color: var(--color-text-secondary);
     font-family: ui-monospace, monospace;
   }

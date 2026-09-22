@@ -13,3 +13,17 @@
 .wide {
   max-width: none;
 }
+
+/*
+ * The Figma grid column (Grid - Web, 1136px with 152px margins at 1440).
+ * Sections move onto this one at a time; once they all have, it becomes the
+ * default above and the 1200px column goes.
+ *
+ * Below 721px the mobile frames pad 24px and run the column fluid rather than
+ * centring Grid - Mobile's fixed 338px, so the cap only applies above it.
+ */
+@media (min-width: 721px) {
+  .grid {
+    max-width: calc(var(--grid-content-width) + var(--layout-gutter) * 2);
+  }
+}

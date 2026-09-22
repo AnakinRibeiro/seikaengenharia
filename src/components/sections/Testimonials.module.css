@@ -1,15 +1,14 @@
 .section {
   background-color: var(--color-background-primary);
   padding-block: var(--section-padding-block);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
+/* Left-aligned on desktop; the mobile frame centres the header (see the
+   media query below). */
 .container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-8);
   width: 100%;
 }
@@ -17,13 +16,13 @@
 .header {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-2);
-  text-align: center;
 }
 
+/* heading/h3 on desktop, heading/h4 on mobile. */
 .title {
-  composes: sectionHeader from '../../styles/typography.module.css';
+  composes: headingH3 from '../../styles/typography.module.css';
   color: var(--color-text-primary);
 }
 
@@ -39,5 +38,23 @@
   .grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1080px) {
+  .container,
+  .header {
+    align-items: center;
+  }
+
+  .header {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* heading/h3 -> heading/h4: 40px, and letter-spacing back to 0. */
+  .title {
+    font-size: var(--font-size-h4);
+    letter-spacing: var(--letter-spacing-none);
   }
 }

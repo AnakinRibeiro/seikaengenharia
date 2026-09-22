@@ -27,8 +27,9 @@
   text-align: center;
 }
 
+/* heading/h3 on desktop, heading/h4 on mobile (see the media query below). */
 .title {
-  composes: sectionHeader from '../../styles/typography.module.css';
+  composes: headingH3 from '../../styles/typography.module.css';
   color: var(--color-text-primary);
 }
 
@@ -46,4 +47,12 @@
  */
 .paragraph + .paragraph {
   margin-top: var(--space-3);
+}
+
+@media (max-width: 1080px) {
+  /* heading/h3 -> heading/h4: 40px, and letter-spacing back to 0. */
+  .title {
+    font-size: var(--font-size-h4);
+    letter-spacing: var(--letter-spacing-none);
+  }
 }

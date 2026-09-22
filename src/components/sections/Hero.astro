@@ -25,25 +25,29 @@ import styles from './Hero.module.css';
 
   {/* The hero cascades in on load. Indexes are the reading order, not the DOM
       order, so the wrapper below can stay purely structural. */}
-  <Container class={styles.container}>
+  <Container grid class={styles.container}>
     <div class={styles.copy}>
-      <Label icon="sun" data-intro style="--intro-index: 0"
-        >Transformando sol e economia</Label
-      >
-
-      <div class={styles.content}>
-        <h1 class={styles.title} data-intro style="--intro-index: 1">
-          Energia solar e engenharia elétrica para <span class={styles.highlight}
-            >reduzir sua conta de luz</span
+      <div class={styles.intro}>
+        <div class={styles.heading}>
+          <Label icon="sun" data-intro style="--intro-index: 0"
+            >Transformando sol e economia</Label
           >
-        </h1>
+
+          <h1 class={styles.title} data-intro style="--intro-index: 1">
+            Energia solar e engenharia elétrica para <span
+              class={styles.highlight}>reduzir sua conta de luz</span
+            >
+          </h1>
+        </div>
 
         <p class={styles.subtitle} data-intro style="--intro-index: 2">
           Projetos e soluções em engenharia elétrica para residências e
           empresas. Do dimensionamento à homologação, com economia comprovada na
           primeira fatura.
         </p>
+      </div>
 
+      <div class={styles.cta}>
         <div class={styles.actions} data-intro style="--intro-index: 3">
           <Button {...simulationCtaLink}>Simular minha economia</Button>
           <Button href="#servicos" model="secondary"

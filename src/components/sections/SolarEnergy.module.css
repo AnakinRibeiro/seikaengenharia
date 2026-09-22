@@ -33,15 +33,16 @@
   width: 100%;
 }
 
+/* heading/h3 on desktop, heading/h4 on mobile (see the media query below). */
 .title {
-  composes: sectionHeader from '../../styles/typography.module.css';
+  composes: headingH3 from '../../styles/typography.module.css';
   color: var(--color-text-primary);
   flex: 1 0 0;
   min-width: 0;
 }
 
 .paragraph {
-  composes: sectionParagraph from '../../styles/typography.module.css';
+  composes: bodyBody from '../../styles/typography.module.css';
   color: var(--color-text-secondary);
   width: 100%;
 }
@@ -110,12 +111,11 @@
   }
 
   /*
-   * Figma fixes these at literal pixel widths for the 1200px container
-   * (440/346/382 and 353/275/540). Figma has no tablet mode and the Bento
-   * Card is documented as fill-width by design, so between 1081px and the
-   * 1440px frame the ratio is preserved with flex-grow/basis:0 rather than
-   * the literal px — this reproduces the exact Figma widths at 1200px while
-   * scaling proportionally instead of overflowing at narrower desktop sizes.
+   * Figma fixes the first two tiles of each row at literal widths and lets
+   * the third fill the rest of the 1136px grid column: 440/346/318 and
+   * 353/275/476. The Bento Card is documented as fill-width, so the widths
+   * are kept as flex ratios instead — exact at 1136px, and scaling rather
+   * than overflowing between 1081px and the 1440px frame.
    */
   .row:first-child > :nth-child(1) {
     flex: 440 1 0;
@@ -124,7 +124,7 @@
     flex: 346 1 0;
   }
   .row:first-child > :nth-child(3) {
-    flex: 382 1 0;
+    flex: 318 1 0;
   }
   .row:last-child > :nth-child(1) {
     flex: 353 1 0;
@@ -133,10 +133,18 @@
     flex: 275 1 0;
   }
   .row:last-child > :nth-child(3) {
-    flex: 540 1 0;
+    flex: 476 1 0;
   }
 
   .photoTile {
     width: auto;
+  }
+}
+
+@media (max-width: 1080px) {
+  /* heading/h3 -> heading/h4: 40px, and letter-spacing back to 0. */
+  .title {
+    font-size: var(--font-size-h4);
+    letter-spacing: var(--letter-spacing-none);
   }
 }

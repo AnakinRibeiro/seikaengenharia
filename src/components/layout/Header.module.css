@@ -38,9 +38,9 @@
   flex-shrink: 0;
 }
 
-/* Medium (152px) by default, Small (120px) once scrolled. */
+/* Medium (144px) by default, Small (120px) once scrolled. */
 .logo {
-  width: 152px;
+  width: 144px;
   height: auto;
   transition: width var(--duration-base) var(--easing-standard);
 }
@@ -64,8 +64,10 @@
   gap: var(--space-8);
 }
 
+/* body/body drawn at Bold — the same weight override the Label pill uses. */
 .navLink {
-  composes: navbarItem from '../../styles/typography.module.css';
+  composes: bodyBody from '../../styles/typography.module.css';
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-on-color-primary);
   white-space: nowrap;
   transition: color var(--duration-fast) var(--easing-standard);

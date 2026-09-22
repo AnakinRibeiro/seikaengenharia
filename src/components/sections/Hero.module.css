@@ -1,6 +1,6 @@
 /**
  * Hero — the transparent header sits over the top of this section, so the
- * top padding has to clear it (192px desktop, header height + 48px mobile,
+ * top padding has to clear it (192px desktop, header height + 80px mobile,
  * where the header is opaque and paints over the photo).
  */
 .hero {
@@ -55,7 +55,28 @@
   gap: var(--space-10);
 }
 
+/*
+ * The Content frame's nesting, gap for gap: Label and title 16px apart, the
+ * subtitle 24px under them, then 40px down to the buttons, which sit 16px
+ * above the footnote.
+ */
 .copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-9);
+  width: 100%;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-6);
+  width: 100%;
+}
+
+.heading {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -63,25 +84,29 @@
   width: 100%;
 }
 
-.content {
+.cta {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-5);
-  width: 100%;
+  gap: var(--space-4);
 }
 
 /*
+ * heading/h1 on desktop, heading/h3 on mobile — the design swaps the style
+ * rather than scaling one, and the step-down lives in the media query at the
+ * bottom of this file.
+ *
  * Figma hard-codes the line breaks. These max-widths reproduce the same three
  * and three-line wraps while still reflowing on narrow viewports.
  */
 .title {
-  composes: heroTitle from '../../styles/typography.module.css';
+  composes: headingH1 from '../../styles/typography.module.css';
   color: var(--color-text-on-color-primary);
   /*
    * Figma breaks this greedily over three lines. The reset balances headings,
-   * which moves a word, so opt this one back into normal wrapping. Measured
-   * window for the designed break is 638-716px; 25ch sits in the middle.
+   * which moves a word, so opt this one back into normal wrapping. `ch` is
+   * relative to the font size, so 25ch tracks the h1 -> h3 swap and lands in
+   * the middle of the designed break window at both sizes.
    */
   text-wrap: wrap;
   max-width: 25ch;
@@ -92,7 +117,7 @@
 }
 
 .subtitle {
-  composes: heroText from '../../styles/typography.module.css';
+  composes: bodyBody from '../../styles/typography.module.css';
   color: var(--color-text-on-color-secondary);
   max-width: 62ch;
 }
@@ -108,7 +133,7 @@
  * is only ~1.6ch wide, which any font-metric shift would flip.
  */
 .footnote {
-  composes: heroSubtitle from '../../styles/typography.module.css';
+  composes: bodySmall from '../../styles/typography.module.css';
   color: var(--color-text-on-color-secondary);
 }
 
@@ -143,8 +168,14 @@
 
 @media (max-width: 1080px) {
   .hero {
-    padding-block: calc(var(--header-height-mobile) + var(--space-10))
-      var(--space-10);
+    padding-block: calc(var(--header-height-mobile) + var(--space-14))
+      var(--space-14);
+  }
+
+  /* heading/h1 -> heading/h3. Same weight, line-height and tracking, so the
+     size is the only thing that differs between the two styles. */
+  .title {
+    font-size: var(--font-size-h3);
   }
 
   .title,
@@ -159,6 +190,10 @@
   }
 
   /* Both buttons go full width and stack. */
+  .cta {
+    width: 100%;
+  }
+
   .actions {
     flex-direction: column;
     align-items: stretch;

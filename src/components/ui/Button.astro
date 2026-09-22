@@ -4,11 +4,9 @@ import styles from './Button.module.css';
 import typography from '../../styles/typography.module.css';
 
 export type ButtonModel = 'primary' | 'secondary';
-export type ButtonSize = 'large' | 'small';
 
 type Props = {
   model?: ButtonModel;
-  size?: ButtonSize;
   /** Renders an <a> instead of a <button>. */
   href?: string;
   fullWidth?: boolean;
@@ -18,7 +16,6 @@ type Props = {
 
 const {
   model = 'primary',
-  size = 'large',
   href,
   fullWidth = false,
   class: className,
@@ -27,17 +24,13 @@ const {
 } = Astro.props;
 
 /*
- * Figma quirk, reproduced deliberately: Size=Small + Model=Secondary uses the
- * 16px "Button text" style rather than the 14px "Button text small", which is
- * why that variant measures 40px tall instead of the small primary's 38px.
+ * One size in the component set — Primary and Secondary differ in fill and
+ * border only, and both use body/large.
  */
-const usesLargeText = size === 'large' || model === 'secondary';
-
 const classList = [
   styles.button,
   styles[model],
-  styles[size],
-  usesLargeText ? typography.buttonText : typography.buttonTextSmall,
+  typography.bodyLarge,
   fullWidth && styles.fullWidth,
   className,
 ]

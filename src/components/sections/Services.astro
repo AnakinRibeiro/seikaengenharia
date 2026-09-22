@@ -11,7 +11,7 @@ const ctaLabel = 'Entrar em contato';
 ---
 
 <section class={styles.section} id="servicos">
-  <Container class={styles.container}>
+  <Container grid class={styles.container}>
     <div class={styles.header} data-reveal>
       <div class={styles.title}>
         <SectionLabel icon="toolbox">Nossos serviços</SectionLabel>
@@ -19,7 +19,7 @@ const ctaLabel = 'Entrar em contato';
           <h2 class={styles.heading}>
             Engenharia elétrica do <br class={styles.desktopBreak} aria-hidden="true" />projeto ao laudo
           </h2>
-          <Button {...contactCtaLink} size="small" class={styles.headerCta}>
+          <Button {...contactCtaLink} class={styles.headerCta}>
             {ctaLabel}
           </Button>
         </div>
@@ -44,10 +44,10 @@ const ctaLabel = 'Entrar em contato';
           />
         ))
       }
+      {/* Last item of the grid in the mobile frame, 16px under the cards. */}
+      <Button {...contactCtaLink} class={styles.mobileCta}>
+        {ctaLabel}
+      </Button>
     </div>
-
-    <Button {...contactCtaLink} size="small" class={styles.mobileCta}>
-      {ctaLabel}
-    </Button>
   </Container>
 </section>

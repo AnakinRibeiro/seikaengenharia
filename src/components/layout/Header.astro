@@ -15,7 +15,7 @@ const { currentPath } = Astro.props;
 ---
 
 <header class={styles.header} data-scrolled="false" data-site-header>
-  <Container class={styles.inner}>
+  <Container grid class={styles.inner}>
     <a class={styles.logoLink} href="/" aria-label="Seika Engenharia — ir para o início">
       <Logo size="medium" alt="" class={styles.logo} />
     </a>
@@ -50,7 +50,6 @@ const { currentPath } = Astro.props;
         target={contactCta.target}
         rel={contactCta.rel}
         model="primary"
-        size="small"
         class={styles.cta}
       >
         {contactCta.label}

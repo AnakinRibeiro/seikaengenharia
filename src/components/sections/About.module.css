@@ -42,20 +42,20 @@
   width: 100%;
 }
 
+/* heading/h3 on desktop, heading/h4 on mobile (see the media query below). */
 .title {
-  composes: sectionHeader from '../../styles/typography.module.css';
+  composes: headingH3 from '../../styles/typography.module.css';
   color: var(--color-text-primary);
   width: 100%;
 }
 
 .paragraph {
-  composes: sectionParagraph from '../../styles/typography.module.css';
+  composes: bodyBody from '../../styles/typography.module.css';
   color: var(--color-text-secondary);
   width: 100%;
 }
 
-/* Section paragraph strong is the same 16/28 as Section paragraph, so only
-   the weight changes — no need to re-declare size/line-height/color. */
+/* body/body at Bold — only the weight changes. */
 .paragraph strong {
   font-weight: var(--font-weight-bold);
 }
@@ -69,7 +69,7 @@
 }
 
 .listTitle {
-  composes: sectionParagraphStrong from '../../styles/typography.module.css';
+  composes: bodyLarge from '../../styles/typography.module.css';
   color: var(--color-text-primary);
 }
 
@@ -101,7 +101,7 @@
 }
 
 .itemText {
-  composes: sectionParagraphStrong from '../../styles/typography.module.css';
+  composes: bodyLarge from '../../styles/typography.module.css';
   color: var(--color-text-primary);
 }
 
@@ -129,10 +129,10 @@
   /*
    * Figma lays these out as fixed 224px columns with a 24px gutter, not a
    * stretched two-column grid — reproduced with minmax(0, 224px) rather than
-   * a flat 224px so the pair sits left-aligned with room to spare at 1200px
-   * (matching the design) but shrinks together instead of overflowing once
-   * the fixed 512px image leaves less than 472px for the content column
-   * (true from 1081px up to roughly 1250px).
+   * a flat 224px so the pair sits left-aligned with room to spare in the
+   * 1136px column (matching the design) but shrinks together instead of
+   * overflowing once the fixed 512px image leaves less than 472px for the
+   * content column (true from 1081px up to roughly 1250px).
    */
   .items {
     grid-template-columns: repeat(2, minmax(0, 224px));
@@ -142,5 +142,13 @@
 
   .cta {
     width: auto;
+  }
+}
+
+@media (max-width: 1080px) {
+  /* heading/h3 -> heading/h4: 40px, and letter-spacing back to 0. */
+  .title {
+    font-size: var(--font-size-h4);
+    letter-spacing: var(--letter-spacing-none);
   }
 }

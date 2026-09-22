@@ -30,8 +30,9 @@
   text-align: center;
 }
 
+/* heading/h3 on desktop, heading/h4 on mobile (see the media query below). */
 .title {
-  composes: sectionHeader from '../../styles/typography.module.css';
+  composes: headingH3 from '../../styles/typography.module.css';
   color: var(--color-text-primary);
 }
 
@@ -124,7 +125,28 @@
   inset-inline-end: var(--space-6);
 }
 
+@media (max-width: 1080px) {
+  /* heading/h3 -> heading/h4: 40px, and letter-spacing back to 0. */
+  .title {
+    font-size: var(--font-size-h4);
+    letter-spacing: var(--letter-spacing-none);
+  }
+}
+
 @media (max-width: 720px) {
+  /*
+   * The mobile frame swaps the squares for tall 327x600 slides, one centred
+   * on screen with its neighbours peeking in on either side. The padding is
+   * the peek, and 100% resolves against the padded box, so a slide is the
+   * band minus 32px a side — 326px on the 390 frame.
+   */
+  .scroller {
+    --slide-size: 100%;
+    --slide-height: 600px;
+    padding-inline: var(--space-8);
+    scroll-padding-inline: var(--space-8);
+  }
+
   .arrow {
     width: 40px;
     height: 40px;

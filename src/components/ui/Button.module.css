@@ -3,6 +3,14 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
+  /*
+   * Figma fixes the height and pads horizontally only. `min-height` rather
+   * than `height` because the two are identical under the `white-space:
+   * nowrap` below, and min-height is the one that survives a label long
+   * enough to wrap.
+   */
+  min-height: 54px;
+  padding-inline: var(--space-8);
   border-radius: var(--radius-2);
   text-align: center;
   white-space: nowrap;
@@ -53,16 +61,6 @@
     transparent
   );
   border-color: var(--color-text-on-color-primary);
-}
-
-/* ── Size · padding only; the text style is picked in Button.astro ──── */
-
-.large {
-  padding: var(--space-4) var(--space-8);
-}
-
-.small {
-  padding: var(--space-3) var(--space-6);
 }
 
 /* ── Layout modifier ────────────────────────────────────────────────── */

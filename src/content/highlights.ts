@@ -1,6 +1,6 @@
 /**
- * The four claims in the strip under the hero. Each item is Card text (14/24)
- * with select phrases in SemiBold — `strong: true` marks those segments.
+ * The four claims in the strip under the hero. Each item is body/body (16/24)
+ * with select phrases in Bold — `strong: true` marks those segments.
  */
 export interface HighlightSegment {
   text: string;
@@ -8,44 +8,36 @@ export interface HighlightSegment {
 }
 
 export interface HighlightItem {
-  /** Rendered as one flowing sentence; `break` marks where the desktop
-   *  variant forces a line break (Figma hard-codes each item to two lines
-   *  once space allows nowrap text — mobile wraps naturally instead). */
-  segments: HighlightSegment[];
-  breakBeforeIndex: number;
+  /** The two lines of the desktop variant, where Figma hard-codes each item
+   *  onto two lines. Mobile joins them into one sentence that wraps
+   *  naturally. A break can land inside a bold phrase (the fourth item), so
+   *  each line carries its own segments. */
+  lines: [HighlightSegment[], HighlightSegment[]];
 }
 
 export const highlights: HighlightItem[] = [
   {
-    segments: [
-      { text: 'Soluções técnicas em foco em ' },
-      { text: 'economia', strong: true },
-      { text: ' e ' },
-      { text: 'segurança', strong: true },
+    lines: [
+      [{ text: 'Soluções técnicas em foco' }],
+      [{ text: 'em ' }, { text: 'economia e segurança', strong: true }],
     ],
-    breakBeforeIndex: 1,
   },
   {
-    segments: [
-      { text: 'Especialização em ' },
-      { text: 'eficiência energética', strong: true },
+    lines: [
+      [{ text: 'Especialização em' }],
+      [{ text: 'eficiência energética', strong: true }],
     ],
-    breakBeforeIndex: 1,
   },
   {
-    segments: [
-      { text: 'Atendimento personalizado', strong: true },
-      { text: ' direto com o engenheiro' },
+    lines: [
+      [{ text: 'Atendimento personalizado', strong: true }],
+      [{ text: 'direto com o engenheiro' }],
     ],
-    breakBeforeIndex: 1,
   },
   {
-    segments: [
-      { text: 'Experiência em ' },
-      { text: 'projetos elétricos', strong: true },
-      { text: ' e ' },
-      { text: 'sistemas fotovoltaicos', strong: true },
+    lines: [
+      [{ text: 'Experiência em ' }, { text: 'projetos elétricos', strong: true }],
+      [{ text: 'e sistemas fotovoltaicos', strong: true }],
     ],
-    breakBeforeIndex: 2,
   },
 ];

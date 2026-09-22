@@ -28,14 +28,14 @@
 }
 
 .text {
-  composes: cardText from '../../styles/typography.module.css';
+  composes: bodyBody from '../../styles/typography.module.css';
   color: var(--color-text-primary);
   flex: 1 0 0;
   min-width: 0;
 }
 
 .text strong {
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-bold);
 }
 
 /* Mobile wraps naturally; the Figma hard break only applies on desktop. */

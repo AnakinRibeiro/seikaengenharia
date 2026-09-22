@@ -33,21 +33,22 @@
   width: 100%;
 }
 
+/* heading/h3 on desktop, heading/h4 on mobile (see the media query below). */
 .heading {
-  composes: sectionHeader from '../../styles/typography.module.css';
+  composes: headingH3 from '../../styles/typography.module.css';
   color: var(--color-text-primary);
   flex: 1 0 0;
   min-width: 0;
 }
 
 .paragraph {
-  composes: sectionParagraph from '../../styles/typography.module.css';
+  composes: bodyBody from '../../styles/typography.module.css';
   color: var(--color-text-secondary);
   width: 100%;
 }
 
-/* Figma hard-breaks the heading into two lines even though it fits on one at
-   1200px — mobile wraps naturally instead (see Hero for the same pattern). */
+/* Figma hard-breaks the heading into two lines even though it fits on one in
+   the 1136px column — mobile wraps naturally instead. */
 .desktopBreak {
   display: none;
 }
@@ -83,9 +84,19 @@
     display: inline;
   }
 
+  /* Three fill-width cards per row: 16px between columns, 24px between
+     rows. */
   .grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--space-8);
+    gap: var(--space-6) var(--space-4);
+  }
+}
+
+@media (max-width: 1080px) {
+  /* heading/h3 -> heading/h4: 40px, and letter-spacing back to 0. */
+  .heading {
+    font-size: var(--font-size-h4);
+    letter-spacing: var(--letter-spacing-none);
   }
 }

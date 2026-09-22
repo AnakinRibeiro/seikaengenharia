@@ -1,14 +1,20 @@
 /**
- * The eyebrow above every section header: a 22px icon and bold uppercase text,
+ * The eyebrow above every section header: a 22px icon and uppercase text,
  * both in the highlight colour, with no pill behind them. Distinct from
  * `Label`, which is the translucent pill used only in the hero.
+ *
+ * body/body drawn at Bold, the same weight override the nav and the Label
+ * pill use. Figma types the copy in capitals; the uppercasing lives here so
+ * the source text can stay in sentence case.
  */
 .label {
+  composes: bodyBody from '../../styles/typography.module.css';
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
   color: var(--color-text-highlight);
-  composes: sectionLabel from '../../styles/typography.module.css';
 }
 
 /* On the dark CTA band the text goes white while the icon stays gold. */

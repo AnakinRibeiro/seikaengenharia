@@ -40,22 +40,36 @@
   );
 }
 
+/* Title and paragraph travel as one 16px group, 40px above the button. */
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-8);
+  gap: var(--space-9);
   text-align: center;
 }
 
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* heading/h3 on desktop, heading/h4 on mobile (see the media query below). */
 .title {
-  composes: sectionHeader from '../../styles/typography.module.css';
+  composes: headingH3 from '../../styles/typography.module.css';
   color: var(--color-text-on-color-primary);
   max-width: 1016px;
 }
 
+/* The second half of the title, in gold on both frames. */
+.highlight {
+  color: var(--color-text-highlight);
+}
+
 .paragraph {
-  composes: sectionParagraph from '../../styles/typography.module.css';
+  composes: bodyBody from '../../styles/typography.module.css';
   color: var(--color-text-on-color-secondary);
   max-width: 700px;
 }
@@ -77,6 +91,12 @@
 }
 
 @media (max-width: 1080px) {
+  /* heading/h3 -> heading/h4: 40px, and letter-spacing back to 0. */
+  .title {
+    font-size: var(--font-size-h4);
+    letter-spacing: var(--letter-spacing-none);
+  }
+
   .cta {
     width: 100%;
   }

@@ -11,7 +11,7 @@ const ctaLabel = 'Entrar em contato';
 ---
 
 <section class={styles.section} id="servicos">
-  <Container class={styles.container}>
+  <Container grid class={styles.container}>
     <div class={styles.header} data-reveal>
       <div class={styles.title}>
         <SectionLabel icon="toolbox">Nossos serviços</SectionLabel>
@@ -44,10 +44,10 @@ const ctaLabel = 'Entrar em contato';
           />
         ))
       }
+      {/* Last item of the grid in the mobile frame, 16px under the cards. */}
+      <Button {...contactCtaLink} class={styles.mobileCta}>
+        {ctaLabel}
+      </Button>
     </div>
-
-    <Button {...contactCtaLink} class={styles.mobileCta}>
-      {ctaLabel}
-    </Button>
   </Container>
 </section>

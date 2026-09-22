@@ -19,16 +19,19 @@ import styles from './Cta.module.css';
     />
   </div>
 
-  <Container class={styles.container} data-reveal-children>
-    <h2 class={styles.title}>
-      Comece pelo mais simples: <br class={styles.desktopBreak} aria-hidden="true" />mande
-      sua conta de luz
-    </h2>
+  <Container grid class={styles.container} data-reveal-children>
+    <div class={styles.text}>
+      <h2 class={styles.title}>
+        Comece pelo mais simples: <br class={styles.desktopBreak} aria-hidden="true" /><span
+          class={styles.highlight}>mande sua conta de luz</span
+        >
+      </h2>
 
-    <p class={styles.paragraph}>
-      Uma foto da fatura pelo WhatsApp já é suficiente para sabermos quanto <br class={styles.desktopBreak} aria-hidden="true" />você
-      pode economizar. Sem compromisso, sem custo.
-    </p>
+      <p class={styles.paragraph}>
+        Uma foto da fatura pelo WhatsApp já é suficiente para sabermos quanto <br class={styles.desktopBreak} aria-hidden="true" />você
+        pode economizar. Sem compromisso, sem custo.
+      </p>
+    </div>
 
     <Button {...simulationCtaLink} class={styles.cta}>
       Simular minha economia

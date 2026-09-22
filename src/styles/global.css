@@ -3,6 +3,10 @@
  * scoped to its component.
  */
 
+/* Layer order — see typography.module.css. Declared again there, because
+   whichever stylesheet the browser meets first fixes the order. */
+@layer reset, typography;
+
 @import './tokens.css';
 @import './reset.css';
 @import './motion.css';

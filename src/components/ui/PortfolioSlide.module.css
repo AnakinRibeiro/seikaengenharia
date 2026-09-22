@@ -5,8 +5,10 @@
  */
 .slide {
   flex: none;
+  /* Square unless the band sets a height of its own (the mobile frame's
+     327x600 portrait slides — see Portfolio.module.css). */
   width: var(--slide-size);
-  aspect-ratio: 1;
+  height: var(--slide-height, var(--slide-size));
   /* An arrow press scrolls by exactly one slide width, so the snap only ever
      has to correct a hand-driven swipe. */
   scroll-snap-align: start;
@@ -25,6 +27,15 @@
  */
 .slide:last-child {
   scroll-snap-align: end;
+}
+
+/* Mobile slides are a fixed share of the band, centred between two peeking
+   neighbours, so every one of them — the last included — snaps to centre. */
+@media (max-width: 720px) {
+  .slide,
+  .slide:last-child {
+    scroll-snap-align: center;
+  }
 }
 
 .media {

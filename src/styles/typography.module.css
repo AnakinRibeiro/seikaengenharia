@@ -8,7 +8,7 @@
  *   heading/h1             64px  Bold      120%  -3%
  *   heading/h2             56px  Bold      120%  -3%
  *   heading/h3             48px  Bold      120%  -3%
- *   heading/h4             40px  SemiBold  120%   0
+ *   heading/h4             40px  Bold      120%   0
  *   heading/h5             32px  SemiBold  120%   0
  *   heading/h6             24px  SemiBold  120%   0
  *   body/large             18px  SemiBold  150%   0
@@ -28,151 +28,151 @@
  * on mobile. So responsive type lives in the component's media query, as a
  * deliberate switch between two named styles, never as a token that quietly
  * changes value underneath one.
+ *
+ * Every class lives in the `typography` cascade layer. Components compose a
+ * style and then override one property of it in the same rule — the Section
+ * Label's Bold, the h3 -> h4 swap in a media query — and both are
+ * single-class selectors, so without the layer the winner would be whichever
+ * rule the bundler happened to emit last. Unlayered component rules always
+ * beat layered ones, so the override wins regardless of order. The layer
+ * still sits above `reset`, whose `font-weight: inherit` on headings would
+ * otherwise flatten every heading class.
  */
 
-/* ── heading/* ──────────────────────────────────────────────────────── */
+@layer reset, typography;
 
-.headingH1 {
-  font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-h1);
-  line-height: var(--line-height-heading);
-  letter-spacing: var(--letter-spacing-tight);
-}
+@layer typography {
+  /* ── heading/* ──────────────────────────────────────────────────────── */
 
-.headingH2 {
-  font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-h2);
-  line-height: var(--line-height-heading);
-  letter-spacing: var(--letter-spacing-tight);
-}
+  .headingH1 {
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-h1);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-tight);
+  }
 
-.headingH3 {
-  font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-h3);
-  line-height: var(--line-height-heading);
-  letter-spacing: var(--letter-spacing-tight);
-}
+  .headingH2 {
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-h2);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-tight);
+  }
 
-/* h4 is where the scale drops to SemiBold and letter-spacing returns to 0. */
-.headingH4 {
-  font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-h4);
-  line-height: var(--line-height-heading);
-  letter-spacing: var(--letter-spacing-none);
-}
+  .headingH3 {
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-h3);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-tight);
+  }
 
-.headingH5 {
-  font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-h5);
-  line-height: var(--line-height-heading);
-  letter-spacing: var(--letter-spacing-none);
-}
+  /* h4 keeps the Bold weight but letter-spacing returns to 0; the scale drops
+     to SemiBold from h5 down. */
+  .headingH4 {
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-h4);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-none);
+  }
 
-.headingH6 {
-  font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-h6);
-  line-height: var(--line-height-heading);
-  letter-spacing: var(--letter-spacing-none);
-}
+  .headingH5 {
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-h5);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-none);
+  }
 
-/* ── body/* ─────────────────────────────────────────────────────────── */
+  .headingH6 {
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-h6);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-none);
+  }
 
-/* SemiBold, unlike every other body style. It is the lead-paragraph style,
-   not simply a larger body/body. */
-.bodyLarge {
-  font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-body-large);
-  line-height: var(--line-height-body);
-  letter-spacing: var(--letter-spacing-none);
-}
+  /* ── body/* ─────────────────────────────────────────────────────────── */
 
-.bodyBody {
-  font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-regular);
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-body);
-  letter-spacing: var(--letter-spacing-none);
-}
+  /* SemiBold, unlike every other body style. It is the lead-paragraph style,
+     not simply a larger body/body. */
+  .bodyLarge {
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-body-large);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-none);
+  }
 
-.bodySmall {
-  font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-regular);
-  font-size: var(--font-size-body-small);
-  line-height: var(--line-height-body);
-  letter-spacing: var(--letter-spacing-none);
-}
+  .bodyBody {
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-none);
+  }
 
-/* Same metrics as body/small; the uppercasing is what makes it its own style
-   in the library, so it stays baked in here rather than set at the callsite. */
-.bodySmallUppercase {
-  font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-regular);
-  font-size: var(--font-size-body-small);
-  line-height: var(--line-height-body);
-  letter-spacing: var(--letter-spacing-none);
-  text-transform: uppercase;
-}
+  .bodySmall {
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body-small);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-none);
+  }
 
-.bodyLegal {
-  font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-regular);
-  font-size: var(--font-size-body-legal);
-  line-height: var(--line-height-body);
-  letter-spacing: var(--letter-spacing-none);
-}
+  /* Same metrics as body/small; the uppercasing is what makes it its own style
+     in the library, so it stays baked in here rather than set at the callsite. */
+  .bodySmallUppercase {
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body-small);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-none);
+    text-transform: uppercase;
+  }
 
-/* ────────────────────────────────────────────────────────────────────
- * LEGACY — temporary scaffolding, delete as components are migrated.
- *
- * The previous library had a style per usage site (heroTitle, cardText,
- * buttonText, ...). Those names are gone from Figma; the aliases below are
- * what the not-yet-migrated sections still compose. Each one keeps its
- * callers building and roughly where they are today — none of them is a
- * decision about which of the eleven real styles that text should end up in.
- *
- * Migrated so far: Hero, Highlights, Header, Label, Button, Logo, FAQ Accordion,
- * Bento Card, Service Card, Testimonial Card.
- *
- * Migration is one pass per component: pick the right heading or body class
- * from above, repoint the `composes:`, and delete the alias. The file is
- * done when this whole block is gone.
- * ──────────────────────────────────────────────────────────────────── */
+  .bodyLegal {
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body-legal);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-none);
+  }
 
-/* was 40/56 Bold — h4 is 40px but SemiBold; h3/h5 are the Bold neighbours */
-.sectionHeader {
-  composes: headingH4;
-}
+  /* ────────────────────────────────────────────────────────────────────
+   * LEGACY — temporary scaffolding, delete as components are migrated.
+   *
+   * The previous library had a style per usage site (heroTitle, cardText,
+   * buttonText, ...). Those names are gone from Figma; the aliases below are
+   * what the not-yet-migrated sections still compose. Each one keeps its
+   * callers building and roughly where they are today — none of them is a
+   * decision about which of the eleven real styles that text should end up in.
+   *
+   * Migrated so far: Hero, Highlights, Solar Energy, Services, About,
+   * Testimonials, Portfolio, FAQ, CTA, Footer, Header, Label, Section Label,
+   * Button, Logo, FAQ Accordion, Bento Card, Service Card, Testimonial Card.
+   *
+   * Migration is one pass per component: pick the right heading or body class
+   * from above, repoint the `composes:`, and delete the alias. The file is
+   * done when this whole block is gone.
+   * ──────────────────────────────────────────────────────────────────── */
 
-/* was 14/24 Bold uppercase */
-.sectionLabel {
-  composes: bodySmallUppercase;
-}
+  /* was 40/56 Bold */
+  .sectionHeader {
+    composes: headingH4;
+  }
 
-/* was 16/28 Regular */
-.sectionParagraph {
-  composes: bodyBody;
-}
 
-/* was 16/28 Bold */
-.sectionParagraphStrong {
-  composes: bodyBody;
-  font-weight: var(--font-weight-bold);
-}
+  /* was 14/24 Regular */
+  .cardText {
+    composes: bodyBody;
+  }
 
-/* was 14/24 Regular */
-.cardText {
-  composes: bodyBody;
-}
-
-/* was 14/24 SemiBold */
-.cardTextStrong {
-  composes: bodyBody;
-  font-weight: var(--font-weight-semibold);
+  /* was 14/24 SemiBold */
+  .cardTextStrong {
+    composes: bodyBody;
+    font-weight: var(--font-weight-semibold);
+  }
 }

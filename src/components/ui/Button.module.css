@@ -63,6 +63,14 @@
   border-color: var(--color-text-on-color-primary);
 }
 
+/* ── Size ───────────────────────────────────────────────────────────── */
+
+/* Default is the base .button above; Small overrides the box only. */
+.small {
+  min-height: 44px;
+  padding-inline: var(--space-5);
+}
+
 /* ── Layout modifier ────────────────────────────────────────────────── */
 
 .fullWidth {

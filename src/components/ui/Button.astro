@@ -4,9 +4,11 @@ import styles from './Button.module.css';
 import typography from '../../styles/typography.module.css';
 
 export type ButtonModel = 'primary' | 'secondary';
+export type ButtonSize = 'default' | 'small';
 
 type Props = {
   model?: ButtonModel;
+  size?: ButtonSize;
   /** Renders an <a> instead of a <button>. */
   href?: string;
   fullWidth?: boolean;
@@ -16,6 +18,7 @@ type Props = {
 
 const {
   model = 'primary',
+  size = 'default',
   href,
   fullWidth = false,
   class: className,
@@ -24,12 +27,13 @@ const {
 } = Astro.props;
 
 /*
- * One size in the component set — Primary and Secondary differ in fill and
- * border only, and both use body/large.
+ * Primary and Secondary differ in fill and border only; Default and Small in
+ * height and horizontal padding only. Every combination uses body/large.
  */
 const classList = [
   styles.button,
   styles[model],
+  size === 'small' && styles.small,
   typography.bodyLarge,
   fullWidth && styles.fullWidth,
   className,

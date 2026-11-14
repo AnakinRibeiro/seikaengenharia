@@ -1,5 +1,6 @@
 ---
 import { site } from '../../lib/site';
+import logoAsset from '../../assets/logo-seika.png';
 
 interface Props {
   title: string;
@@ -25,40 +26,63 @@ const {
   schema = [],
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url);
-const imageUrl = new URL(image, Astro.site ?? site.url);
+/*
+ * One origin for every absolute URL on the page — canonical, Open Graph and
+ * JSON-LD alike. `Astro.site` (astro.config.mjs) wins; `site.url` is only the
+ * fallback. Mixing the two is how canonical and schema ended up on different
+ * hosts (with and without www).
+ */
+const base = Astro.site ?? new URL(site.url);
+const homeUrl = new URL('/', base).href;
 
-/** Home page uses the bare brand name; inner pages get the suffix. */
+const canonical = new URL(Astro.url.pathname, base);
+const imageUrl = new URL(image, base);
+/** Only the default OG image has known dimensions. */
+const isDefaultImage = image === site.ogImage;
+
+/** Home page passes its full title; inner pages get the brand suffix. */
 const fullTitle =
   Astro.url.pathname === '/' ? title : `${title} | ${site.name}`;
 
 const socialUrls = Object.values(site.social).filter(Boolean);
 
+/** Drop empty address fields instead of publishing them as "". */
+const address = Object.fromEntries(
+  Object.entries(site.address).filter(([, value]) => value)
+);
+
 const organization = {
-  '@type': ['Organization', 'LocalBusiness'],
-  '@id': `${site.url}/#organization`,
+  /*
+   * Electrician is a LocalBusiness subtype (via HomeAndConstructionBusiness),
+   * so it inherits everything LocalBusiness meant and says more about the
+   * trade. Organization is implied by both.
+   */
+  '@type': 'Electrician',
+  '@id': `${homeUrl}#organization`,
   name: site.name,
-  legalName: site.legalName,
-  url: site.url,
+  ...(site.legalName && { legalName: site.legalName }),
+  url: homeUrl,
   description: site.description,
   image: imageUrl.href,
-  logo: new URL('/logo.png', site.url).href,
+  // Imported, so the URL always points at a file the build actually emitted.
+  logo: new URL(logoAsset.src, base).href,
   ...(site.contact.phone && { telephone: site.contact.phone }),
   ...(site.contact.email && { email: site.contact.email }),
   ...(site.taxId && { taxID: site.taxId }),
-  ...(site.address.addressLocality && {
-    address: { '@type': 'PostalAddress', ...site.address },
+  ...(Object.keys(address).length > 0 && {
+    address: { '@type': 'PostalAddress', ...address },
   }),
+  ...(site.areaServed.length > 0 && { areaServed: site.areaServed }),
   ...(socialUrls.length > 0 && { sameAs: socialUrls }),
 };
 
 const website = {
   '@type': 'WebSite',
-  '@id': `${site.url}/#website`,
-  url: site.url,
+  '@id': `${homeUrl}#website`,
+  url: homeUrl,
   name: site.name,
   inLanguage: site.locale,
-  publisher: { '@id': `${site.url}/#organization` },
+  publisher: { '@id': `${homeUrl}#organization` },
 };
 
 const jsonLd = {
@@ -88,6 +112,15 @@ const jsonLd = {
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical.href} />
 <meta property="og:image" content={imageUrl.href} />
+{
+  isDefaultImage && (
+    <>
+      <meta property="og:image:type" content="image/jpeg" />
+      <meta property="og:image:width" content={String(site.ogImageWidth)} />
+      <meta property="og:image:height" content={String(site.ogImageHeight)} />
+    </>
+  )
+}
 <meta property="og:image:alt" content={imageAlt} />
 <meta property="og:locale" content={site.localeOg} />
 

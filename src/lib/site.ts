@@ -8,20 +8,30 @@
 
 export const site = {
   name: 'Seika Engenharia',
-  legalName: 'Seika Engenharia', // TODO: razão social
-  /** Must match `site` in astro.config.mjs. */
-  url: 'https://www.seikaengenharia.com.br', // TODO: confirm domain
+  /** Razão social. Left empty until confirmed: Seo.astro only emits
+   *  schema.org `legalName` when this is set. */
+  legalName: '', // TODO: razão social
+  /**
+   * Fallback only — Seo.astro reads `Astro.site` first, so astro.config.mjs is
+   * the real source. Kept identical to it (no www) so nothing can drift.
+   */
+  url: 'https://seikaengenharia.com.br',
   locale: 'pt-BR',
   localeOg: 'pt_BR',
 
   tagline: 'Soluções e projetos',
+  /** <title> of the home page: the search it should win, then the brand. */
+  homeTitle: 'Energia Solar em Curitiba e Região | Seika Engenharia',
+  /** Meta description — keep under ~155 characters or Google truncates it. */
   description:
-    'Projetos e instalação de energia solar para residências e empresas. ' +
-    'Engenharia especializada, economia na conta de luz e acompanhamento ' +
-    'completo, do projeto à homologação.',
+    'Projeto e instalação de energia solar em Curitiba e região ' +
+    'metropolitana. Engenharia elétrica especializada, da análise da conta ' +
+    'à homologação.',
 
-  /** Relative to /public. 1200x630 recommended. */
-  ogImage: '/og-image.jpg', // TODO: produce this asset
+  /** Relative to /public. 1200x630 — dimensions are declared in og:image. */
+  ogImage: '/og-image.jpg',
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
   ogImageAlt: 'Seika Engenharia — soluções em energia solar',
 
   contact: {
@@ -36,8 +46,19 @@ export const site = {
   /** Service area as shown in the footer, not a formal registered address. */
   serviceArea: 'Curitiba/PR e Região metropolitana',
 
+  /** schema.org `areaServed` — where the business takes jobs. */
+  areaServed: [
+    { '@type': 'City', name: 'Curitiba' },
+    { '@type': 'AdministrativeArea', name: 'Região Metropolitana de Curitiba' },
+  ],
+
+  /**
+   * Empty fields are dropped from the schema rather than sent as "". Without a
+   * street address the business reads as a service-area business, which is
+   * correct for one that goes to the client.
+   */
   address: {
-    // TODO — full street address needed for LocalBusiness/PostalAddress schema
+    // TODO — fill in only if there is a public street address
     streetAddress: '',
     addressLocality: 'Curitiba',
     addressRegion: 'PR',

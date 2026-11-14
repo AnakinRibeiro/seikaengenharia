@@ -27,14 +27,15 @@ const {
 } = Astro.props;
 
 /*
- * Primary and Secondary differ in fill and border only; Default and Small in
- * height and horizontal padding only. Every combination uses body/large.
+ * Primary and Secondary differ in fill and border only. Default and Small
+ * differ in height, horizontal padding and label style: Default uses
+ * body/large, Small uses body/body.
  */
 const classList = [
   styles.button,
   styles[model],
   size === 'small' && styles.small,
-  typography.bodyLarge,
+  size === 'small' ? typography.bodyBody : typography.bodyLarge,
   fullWidth && styles.fullWidth,
   className,
 ]

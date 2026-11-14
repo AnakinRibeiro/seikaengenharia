@@ -96,20 +96,19 @@
  * rather than scaling one, and the step-down lives in the media query at the
  * bottom of this file.
  *
- * Figma hard-codes the line breaks. These max-widths reproduce the same three
- * and three-line wraps while still reflowing on narrow viewports.
+ * Figma hard-codes the three desktop lines. Structural lines rather than a
+ * max-width, same as the footnote: a width-driven break would drift with font
+ * metrics. On mobile the lines go back inline and the heading reflows.
  */
 .title {
   composes: headingH1 from '../../styles/typography.module.css';
   color: var(--color-text-on-color-primary);
-  /*
-   * Figma breaks this greedily over three lines. The reset balances headings,
-   * which moves a word, so opt this one back into normal wrapping. `ch` is
-   * relative to the font size, so 25ch tracks the h1 -> h3 swap and lands in
-   * the middle of the designed break window at both sizes.
-   */
+  /* The reset balances headings; the lines below already set the breaks. */
   text-wrap: wrap;
-  max-width: 25ch;
+}
+
+.line {
+  display: block;
 }
 
 .highlight {
@@ -157,8 +156,8 @@
    * footer's fixed columns shrink: between 1081px and roughly 1250px the
    * gutters leave less than 1200px of content, and a rigid card would push the
    * row past the container. The title keeps its designed three-line break
-   * either way — that break is held by its own max-width: 25ch, not by the
-   * width of this column.
+   * either way — that break is held by its .line spans, not by the width of
+   * this column.
    */
   .savings {
     flex: 0 1 400px;
@@ -178,7 +177,10 @@
     font-size: var(--font-size-h3);
   }
 
-  .title,
+  .line {
+    display: inline;
+  }
+
   .subtitle,
   .footnote {
     max-width: none;

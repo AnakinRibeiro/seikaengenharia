@@ -65,7 +65,8 @@
 
 /* ── Size ───────────────────────────────────────────────────────────── */
 
-/* Default is the base .button above; Small overrides the box only. */
+/* Default is the base .button above; Small overrides the box here and the
+   label style in Button.astro. */
 .small {
   min-height: 44px;
   padding-inline: var(--space-5);
